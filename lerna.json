@@ -1,6 +1,17 @@
 {
-  "packages": [
-    "packages/*"
-  ],
-  "version": "independent"
+    "packages": ["packages/*"],
+    "version": "independent",
+    "npmClient": "yarn",
+    "changelog": {
+        "repo": "r6db/app",
+        "cacheDir": ".changelog",
+        "labels": {
+            "breaking": ":boom: Breaking Change",
+            "feature": ":rocket: New Feature",
+            "enhancement": ":sparkles: Enhancement",
+            "bugfix": ":bug: Bug Fix",
+            "documentation": ":memo: Documentation",
+            "internal": ":house: Internal"
+        }
+    }
 }
