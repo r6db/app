@@ -1,0 +1,17 @@
+{
+  "name": "r6db",
+  "version": "1.0.0",
+  "description": "a stat tracker for rainbow six siege",
+  "main": "index.js",
+  "repository": "git@github.com:r6db/app.git",
+  "author": "Lars Brix <git@laxis.me>",
+  "license": "GPLv3",
+  "private": true,
+  "scripts": {
+    "lerna": "lerna"
+  },
+  "devDependencies": {
+    "lerna": "^3.1.4",
+    "typescript": "^3.0.1"
+  }
+}

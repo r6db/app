@@ -1,0 +1,8 @@
+{
+  "name": "@r6db/core",
+  "version": "0.0.1",
+  "main": "index.js",
+  "dependencies": {
+    "@r6db/shared": "^0.0.1"
+  }
+}

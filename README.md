@@ -1,7 +1,8 @@
 is this ready to use? **no**
 
 # R6DB Desktop
-an electron app to follow and analyse your stats.
+a rainbow six stat tracker app.
+this is set up as monorepo. please check the readmes of the individual packages for more info.
 
 ## feature ideas:  
 

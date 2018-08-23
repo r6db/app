@@ -1,0 +1,9 @@
+{
+  "name": "@r6db/electron",
+  "version": "0.0.1",
+  "main": "index.js",
+  "dependencies": {
+    "@r6db/core": "^0.0.1",
+    "@r6db/shared": "^0.0.1"
+  }
+}
