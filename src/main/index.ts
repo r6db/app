@@ -1,6 +1,6 @@
 import { app, BrowserWindow } from 'electron';
 import * as path from 'path';
-import { ConnectionOptions, createConnection } from 'typeorm';
+import { createConnection } from 'typeorm';
 import * as connectionInfo from '../../ormconfig.js';
 import './server';
 
