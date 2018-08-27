@@ -6,13 +6,70 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const SpriteLoaderPlugin = require('svg-sprite-loader/plugin');
 const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
 
+const MiniExtractPlugin = require('mini-css-extract-plugin');
+const autoprefixer = require('autoprefixer');
+const mqpacker = require('css-mqpacker');
+const nano = require('cssnano');
+const cssdedupe = require('postcss-discard-duplicates');
+
 const DIST = path.join(__dirname, '../build');
+const IS_PROD = process.env.NODE_ENV === 'production';
+
+const scssLoader = IS_PROD
+    ? {
+          test: /\.scss$/,
+          use: [
+              MiniExtractPlugin.loader,
+              {
+                  loader: 'css-loader',
+                  options: {
+                      minimize: true,
+                  },
+              },
+              {
+                  loader: 'postcss-loader',
+                  options: {
+                      plugins: [
+                          autoprefixer(),
+                          mqpacker(),
+                          cssdedupe(),
+                          nano({
+                              reduceIdents: false,
+                              zindex: false,
+                          }),
+                      ],
+                  },
+              },
+              {
+                  loader: 'sass-loader',
+                  options: { includePaths: [path.resolve(__dirname, '../src')] },
+              },
+          ],
+      }
+    : {
+          test: /\.scss$/,
+          use: [
+              { loader: 'style-loader' },
+              { loader: 'cache-loader' },
+              { loader: 'css-loader' },
+              {
+                  loader: 'postcss-loader',
+                  options: {
+                      plugins: [autoprefixer(), mqpacker(), cssdedupe()],
+                  },
+              },
+              {
+                  loader: 'sass-loader',
+                  options: { includePaths: [path.resolve(__dirname, '../src')] },
+              },
+          ],
+      };
 
 module.exports = {
     context: path.resolve(__dirname, '../'),
     entry: {
-        app: ['./src/renderer/app.ts'],
-        loading: ['./src/renderer/loading.tsx'],
+        app: ['./src/renderer/app/index.ts'],
+        loading: ['./src/renderer/loading/index.ts'],
     },
     output: {
         path: DIST,
@@ -107,17 +164,26 @@ module.exports = {
                     },
                 ],
             },
+            scssLoader,
         ],
     },
     plugins: [
+        new webpack.DefinePlugin({
+            'process.env': {
+                NODE_ENV: JSON.stringify(process.env.NODE_ENV || 'development'),
+                VERSION: `"${process.env.VERSION}"`,
+            },
+        }),
         new webpack.NamedModulesPlugin(),
         new webpack.optimize.OccurrenceOrderPlugin(),
         new webpack.optimize.AggressiveMergingPlugin(),
         new HtmlWebpackPlugin({
+            template: 'src/renderer/app/index.ejs',
             filename: 'app/index.html',
             chunks: ['app'],
         }),
         new HtmlWebpackPlugin({
+            template: 'src/renderer/loading/index.ejs',
             filename: 'loading/index.html',
             chunks: ['loading'],
         }),
@@ -128,3 +194,8 @@ module.exports = {
         }),
     ],
 };
+
+if (IS_PROD) {
+    module.exports.plugins.push(new MiniExtractPlugin({ filename: '[name].[chunkhash].css', allChunks: true }));
+} else {
+}

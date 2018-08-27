@@ -4,6 +4,7 @@
         "allowJs": true,
         "lib": ["es2016"],
         "module": "commonjs",
+        "sourceMap": true,
         "target": "es2016",
         "outDir": "build/main",
         "paths": {

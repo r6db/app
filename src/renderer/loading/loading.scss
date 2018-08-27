@@ -1,0 +1,14 @@
+*, *::before, *::after{
+    box-sizing: border-box;
+    margin: 0;
+}
+
+.loading{
+    width: 100vw;
+    height: 100vh;
+    background: red;
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    font-size: 2rem;
+}
