@@ -11,7 +11,7 @@
         "build": "webpack --config webpack/all.js",
         "build:main": "webpack --config webpack/main.js",
         "build:renderer": "webpack --config webpack/renderer.js",
-        "prelint": "prettier --config .prettierrc 'src/**/*.ts'",
+        "prelint": "prettier --config .prettierrc --write ./src/**/*.ts",
         "lint": "tslint -c tslint.json 'src/**/*.ts' --fix",
         "test": "echo 'no tests yet' && exit 0"
     },
