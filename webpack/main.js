@@ -1,43 +1,50 @@
-const webpack = require("webpack");
-const path = reuqire("path");
-const dist = path.join(__dirname, "../build");
+const path = require('path');
+const webpack = require('webpack');
+const nodeExternals = require('webpack-node-externals');
+const dist = path.join(__dirname, '../build');
+
 module.exports = {
-    context: path.resolve(__dirname, "../"),
-    module: {
-        entry: "src/main/index.ts"
+    context: path.resolve(__dirname, '../'),
+    entry: {
+        main: './src/main/index.ts',
     },
     output: {
         path: dist,
-        publicPath: "/",
-        filename: "[name].[chunkhash].js",
-        chunkFilename: "[name].[chunkhash].js"
+        publicPath: '/',
+        filename: '[name]/index.js',
+        chunkFilename: '[name]/[chunkhash].js',
     },
-    target: "electron-main",
+    target: 'electron-main',
+    externals: [nodeExternals()],
     resolve: {
-        extensions: [".ts", ".js", ".json"],
+        extensions: ['.ts', '.js', '.json'],
         alias: {
-            main: path.join(__dirname, "../src/main"),
-            shared: path.join(__dirname, "../src/shared")
-        }
+            main: path.resolve(__dirname, '../src/main'),
+            shared: path.resolve(__dirname, '../src/shared'),
+        },
     },
-    node: true,
-    stats: "errors-only",
-    devtool: "source-map",
+    node: false,
+    stats: 'errors-only',
+    devtool: 'source-map',
     module: {
         rules: [
             {
                 test: /\.(j|t)s$/,
                 exclude: /node_modules/,
-                use: [{ loader: "ts-loader" }]
-            }
-        ]
+                use: [
+                    {
+                        loader: 'ts-loader',
+                        options: {
+                            configFile: 'tsconfig.node.json',
+                        },
+                    },
+                ],
+            },
+        ],
     },
     plugins: [
         new webpack.NamedModulesPlugin(),
         new webpack.optimize.OccurrenceOrderPlugin(),
         new webpack.optimize.AggressiveMergingPlugin(),
-        new ForkTsCheckerWebpackPlugin({
-            checkSyntacticErrors: true
-        })
-    ]
+    ],
 };

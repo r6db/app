@@ -1,0 +1,12 @@
+{
+    "extends": "./tsconfig.settings.json",
+    "compilerOptions": {
+        "lib": ["es2016", "dom"],
+        "module": "esnext",
+        "target": "es2016",
+        "paths": {
+            "shared/*": ["src/shared/*"],
+            "renderer/*": ["src/renderer/*"]
+        }
+    }
+}

@@ -1,0 +1,22 @@
+{
+    "presets": [
+        [
+            "@babel/env",
+            {
+                "modules": false,
+                "targets": {
+                    "electron": "2"
+                },
+                "useBuiltIns": "usage"
+            }
+        ],
+        "@babel/typescript"
+    ],
+    "plugins": [
+        "@babel/syntax-dynamic-import",
+        "@babel/plugin-syntax-object-rest-spread",
+        "@babel/plugin-syntax-class-properties",
+        "@babel/plugin-proposal-object-rest-spread",
+        "@babel/plugin-proposal-class-properties"
+    ]
+}
