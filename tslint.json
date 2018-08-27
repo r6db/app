@@ -1,0 +1,12 @@
+{
+    "extends": "tslint:latest",
+    "rules": {
+        "arrow-parens": false,
+        "quotemark": {
+            "options": ["single", "avoid-escape"]
+        },
+        "no-console": false,
+        "object-literal-sort-keys": false,
+        "import-spacing": true
+    }
+}

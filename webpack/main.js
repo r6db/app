@@ -1,3 +1,9 @@
+/**
+ * webpack config for the main thread bundle
+ * -> check if target is electron-main
+ * -> don't bundle node_modules
+ * -> only handle .ts files
+ */
 const path = require('path');
 const webpack = require('webpack');
 const nodeExternals = require('webpack-node-externals');

@@ -1,6 +1,6 @@
 import * as express from 'express';
-import * as serveStatic from 'serve-static';
 import * as path from 'path';
+import * as serveStatic from 'serve-static';
 
 const app = (express as any).default();
 
