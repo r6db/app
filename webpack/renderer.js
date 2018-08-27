@@ -3,6 +3,7 @@ const path = require('path');
 const util = require('util');
 
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const HtmlInlinePlugin = require('html-webpack-inline-source-plugin');
 const SpriteLoaderPlugin = require('svg-sprite-loader/plugin');
 const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
 
@@ -14,56 +15,6 @@ const cssdedupe = require('postcss-discard-duplicates');
 
 const DIST = path.join(__dirname, '../build');
 const IS_PROD = process.env.NODE_ENV === 'production';
-
-const scssLoader = IS_PROD
-    ? {
-          test: /\.scss$/,
-          use: [
-              MiniExtractPlugin.loader,
-              {
-                  loader: 'css-loader',
-                  options: {
-                      minimize: true,
-                  },
-              },
-              {
-                  loader: 'postcss-loader',
-                  options: {
-                      plugins: [
-                          autoprefixer(),
-                          mqpacker(),
-                          cssdedupe(),
-                          nano({
-                              reduceIdents: false,
-                              zindex: false,
-                          }),
-                      ],
-                  },
-              },
-              {
-                  loader: 'sass-loader',
-                  options: { includePaths: [path.resolve(__dirname, '../src')] },
-              },
-          ],
-      }
-    : {
-          test: /\.scss$/,
-          use: [
-              { loader: 'style-loader' },
-              { loader: 'cache-loader' },
-              { loader: 'css-loader' },
-              {
-                  loader: 'postcss-loader',
-                  options: {
-                      plugins: [autoprefixer(), mqpacker(), cssdedupe()],
-                  },
-              },
-              {
-                  loader: 'sass-loader',
-                  options: { includePaths: [path.resolve(__dirname, '../src')] },
-              },
-          ],
-      };
 
 module.exports = {
     context: path.resolve(__dirname, '../'),
@@ -164,7 +115,36 @@ module.exports = {
                     },
                 ],
             },
-            scssLoader,
+            {
+                test: /\.scss$/,
+                use: [
+                    IS_PROD ? MiniExtractPlugin.loader : { loader: 'style-loader' },
+                    {
+                        loader: 'css-loader',
+                        options: {
+                            minimize: true,
+                        },
+                    },
+                    {
+                        loader: 'postcss-loader',
+                        options: {
+                            plugins: [
+                                autoprefixer(),
+                                mqpacker(),
+                                cssdedupe(),
+                                nano({
+                                    reduceIdents: false,
+                                    zindex: false,
+                                }),
+                            ],
+                        },
+                    },
+                    {
+                        loader: 'sass-loader',
+                        options: { includePaths: [path.resolve(__dirname, '../src/renderer')] },
+                    },
+                ],
+            },
         ],
     },
     plugins: [
@@ -186,7 +166,9 @@ module.exports = {
             template: 'src/renderer/loading/index.ejs',
             filename: 'loading/index.html',
             chunks: ['loading'],
+            inlineSource: '.css$',
         }),
+        new HtmlInlinePlugin(),
         new SpriteLoaderPlugin(),
         new ForkTsCheckerWebpackPlugin({
             tsconfig: 'tsconfig.webpack.json',

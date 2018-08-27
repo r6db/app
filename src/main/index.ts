@@ -46,12 +46,8 @@ app.on('ready', async () => {
     });
 
     mainWindow.webContents.on('did-finish-load' as any, () => {
-        // show loading window for 2 secs for demo
-        setTimeout(() => {
-            console.log('finished loading');
-            loadingWindow.hide();
-            loadingWindow.destroy();
-            mainWindow.show();
-        }, 2000);
+        loadingWindow.hide();
+        loadingWindow.destroy();
+        mainWindow.show();
     });
 });
