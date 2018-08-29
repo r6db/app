@@ -17,7 +17,7 @@
     },
     "husky": {
         "hooks": {
-            "pre-commit": "yarn lint",
+            "pre-commit": "git stash --keep-index --include-untracked && yarn lint && git add . && git stash pop",
             "pre-push": "yarn test",
             "...": "..."
         }
