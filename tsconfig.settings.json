@@ -14,7 +14,6 @@
         "lib": ["es2016"],
         "module": "esnext",
         "moduleResolution": "node",
-        "noEmitOnError": true,
         "noErrorTruncation": true,
         "noFallthroughCasesInSwitch": true,
         "noImplicitReturns": true,

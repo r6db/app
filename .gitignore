@@ -1,6 +1,7 @@
 node_modules
 yarn-error.log
 
+.awcache
 .cache
 .cache-loader
 

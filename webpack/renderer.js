@@ -29,7 +29,7 @@ const util = require('util');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const HtmlInlinePlugin = require('html-webpack-inline-source-plugin');
 const SpriteLoaderPlugin = require('svg-sprite-loader/plugin');
-const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
+const { CheckerPlugin } = require('awesome-typescript-loader');
 
 const MiniExtractPlugin = require('mini-css-extract-plugin');
 const autoprefixer = require('autoprefixer');
@@ -88,18 +88,13 @@ module.exports = {
                 test: /\.(j|t)sx?$/,
                 exclude: /node_modules/,
                 use: [
-                    { loader: 'cache-loader' },
                     {
-                        loader: 'babel-loader',
+                        loader: 'awesome-typescript-loader',
                         options: {
-                            cacheDirectory: './.cache',
-                        },
-                    },
-                    {
-                        loader: 'ts-loader',
-                        options: {
-                            configFile: 'tsconfig.node.json',
-                            transpileOnly: true,
+                            configFileName: 'tsconfig.webpack.json',
+                            useCache: true,
+                            useBabel: false,
+                            forceIsolatedModule: true,
                         },
                     },
                 ],
@@ -198,10 +193,7 @@ module.exports = {
         }),
         new HtmlInlinePlugin(),
         new SpriteLoaderPlugin(),
-        new ForkTsCheckerWebpackPlugin({
-            tsconfig: 'tsconfig.webpack.json',
-            checkSyntacticErrors: false, // enable if using multi-process build
-        }),
+        new CheckerPlugin(),
     ],
 };
 

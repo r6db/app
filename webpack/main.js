@@ -7,6 +7,8 @@
 const path = require('path');
 const webpack = require('webpack');
 const nodeExternals = require('webpack-node-externals');
+const { CheckerPlugin } = require('awesome-typescript-loader');
+
 const dist = path.join(__dirname, '../build');
 
 module.exports = {
@@ -35,13 +37,15 @@ module.exports = {
     module: {
         rules: [
             {
-                test: /\.(j|t)s$/,
+                test: /\.(j|t)sx?$/,
                 exclude: /node_modules/,
                 use: [
                     {
-                        loader: 'ts-loader',
+                        loader: 'awesome-typescript-loader',
                         options: {
-                            configFile: 'tsconfig.node.json',
+                            configFileName: 'tsconfig.node.json',
+                            useCache: true,
+                            forceIsolatedModule: true,
                         },
                     },
                 ],
@@ -52,5 +56,6 @@ module.exports = {
         new webpack.NamedModulesPlugin(),
         new webpack.optimize.OccurrenceOrderPlugin(),
         new webpack.optimize.AggressiveMergingPlugin(),
+        new CheckerPlugin(),
     ],
 };
