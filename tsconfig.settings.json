@@ -11,7 +11,7 @@
         "emitDecoratorMetadata": true,
         "experimentalDecorators": true,
         "forceConsistentCasingInFileNames": true,
-        "lib": ["es2016"],
+        "lib": ["es2016", "dom"],
         "module": "esnext",
         "moduleResolution": "node",
         "noErrorTruncation": true,
@@ -28,5 +28,6 @@
             "shared/*": ["src/shared/*"],
             "renderer/*": ["src/renderer/*"]
         }
-    }
+    },
+    "include": ["src/renderer/declarations.d.ts"]
 }

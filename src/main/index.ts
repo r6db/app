@@ -1,8 +1,17 @@
 import { app, BrowserWindow } from 'electron';
+import Store from 'electron-store';
 import * as path from 'path';
+import { stringify } from 'querystring';
 import { createConnection } from 'typeorm';
 import * as connectionInfo from '../../ormconfig.js';
 import './server';
+
+console.log(Store);
+const store = new Store({
+    cwd: path.resolve(app.getPath('documents'), 'r6db/'),
+    fileExtension: '.bin',
+    encryptionKey: 'not for security, but to make it more annoying to tamper with',
+});
 
 const config = {
     ...connectionInfo,
@@ -25,13 +34,21 @@ app.on('window-all-closed', () => {
 });
 
 app.on('ready', async () => {
+    const isFirstRun = store.get('firstRun', true);
+    if (isFirstRun) {
+        // run initial setup, etc
+        store.set('firstRun', false);
+    }
     console.log('creating windows');
     const mainWindow = new BrowserWindow({
         show: false,
         width: 1280,
         height: 720,
     });
-    mainWindow.loadURL('http://localhost:2442/app');
+    const qs = stringify({
+        isFirstRun,
+    });
+    mainWindow.loadURL(`http://localhost:2442/app?${qs}`);
     mainWindow.setTitle('R6DB');
     mainWindow.setAlwaysOnTop(true);
 

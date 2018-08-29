@@ -24,6 +24,7 @@
     },
     "dependencies": {
         "electron": "^2.0.8",
+        "electron-store": "^2.0.0",
         "express": "^4.16.3",
         "serve-static": "^1.13.2",
         "sqlite3": "^4.0.2",
