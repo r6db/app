@@ -201,7 +201,6 @@ module.exports = {
         new ForkTsCheckerWebpackPlugin({
             tsconfig: 'tsconfig.webpack.json',
             checkSyntacticErrors: false, // enable if using multi-process build
-            silent: true,
         }),
     ],
 };
