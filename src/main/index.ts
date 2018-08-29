@@ -43,7 +43,6 @@ app.on('ready', async () => {
     });
     mainWindow.loadURL(`http://localhost:2442/app?${qs}`);
     mainWindow.setTitle('R6DB');
-    mainWindow.setAlwaysOnTop(true);
 
     const loadingWindow = new BrowserWindow({
         show: false,
