@@ -5,8 +5,9 @@
         "module": "esnext",
         "target": "es2016",
         "paths": {
-            "shared/*": ["src/shared/*"],
-            "renderer/*": ["src/renderer/*"]
+            "shared/*": ["./src/shared/*"],
+            "renderer/*": ["./src/renderer/*"]
         }
-    }
+    },
+    "include": ["./src/renderer/declarations.d.ts"]
 }

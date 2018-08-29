@@ -1,17 +1,10 @@
 import { app, BrowserWindow } from 'electron';
-import Store from 'electron-store';
 import * as path from 'path';
 import { stringify } from 'querystring';
 import { createConnection } from 'typeorm';
 import * as connectionInfo from '../../ormconfig.js';
+import { store } from './store';
 import './server';
-
-console.log(Store);
-const store = new Store({
-    cwd: path.resolve(app.getPath('documents'), 'r6db/'),
-    fileExtension: '.bin',
-    encryptionKey: 'not for security, but to make it more annoying to tamper with',
-});
 
 const config = {
     ...connectionInfo,

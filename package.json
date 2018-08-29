@@ -12,7 +12,7 @@
         "build:main": "webpack --config webpack/main.js",
         "build:renderer": "webpack --config webpack/renderer.js",
         "prelint": "prettier --config .prettierrc --write ./src/**/*.ts",
-        "lint": "tslint -c tslint.json 'src/**/*.ts' --fix",
+        "lint": "tslint -c tslint.json 'src/main/**/*.ts' -p tsconfig.node.json --fix && tslint -c tslint.json 'src/renderer/**/*.ts' -p tsconfig.webpack.json --fix",
         "test": "echo 'no tests yet' && exit 0"
     },
     "husky": {
@@ -23,9 +23,12 @@
         }
     },
     "dependencies": {
+        "bluebird": "^3.5.1",
         "electron": "^2.0.8",
         "electron-store": "^2.0.0",
         "express": "^4.16.3",
+        "lodash": "^4.17.10",
+        "node-fetch": "^2.2.0",
         "serve-static": "^1.13.2",
         "sqlite3": "^4.0.2",
         "typeorm": "^0.2.7"

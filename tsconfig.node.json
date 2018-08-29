@@ -8,8 +8,9 @@
         "target": "es2016",
         "outDir": "build/main",
         "paths": {
-            "main/*": ["src/main/*"],
-            "shared/*": ["src/shared/*"]
+            "main/*": ["./src/main/*"],
+            "shared/*": ["./src/shared/*"]
         }
-    }
+    },
+    "include": ["./src/main/declarations.d.ts"]
 }
