@@ -1,3 +1,27 @@
+/**
+ * webpack config for all renderer bundles
+ * -> check if target is electron-renderer
+ * -> bundle node_modules
+ * -> handle all file imports
+ *  -> js/ts
+ *      - bundle
+ *      - tree shake
+ *      - optimize
+ *  -> scss
+ *      - compile
+ *      - prefix
+ *       - dedupe
+ *  -> svg
+ *      - optimize
+ *      - build spritesheet
+ *  -> jpg/png
+ *      - optimize
+ *      - resize to multiple sizes
+ *      - generate placeholder
+ *      - build sourceset
+ *  -> build html files
+ * -> output should be build/<entry>/...
+ */
 const webpack = require('webpack');
 const path = require('path');
 const util = require('util');

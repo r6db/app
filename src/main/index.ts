@@ -1,14 +1,15 @@
-import { createConnection, ConnectionOptions } from 'typeorm';
-import * as path from 'path';
 import { app, BrowserWindow } from 'electron';
+import * as path from 'path';
+import { createConnection } from 'typeorm';
 import * as connectionInfo from '../../ormconfig.js';
 import './server';
 
-const config = Object.assign({}, connectionInfo as ConnectionOptions, {
+const config = {
+    ...connectionInfo,
     database: path.resolve(app.getPath('documents'), 'r6db/data.sqlite'),
-});
+};
 
-createConnection(config)
+createConnection(config as any)
     .then(async conn => {
         const res = await conn.query('SELECT 1+1');
         console.log('connected to db', res);
@@ -34,7 +35,7 @@ app.on('ready', async () => {
     mainWindow.setTitle('R6DB');
     mainWindow.setAlwaysOnTop(true);
 
-    let loadingWindow = new BrowserWindow({
+    const loadingWindow = new BrowserWindow({
         show: false,
         width: 300,
         height: 300,
