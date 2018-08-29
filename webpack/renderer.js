@@ -28,7 +28,7 @@ module.exports = {
         filename: '[name]/index.js',
         chunkFilename: '[name]/[chunkhash].js',
     },
-    target: 'web',
+    target: 'electron-renderer',
     resolve: {
         extensions: ['.ts', '.tsx', '.js', '.jsx'],
         alias: {
@@ -75,6 +75,7 @@ module.exports = {
                         loader: 'ts-loader',
                         options: {
                             configFile: 'tsconfig.node.json',
+                            transpileOnly: true,
                         },
                     },
                 ],
@@ -82,6 +83,7 @@ module.exports = {
             {
                 test: /.svg$/,
                 use: [
+                    { loader: 'cache-loader' },
                     {
                         loader: 'svg-sprite-loader',
                         options: {
@@ -99,6 +101,7 @@ module.exports = {
             {
                 test: /\.(png|jpg)$/,
                 use: [
+                    { loader: 'cache-loader' },
                     {
                         loader: 'responsive-loader',
                         options: {
@@ -119,6 +122,7 @@ module.exports = {
                 test: /\.scss$/,
                 use: [
                     IS_PROD ? MiniExtractPlugin.loader : { loader: 'style-loader' },
+                    { loader: 'cache-loader' },
                     {
                         loader: 'css-loader',
                         options: {
@@ -172,7 +176,8 @@ module.exports = {
         new SpriteLoaderPlugin(),
         new ForkTsCheckerWebpackPlugin({
             tsconfig: 'tsconfig.webpack.json',
-            checkSyntacticErrors: true,
+            checkSyntacticErrors: false, // enable if using multi-process build
+            silent: true,
         }),
     ],
 };
