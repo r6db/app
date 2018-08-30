@@ -1,24 +1,30 @@
-import nodeFetch, { Response, RequestInit } from 'node-fetch';
+import nodeFetch, { RequestInit, Response } from 'node-fetch';
 import { merge } from 'lodash';
-
-import * as Bluebird from 'bluebird';
 import {
     TooManyRequestsError,
     BadRequestError,
     MissingHeaderError,
     MissingCredentialsError,
-    InvalidCredentialsError,
     UnknownError,
     UnknownAuthorizationError,
 } from '../errors/ubiErrors';
+import makeDebug from 'debug';
+const debug = makeDebug('r6db:ubi:fetch');
+
+// resolve a promise after <ms>. if reject is true, reject instead
+async function delay(ms: number, reject = false) {
+    return new Promise((res, rej) => {
+        setTimeout(reject ? rej : res, ms);
+    });
+}
 
 /**
- * do a fetch
+ * prepare a request to fire against ubi's api
+ * it will return a function that actually runs it
  */
-
 export const fetch = <T>(url: string, params: Partial<RequestInit> = {}) => async (token: string): Promise<T> => {
-    return Bluebird.attempt(async () => {
-        const opts: RequestInit = merge(
+    const doFetch = async () => {
+        const opts = merge(
             {},
             {
                 method: 'GET',
@@ -30,15 +36,17 @@ export const fetch = <T>(url: string, params: Partial<RequestInit> = {}) => asyn
             },
             params,
         );
-
+        debug('fetching', url);
         const res = await nodeFetch(url, opts);
 
         if (res.status !== 200) {
             return processErrorResponse(res);
         }
 
+        debug('parsing response');
         return res.json();
-    }).timeout(10000);
+    };
+    return Promise.race([doFetch(), delay(10000, true)]);
 };
 
 interface IErrorResponse {
@@ -49,6 +57,7 @@ interface IErrorResponse {
 
 const processErrorResponse = async (res: Response) => {
     const body: string = await res.text();
+    debug('parsing error', body);
     try {
         const json: IErrorResponse = JSON.parse(body);
         switch (json.httpCode) {
@@ -66,8 +75,9 @@ const processErrorResponse = async (res: Response) => {
                 throw new MissingCredentialsError();
             case 3:
                 throw new MissingHeaderError();
-            case 3:
-                throw new InvalidCredentialsError();
+            // this is also 3 ?
+            // case 3:
+            //     throw new InvalidCredentialsError();
             case 1101:
                 throw new TooManyRequestsError();
             case 1100:

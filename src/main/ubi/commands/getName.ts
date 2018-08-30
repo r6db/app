@@ -4,6 +4,7 @@ import { fetch } from '../fetch';
 import { TooManyIdsError } from '../../errors/ubiErrors';
 import { URLS } from '../ubicontants';
 import { Platform } from 'shared/constants';
+const debug = (...args: any[]) => args; // makeDebug('r6db:ubi:getName');
 
 type UUID = string;
 
@@ -44,15 +45,15 @@ export interface IGetCurrentName {
 }
 
 export const getName = async (platform: Platform, ids: UUID[]): Promise<IGetCurrentName[]> => {
-    const query = [].concat(ids);
+    const query = ([] as UUID[]).concat(ids);
     if (query.length > 40) {
         throw new TooManyIdsError('too many ids passed (max 40)');
     }
-    console.debug({ command: 'getCurrentName', platform, ids });
+    debug({ command: 'getCurrentName', platform, ids });
     const token = await getToken();
     try {
         const res = await fetch<IGetCurrentNameResponse>(`${URLS[platform].REVERSE_URL}${query.join(',')}`)(token);
-        console.debug(res);
+        debug(res);
         return res.profiles.filter(x => ids.includes(x.userId)).map(({ profileId, userId, nameOnPlatform }) => ({
             id: profileId,
             userId,

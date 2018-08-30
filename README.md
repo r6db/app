@@ -29,7 +29,7 @@ this is set up as monorepo. please check the readmes of the individual packages 
 
 -   install node & yarn
 -   install all build tools needed for node-gyp (windows users can use [this](https://www.npmjs.com/package/windows-build-tools))
--   run `yarn` in the project directory to install all
+-   run `yarn` in the project directory to install all dependencies and then `yarn rebuild` to build native dependencies for electron
 -   run any of the other scripts
 
     -   `yarn build` compiles all files into the `build` directory

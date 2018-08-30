@@ -24,7 +24,7 @@ export interface IGetCurrentLevel {
 }
 
 export const getLevel = async (platform: Platform, ids: UUID[]): Promise<IGetCurrentLevel[]> => {
-    const query = [].concat(ids);
+    const query = ([] as UUID[]).concat(ids);
     if (query.length > 40) {
         throw new TooManyIdsError('too many ids passed (max 40)');
     }

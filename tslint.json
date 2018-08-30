@@ -4,6 +4,7 @@
         "arrow-parens": false,
         "import-spacing": true,
         "no-console": false,
+        "no-implicit-dependencies": [true, ["main", "renderer", "shared"]],
         "no-submodule-imports": false,
         "object-literal-sort-keys": false,
         "object-literal-key-quotes": false,

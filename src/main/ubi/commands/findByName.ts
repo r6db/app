@@ -1,9 +1,8 @@
 import { getToken } from '../auth';
-
 import { Platform } from 'shared/constants';
-import { TooManyIdsError } from '../../errors/ubiErrors';
 import { fetch } from '../fetch';
 import { URLS } from '../ubicontants';
+const debug = (...args: any[]) => args; //  makeDebug('r6db:ubi:findByName');
 
 type UUID = string;
 
@@ -27,7 +26,7 @@ export interface IFindByNameProfile {
 
 export const findByName = async (platform: Platform, aliases: string): Promise<IFindByNameProfile[]> => {
     const query = aliases;
-    console.debug({ command: 'findByName', platform, aliases });
+    debug({ command: 'findByName', platform, aliases });
     const token = await getToken();
     try {
         const URL = `${URLS[platform].URL}${query}`;

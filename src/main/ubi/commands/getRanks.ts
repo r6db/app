@@ -6,8 +6,7 @@ import { URLS } from '../ubicontants';
 import { map } from 'bluebird';
 import { stringify } from 'querystring';
 import { Platform, Region } from 'shared/constants';
-
-type UUID = string;
+import { UUID } from 'shared/interfaces';
 
 interface ISingleProfile {
     board_id: 'pvp_ranked';
@@ -36,20 +35,6 @@ interface IGetRanksResponse {
         [profileId: string]: ISingleProfile;
     };
 }
-
-interface IRank {
-    max_mmr: number;
-    skill_mean: number;
-    abandons: number;
-    region: Region;
-    rank: number;
-    mmr: number;
-    wins: number;
-    skill_stdev: number;
-    losses: number;
-    max_rank: number;
-}
-
 interface IRanks {
     region: Region;
     abandons: number;
@@ -85,7 +70,7 @@ export interface IGetRanksOptions {
 const regions = [Region.APAC, Region.EMEA, Region.NCSA];
 
 export const getRanks = async (platform: Platform, ids: UUID[], opts: IGetRanksOptions): Promise<IGetRanks[]> => {
-    const query: UUID[] = [].concat(ids);
+    const query: UUID[] = ([] as UUID[]).concat(ids);
     if (query.length > 40) {
         throw new TooManyIdsError('too many ids passed (max 40)');
     }

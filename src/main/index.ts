@@ -4,19 +4,40 @@ import { stringify } from 'querystring';
 import { createConnection } from 'typeorm';
 import * as connectionInfo from '../../ormconfig.js';
 import { store } from './store';
+import * as ubi from './ubi';
 import './server';
+import { Platform } from 'shared/constants';
+import makeDebug from 'debug';
+
+const debug = makeDebug('r6db:main');
 
 const config = {
     ...connectionInfo,
     database: path.resolve(app.getPath('documents'), 'r6db/data.sqlite'),
 };
 
-createConnection(config as any)
-    .then(async conn => {
-        const res = await conn.query('SELECT 1+1');
-        console.log('connected to db', res);
-    })
-    .catch(console.error);
+async function testDB() {
+    createConnection(config as any)
+        .then(async conn => {
+            const res = await conn.query('SELECT 1+1');
+            debug('testing db', { successful: true, res });
+        })
+        .catch(err => {
+            debug('testing db', { successful: false, err });
+        });
+}
+
+async function testUbi() {
+    // ubi.setCredentials(yourMail, yourPass);
+    const res = await ubi.findByName(Platform.PC, 'LaxisB');
+    const laxis = res[0];
+    const level = await ubi.getLevel(Platform.PC, [laxis.id]);
+    const ranks = await ubi.getRanks(Platform.PC, [laxis.id], {});
+    debug('testing ubi', { successful: !!res, res, level, ranks });
+}
+
+testDB();
+testUbi();
 
 app.on('window-all-closed', () => {
     // Respect the OSX convention of having the application in memory even
