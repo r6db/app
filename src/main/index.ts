@@ -16,6 +16,10 @@ const config = {
     database: path.resolve(app.getPath('documents'), 'r6db/data.sqlite'),
 };
 
+if (process.env.USER) {
+    store.set('user.email', process.env.USER);
+}
+
 async function testDB() {
     return createConnection(config as any)
         .then(async conn => {
