@@ -60,7 +60,7 @@ async function login(creds: typeof credentials) {
     }
 
     // otherwise actually attempt to login
-    if (!creds.email && !creds.password) {
+    if (!creds.email || !creds.password) {
         throw new Error('No email or password provided');
     }
     debug('logging in');
@@ -102,7 +102,7 @@ function getExpiration(auth: IAuthResponse): number {
 
 export async function getToken(): Promise<string> {
     if (currentAuth && getExpiration(currentAuth) > 0) {
-        return currentAuth.ticket;
+        return 'Ubi_v1 t=' + currentAuth.ticket;
     }
     const auth: IAuthResponse = await login(credentials);
     return 'Ubi_v1 t=' + auth.ticket;
