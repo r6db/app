@@ -9,7 +9,7 @@ import './server';
 console.log(Store);
 const store = new Store({
     cwd: path.resolve(app.getPath('documents'), 'r6db/'),
-    fileExtension: '.bin',
+    fileExtension: 'r6db',
     encryptionKey: 'not for security, but to make it more annoying to tamper with',
 });
 
