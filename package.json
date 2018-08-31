@@ -11,13 +11,13 @@
         "build": "yarn build:main && yarn build:renderer",
         "build:main": "webpack --config webpack/main.js",
         "build:renderer": "webpack --config webpack/renderer.js",
-        "prelint": "prettier --config .prettierrc --write ./src/**/*.ts",
-        "lint": "tslint -c tslint.json 'src/main/**/*.ts' -p tsconfig.node.json --fix && tslint -c tslint.json 'src/renderer/**/*.ts' -p tsconfig.webpack.json --fix",
+        "prelint": "pretty-quick --staged",
+        "lint": "tslint -c tslint.json 'src/main/**/*.ts' -p tsconfig.node.json && tslint -c tslint.json 'src/renderer/**/*.ts' -p tsconfig.webpack.json",
         "test": "echo 'no tests yet' && exit 0"
     },
     "husky": {
         "hooks": {
-            "pre-commit": "git stash --keep-index --include-untracked && yarn lint && git add . && git stash pop",
+            "pre-commit": "yarn lint",
             "pre-push": "yarn test",
             "...": "..."
         }
@@ -67,6 +67,7 @@
         "postcss-discard-duplicates": "^4.0.0",
         "postcss-loader": "^3.0.0",
         "prettier": "^1.14.2",
+        "pretty-quick": "^1.6.0",
         "responsive-loader": "^1.1.0",
         "rimraf": "^2.6.2",
         "sass-loader": "^7.1.0",
