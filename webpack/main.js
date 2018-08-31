@@ -33,7 +33,7 @@ module.exports = {
     },
     node: false,
     stats: 'errors-only',
-    devtool: 'source-map',
+    devtool: 'inline-source-map',
     module: {
         rules: [
             {
@@ -53,9 +53,8 @@ module.exports = {
         ],
     },
     plugins: [
-        new webpack.NamedModulesPlugin(),
         new webpack.optimize.OccurrenceOrderPlugin(),
         new webpack.optimize.AggressiveMergingPlugin(),
-        new CheckerPlugin(),
+        // new CheckerPlugin(),
     ],
 };

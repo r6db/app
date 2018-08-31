@@ -1,29 +1,36 @@
-import { app, BrowserWindow } from 'electron';
-import Store from 'electron-store';
+import { app, BrowserWindow, ipcMain } from 'electron';
 import * as path from 'path';
 import { stringify } from 'querystring';
 import { createConnection } from 'typeorm';
 import * as connectionInfo from '../../ormconfig.js';
+import { store } from './store';
+import * as ubi from './ubi';
 import './server';
+import { Platform } from 'shared/constants';
+import makeDebug from 'debug';
 
-console.log(Store);
-const store = new Store({
-    cwd: path.resolve(app.getPath('documents'), 'r6db/'),
-    fileExtension: 'r6db',
-    encryptionKey: 'not for security, but to make it more annoying to tamper with',
-});
+const debug = makeDebug('r6db:main');
 
 const config = {
     ...connectionInfo,
     database: path.resolve(app.getPath('documents'), 'r6db/data.sqlite'),
 };
 
-createConnection(config as any)
-    .then(async conn => {
-        const res = await conn.query('SELECT 1+1');
-        console.log('connected to db', res);
-    })
-    .catch(console.error);
+if (process.env.USER) {
+    store.set('user.email', process.env.USER);
+}
+
+async function testDB() {
+    return createConnection(config as any)
+        .then(async conn => {
+            const res = await conn.query('SELECT 1+1');
+            debug('testing db', { successful: true, res });
+        })
+        .catch(err => {
+            debug('testing db', { successful: false, err });
+            throw err;
+        });
+}
 
 app.on('window-all-closed', () => {
     // Respect the OSX convention of having the application in memory even
@@ -34,38 +41,60 @@ app.on('window-all-closed', () => {
 });
 
 app.on('ready', async () => {
-    const isFirstRun = store.get('firstRun', true);
-    if (isFirstRun) {
-        // run initial setup, etc
-        store.set('firstRun', false);
-    }
-    console.log('creating windows');
-    const mainWindow = new BrowserWindow({
-        show: false,
-        width: 1280,
-        height: 720,
-    });
-    const qs = stringify({
-        isFirstRun,
-    });
-    mainWindow.loadURL(`http://localhost:2442/app?${qs}`);
-    mainWindow.setTitle('R6DB');
-    mainWindow.setAlwaysOnTop(true);
-
+    debug('show loading and run runtime tests');
     const loadingWindow = new BrowserWindow({
         show: false,
         width: 300,
         height: 300,
+        frame: false,
+        alwaysOnTop: true,
     });
     loadingWindow.loadURL('http://localhost:2442/loading');
 
     loadingWindow.webContents.on('did-finish-load' as any, () => {
         loadingWindow.show();
+        bootstrap();
     });
 
-    mainWindow.webContents.on('did-finish-load' as any, () => {
-        loadingWindow.hide();
-        loadingWindow.destroy();
-        mainWindow.show();
-    });
+    function bootstrap() {
+        Promise.resolve()
+            .then(() => {
+                loadingWindow.webContents.send('loading_status', { message: 'Checking Database', isFinished: false });
+                return testDB();
+            })
+            .then(() => {
+                loadingWindow.webContents.send('loading_status', { message: 'Loading App', isFinished: false });
+                debug('tests ok');
+
+                const mainWindow = new BrowserWindow({
+                    show: false,
+                    width: 1280,
+                    height: 720,
+                });
+
+                const isFirstRun = store.get('firstRun', true);
+                if (isFirstRun) {
+                    // run initial setup, etc
+                    store.set('firstRun', false);
+                }
+                console.log('creating windows');
+
+                // build querystring for app mounting
+                const qs = stringify({
+                    isFirstRun,
+                });
+                mainWindow.loadURL(`http://localhost:2442/app?${qs}`);
+                mainWindow.setTitle('R6DB');
+                mainWindow.webContents.on('did-finish-load' as any, () => {
+                    loadingWindow.webContents.send('loading_status', { message: 'waiting lol', isFinished: true });
+                    mainWindow.show();
+
+                    // hardcode this until we sent a trigger from the app
+                    setTimeout(() => {
+                        loadingWindow.destroy();
+                    }, 2000);
+                });
+            })
+            .catch(err => debug('bootstrap error', err));
+    }
 });

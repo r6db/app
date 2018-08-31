@@ -1,12 +1,13 @@
 {
-    "extends": "./tsconfig.settings.json",
+    "extends": "./tsconfig.json",
     "compilerOptions": {
         "lib": ["es2016", "dom"],
         "module": "esnext",
         "target": "es2016",
         "paths": {
-            "shared/*": ["src/shared/*"],
-            "renderer/*": ["src/renderer/*"]
+            "shared/*": ["./src/shared/*"],
+            "renderer/*": ["./src/renderer/*"]
         }
-    }
+    },
+    "include": ["./src/renderer/declarations.d.ts"]
 }

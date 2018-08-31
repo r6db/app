@@ -17,17 +17,16 @@
         "noErrorTruncation": true,
         "noFallthroughCasesInSwitch": true,
         "noImplicitReturns": true,
-        "noUnusedLocals": true,
+        "noUnusedLocals": false,
         "noUnusedParameters": true,
         "skipLibCheck": true,
         "strictNullChecks": true,
         "target": "es2016",
         "baseUrl": ".",
         "paths": {
-            "main/*": ["src/main/*"],
-            "shared/*": ["src/shared/*"],
-            "renderer/*": ["src/renderer/*"]
+            "main/*": ["./src/main/*"],
+            "shared/*": ["./src/shared/*"],
+            "renderer/*": ["./src/renderer/*"]
         }
-    },
-    "include": ["src/renderer/declarations.d.ts"]
+    }
 }

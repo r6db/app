@@ -1,12 +1,11 @@
 $primary: #007bff;
-$secondary:  #17bebb;
+$secondary: #17bebb;
 $accent: #ff6e09;
-$background: #fafafa;
-$foreground: #383838;
+$background: #383838;
+$foreground: #fafafa;
 
 $screen-medium: 800px;
 $screen-large: 1200px;
 
-
-@import "fontscale";
-@import "breakpoints";
+@import 'fontscale';
+@import 'breakpoints';

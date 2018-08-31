@@ -2,11 +2,15 @@
     "extends": "tslint:latest",
     "rules": {
         "arrow-parens": false,
+        "import-spacing": true,
+        "no-console": false,
+        "no-implicit-dependencies": [true, ["main", "renderer", "shared"]],
+        "no-submodule-imports": false,
+        "object-literal-sort-keys": false,
+        "object-literal-key-quotes": false,
+        "ordered-imports": false,
         "quotemark": {
             "options": ["single", "avoid-escape"]
-        },
-        "no-console": false,
-        "object-literal-sort-keys": false,
-        "import-spacing": true
+        }
     }
 }
