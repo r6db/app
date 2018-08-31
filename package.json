@@ -4,7 +4,7 @@
     "main": "index.js",
     "license": "MIT",
     "scripts": {
-        "rebuild": "electron-builder install-app-deps",
+        "postinstall": "electron-builder install-app-deps",
         "start": "yarn build --mode development && yarn electron",
         "electron": "electron --inspect=5858 build/main/",
         "prebuild": "rimraf build",
