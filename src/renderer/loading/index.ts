@@ -4,12 +4,25 @@
  */
 import { ipcRenderer } from 'electron';
 import './loading.scss';
-console.log('loading window');
 
-const el = document.querySelector('span');
-ipcRenderer.addListener('loading_status', (e, message) => {
+const el = document.querySelector('.loading__text');
+const svg = document.querySelector('.loading__logo');
+
+ipcRenderer.addListener('loading_status', (e, { message, isFinished }) => {
     console.log(e);
     if (el) {
-        el.innerText = message;
+        el.textContent = message;
+    }
+    if (svg && isFinished) {
+        (svg as SVGElement).style.animation = 'loading-finish 2s ease-in-out forwards';
     }
 });
+
+if (svg) {
+    (svg as SVGElement).style.opacity = '1';
+    Array.from(svg.querySelectorAll('path')).forEach((path: SVGPathElement) => {
+        const l = path.getTotalLength();
+        path.style.strokeDashoffset = l + 'px';
+        path.style.strokeDasharray = l / 10 + 'px';
+    });
+}

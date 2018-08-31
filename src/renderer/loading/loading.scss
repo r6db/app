@@ -1,23 +1,51 @@
 @import 'scss/reset';
 @import 'scss/vars';
-*, *::before, *::after{
+*,
+*::before,
+*::after {
     box-sizing: border-box;
     margin: 0;
 }
 
-body.loading{
+.loading {
     width: 100vw;
     height: 100vh;
     background: $background;
     color: $foreground;
     position: relative;
     font-family: sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
 
-    span{
-        position: absolute;
-        left: 50%;
-        top: 50%;
-        font-size: fz(2);
-        transform: translate(-50%, -50%);
+    &__logo {
+        display: block;
+        width: 200px;
+        height: 200px;
+        opacity: 0;
+
+        path {
+            stroke-width: 8px;
+            stroke: darken($foreground, 10%);
+            animation: loading-rotate 5s linear infinite;
+        }
+    }
+    &__text {
+        display: block;
+        font-size: fz(1);
+    }
+}
+
+@keyframes loading-rotate {
+    to {
+        stroke-dashoffset: 0;
+    }
+}
+
+@keyframes loading-finish {
+    to {
+        stroke-width: 0;
+        fill: $foreground;
     }
 }
