@@ -1,5 +1,5 @@
 {
-    "extends": "./tsconfig.settings.json",
+    "extends": "./tsconfig.json",
     "compilerOptions": {
         "allowJs": true,
         "lib": ["es2017"],
