@@ -73,8 +73,20 @@ module.exports = {
             assets: path.join(__dirname, '../src/assets'),
         },
     },
-    node: {
-        __filename: true,
+    node: false,
+    devServer: {
+        host: 'localhost',
+        compress: true,
+        inline: true,
+        hot: true,
+        noInfo: true,
+        lazy: false,
+        port: 2442,
+        stats: 'errors-only',
+        watchOptions: {
+            aggregateTimeout: 100,
+            poll: 500,
+        },
     },
     stats: 'errors-only',
     devtool: 'source-map',
@@ -159,7 +171,6 @@ module.exports = {
                 test: /\.scss$/,
                 use: [
                     IS_PROD ? MiniExtractPlugin.loader : { loader: 'style-loader' },
-                    { loader: 'cache-loader' },
                     {
                         loader: 'css-loader',
                         options: {
@@ -216,6 +227,7 @@ module.exports = {
 };
 
 if (IS_PROD) {
-    module.exports.plugins.push(new MiniExtractPlugin({ filename: '[name]/[chunkhash].css' }));
+    module.exports.plugins = [...module.exports.plugins, new MiniExtractPlugin({ filename: '[name]/[chunkhash].css' })];
 } else {
+    module.exports.plugins = [new webpack.HotModuleReplacementPlugin(), ...module.exports.plugins];
 }

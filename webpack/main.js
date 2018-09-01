@@ -55,6 +55,12 @@ module.exports = {
     plugins: [
         new webpack.optimize.OccurrenceOrderPlugin(),
         new webpack.optimize.AggressiveMergingPlugin(),
+        new webpack.DefinePlugin({
+            'process.env': {
+                NODE_ENV: JSON.stringify(process.env.NODE_ENV || 'development'),
+                VERSION: `"${process.env.VERSION}"`,
+            },
+        }),
         // new CheckerPlugin(),
     ],
 };

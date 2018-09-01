@@ -1,0 +1,12 @@
+@import 'scss/reset';
+@import 'scss/vars';
+
+body {
+    background: $background;
+    color: $foreground;
+    padding: 2rem;
+}
+
+code {
+    font-size: fz(1);
+}

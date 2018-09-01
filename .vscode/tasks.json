@@ -8,7 +8,7 @@
             "identifier": "build",
             "type": "shell",
             "command": "yarn",
-            "args": ["build", "--watch"],
+            "args": ["dev"],
             "isBackground": true,
             // "problemMatcher": "$tsc-watch",
             "problemMatcher": "$tsc-watch",

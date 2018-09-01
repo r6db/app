@@ -5,11 +5,16 @@ import { createConnection } from 'typeorm';
 import * as connectionInfo from '../../ormconfig.js';
 import { store } from './store';
 import * as ubi from './ubi';
-import './server';
 import { Platform } from 'shared/constants';
 import makeDebug from 'debug';
 
 const debug = makeDebug('r6db:main');
+
+if (process.env.NODE_ENV === 'production') {
+    // only run server in prod; dev has the webpack-serve
+    // tslint:disable-next-line
+    require('./server');
+}
 
 const config = {
     ...connectionInfo,
@@ -58,14 +63,20 @@ app.on('ready', async () => {
         bootstrap();
     });
 
+    function sentLoadingStatus(message, isFinished) {
+        if (loadingWindow && !loadingWindow.isDestroyed()) {
+            loadingWindow.webContents.send('loading_status', { message, isFinished });
+        }
+    }
+
     function bootstrap() {
         Promise.resolve()
             .then(() => {
-                loadingWindow.webContents.send('loading_status', { message: 'Checking Database', isFinished: false });
+                sentLoadingStatus('Checking Database', false);
                 return testDB();
             })
             .then(() => {
-                loadingWindow.webContents.send('loading_status', { message: 'Loading App', isFinished: false });
+                sentLoadingStatus('Loading App', false);
                 debug('tests ok');
 
                 const mainWindow = new BrowserWindow({
@@ -93,7 +104,7 @@ app.on('ready', async () => {
                 mainWindow.loadURL(`http://localhost:2442/app?${qs}`);
                 mainWindow.setTitle('R6DB');
                 mainWindow.webContents.on('did-finish-load' as any, () => {
-                    loadingWindow.webContents.send('loading_status', { message: 'Starting R6RB', isFinished: true });
+                    sentLoadingStatus('Starting', true);
                     // mainWindow.show() was on this line, moved to line 96 for now
                     // hardcode this until we sent a trigger from the app
                     setTimeout(() => {
