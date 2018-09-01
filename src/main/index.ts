@@ -71,12 +71,12 @@ app.on('ready', async () => {
                 const mainWindow = new BrowserWindow({
                     show: false,
                     width: 1280,
-                    minWidth: 960,
-                    maxWidth: 7680,
                     height: 720,
+                    minWidth: 960,
                     minHeight: 540,
+                    maxWidth: 7680,
                     maxHeight: 4320,
-                    //backgroundColor: '#383838',
+                    // backgroundColor: '#383838',
                 });
 
                 const isFirstRun = store.get('firstRun', true);
