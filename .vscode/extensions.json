@@ -5,7 +5,7 @@
     // List of extensions which should be recommended for users of this workspace.
     "recommendations": [
         "esbenp.prettier-vscode",
-        "eg2.tslin",
+        "eg2.tslint",
         "shardulm94.trailing-spaces",
         "wayou.vscode-todo-highlight"
     ],
