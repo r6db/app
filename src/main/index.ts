@@ -1,4 +1,5 @@
 import { app, BrowserWindow, ipcMain } from 'electron';
+import windowStateKeeper from 'electron-window-state';
 import * as path from 'path';
 import { stringify } from 'querystring';
 import { createConnection } from 'typeorm';
@@ -46,6 +47,10 @@ app.on('window-all-closed', () => {
 });
 
 app.on('ready', async () => {
+    const mainWindowState = windowStateKeeper({
+        defaultWidth: 1280,
+        defaultHeight: 720,
+    });
     debug('show loading and run runtime tests');
     const loadingWindow = new BrowserWindow({
         show: false,
@@ -81,14 +86,17 @@ app.on('ready', async () => {
 
                 const mainWindow = new BrowserWindow({
                     show: false,
-                    width: 1280,
-                    height: 720,
+                    x: mainWindowState.x,
+                    y: mainWindowState.y,
+                    width: mainWindowState.width,
+                    height: mainWindowState.height,
                     minWidth: 960,
                     minHeight: 540,
                     maxWidth: 7680,
                     maxHeight: 4320,
                     // backgroundColor: '#383838',
                 });
+                mainWindowState.manage(mainWindow);
 
                 const isFirstRun = store.get('firstRun', true);
                 if (isFirstRun) {
@@ -110,6 +118,9 @@ app.on('ready', async () => {
                     setTimeout(() => {
                         loadingWindow.destroy();
                         mainWindow.show();
+                        if (process.env.NODE_ENV === 'development') {
+                            mainWindow.webContents.openDevTools();
+                        }
                     }, 2000);
                 });
             })
