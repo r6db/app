@@ -44,6 +44,8 @@ app.on('ready', async () => {
     debug('show loading and run runtime tests');
     const loadingWindow = new BrowserWindow({
         show: false,
+        resizable: false,
+        movable: false,
         width: 300,
         height: 300,
         frame: false,
@@ -69,7 +71,12 @@ app.on('ready', async () => {
                 const mainWindow = new BrowserWindow({
                     show: false,
                     width: 1280,
+                    minWidth: 960,
+                    maxWidth: 7680,
                     height: 720,
+                    minHeight: 540,
+                    maxHeight: 4320,
+                    //backgroundColor: '#383838',
                 });
 
                 const isFirstRun = store.get('firstRun', true);
@@ -86,12 +93,12 @@ app.on('ready', async () => {
                 mainWindow.loadURL(`http://localhost:2442/app?${qs}`);
                 mainWindow.setTitle('R6DB');
                 mainWindow.webContents.on('did-finish-load' as any, () => {
-                    loadingWindow.webContents.send('loading_status', { message: 'waiting lol', isFinished: true });
-                    mainWindow.show();
-
+                    loadingWindow.webContents.send('loading_status', { message: 'Starting R6RB', isFinished: true });
+                    // mainWindow.show() was on this line, moved to line 96 for now
                     // hardcode this until we sent a trigger from the app
                     setTimeout(() => {
                         loadingWindow.destroy();
+                        mainWindow.show();
                     }, 2000);
                 });
             })
