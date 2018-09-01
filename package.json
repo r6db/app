@@ -12,9 +12,7 @@
         "watch:main": "webpack --mode development --config webpack/main.js --watch",
         "watch:renderer": "webpack-dev-server --mode development --config webpack/renderer.js",
         "prebuild": "rimraf build",
-        "build": "webpack --mode development --config webpack/all.js",
-        "prebuild:prod": "rimraf build",
-        "build:prod": "cross-env NODE_ENV=production webpack --mode production --config webpack/all.js",
+        "build": "cross-env NODE_ENV=production webpack --mode production --config webpack/all.js",
         "prelint": "pretty-quick --staged",
         "lint": "tslint -c tslint.json 'src/main/**/*.ts' -p tsconfig.node.json && tslint -c tslint.json 'src/renderer/**/*.ts' -p tsconfig.webpack.json",
         "test": "echo 'no tests yet' && exit 0"
