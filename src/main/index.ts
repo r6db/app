@@ -1,13 +1,13 @@
-import { app, BrowserWindow, ipcMain } from 'electron';
+import { app, BrowserWindow } from 'electron';
 import windowStateKeeper from 'electron-window-state';
 import * as path from 'path';
 import { stringify } from 'querystring';
 import { createConnection } from 'typeorm';
 import * as connectionInfo from '../../ormconfig.js';
 import { store } from './store';
-import * as ubi from './ubi';
-import { Platform } from 'shared/constants';
 import makeDebug from 'debug';
+import { delay } from 'bluebird';
+import { SqliteConnectionOptions } from 'typeorm/driver/sqlite/SqliteConnectionOptions';
 
 const debug = makeDebug('r6db:main');
 
@@ -17,25 +17,24 @@ if (process.env.NODE_ENV === 'production') {
     require('./server');
 }
 
-const config = {
+const config: SqliteConnectionOptions = {
     ...connectionInfo,
     database: path.resolve(app.getPath('documents'), 'r6db/data.sqlite'),
-};
+} as any;
 
 if (process.env.USER) {
     store.set('user.email', process.env.USER);
 }
 
 async function testDB() {
-    return createConnection(config as any)
-        .then(async conn => {
-            const res = await conn.query('SELECT 1+1');
-            debug('testing db', { successful: true, res });
-        })
-        .catch(err => {
-            debug('testing db', { successful: false, err });
-            throw err;
-        });
+    try {
+        const connection = await createConnection(config);
+        const res = connection.query('SELECT 1 + 1');
+        debug('testing db', { successful: true, res });
+    } catch (err) {
+        debug('testing db', { successful: false, err });
+        throw err;
+    }
 }
 
 app.on('window-all-closed', () => {
@@ -63,9 +62,13 @@ app.on('ready', async () => {
     });
     loadingWindow.loadURL('http://localhost:2442/loading');
 
-    loadingWindow.webContents.on('did-finish-load' as any, () => {
+    loadingWindow.webContents.on('did-finish-load', async () => {
         loadingWindow.show();
-        bootstrap();
+        try {
+            await bootstrap();
+        } catch (err) {
+            debug('bootstrap error', err);
+        }
     });
 
     function sentLoadingStatus(message, isFinished) {
@@ -74,56 +77,52 @@ app.on('ready', async () => {
         }
     }
 
-    function bootstrap() {
-        Promise.resolve()
-            .then(() => {
-                sentLoadingStatus('Checking Database', false);
-                return testDB();
-            })
-            .then(() => {
-                sentLoadingStatus('Loading App', false);
-                debug('tests ok');
+    async function bootstrap() {
+        sentLoadingStatus('Checking Database', false);
+        await testDB();
+        debug('tests ok');
+        sentLoadingStatus('Loading App', false);
 
-                const mainWindow = new BrowserWindow({
-                    show: false,
-                    x: mainWindowState.x,
-                    y: mainWindowState.y,
-                    width: mainWindowState.width,
-                    height: mainWindowState.height,
-                    minWidth: 960,
-                    minHeight: 540,
-                    maxWidth: 7680,
-                    maxHeight: 4320,
-                    // backgroundColor: '#383838',
-                });
-                mainWindowState.manage(mainWindow);
+        const mainWindow = new BrowserWindow({
+            width: mainWindowState.width,
+            height: mainWindowState.height,
 
-                const isFirstRun = store.get('firstRun', true);
-                if (isFirstRun) {
-                    // run initial setup, etc
-                    store.set('firstRun', false);
-                }
-                console.log('creating windows');
+            minWidth: 960,
+            minHeight: 540,
 
-                // build querystring for app mounting
-                const qs = stringify({
-                    isFirstRun,
-                });
-                mainWindow.loadURL(`http://localhost:2442/app?${qs}`);
-                mainWindow.setTitle('R6DB');
-                mainWindow.webContents.on('did-finish-load' as any, () => {
-                    sentLoadingStatus('Starting', true);
-                    // mainWindow.show() was on this line, moved to line 96 for now
-                    // hardcode this until we sent a trigger from the app
-                    setTimeout(() => {
-                        loadingWindow.destroy();
-                        mainWindow.show();
-                        if (process.env.NODE_ENV === 'development') {
-                            mainWindow.webContents.openDevTools();
-                        }
-                    }, 2000);
-                });
-            })
-            .catch(err => debug('bootstrap error', err));
+            maxWidth: 7680,
+            maxHeight: 4320,
+
+            x: mainWindowState.x,
+            y: mainWindowState.y,
+
+            show: false,
+        });
+        mainWindowState.manage(mainWindow);
+
+        const isFirstRun = store.get('firstRun', true);
+        if (isFirstRun) {
+            // run initial setup, etc
+            store.set('firstRun', false);
+        }
+        debug('creating windows');
+
+        // build querystring for app mounting
+        const qs = stringify({
+            isFirstRun,
+        });
+        mainWindow.loadURL(`http://localhost:2442/app?${qs}`);
+        mainWindow.setTitle('R6DB');
+        mainWindow.webContents.on('did-finish-load', async () => {
+            sentLoadingStatus('Starting', true);
+
+            // hardcode this until we sent a trigger from the app
+            await delay(2000);
+            loadingWindow.destroy();
+            mainWindow.show();
+            if (process.env.NODE_ENV === 'development') {
+                mainWindow.webContents.openDevTools();
+            }
+        });
     }
 });
