@@ -40,6 +40,16 @@ const cssdedupe = require('postcss-discard-duplicates');
 const DIST = path.join(__dirname, '../build');
 const IS_PROD = process.env.NODE_ENV === 'production';
 
+function recursiveIssuer(m) {
+    if (m.issuer) {
+        return recursiveIssuer(m.issuer);
+    } else if (m.name) {
+        return m.name;
+    } else {
+        return false;
+    }
+}
+
 module.exports = {
     context: path.resolve(__dirname, '../'),
     entry: {
@@ -74,10 +84,18 @@ module.exports = {
             chunks: 'async',
             name: true,
             cacheGroups: {
-                vendor: {
-                    test: /[\\/]node_modules[\\/]/,
-                    name: 'vendor',
-                    chunks: 'initial',
+                appStyles: {
+                    name: 'app',
+                    test: (m, c, entry = 'app') => m.constructor.name === 'CssModule' && recursiveIssuer(m) === entry,
+                    chunks: 'all',
+                    enforce: true,
+                },
+                loadingStyles: {
+                    name: 'loading',
+                    test: (m, c, entry = 'loading') =>
+                        m.constructor.name === 'CssModule' && recursiveIssuer(m) === entry,
+                    chunks: 'all',
+                    enforce: true,
                 },
             },
         },
@@ -198,6 +216,6 @@ module.exports = {
 };
 
 if (IS_PROD) {
-    module.exports.plugins.push(new MiniExtractPlugin({ filename: '[name].[chunkhash].css', allChunks: true }));
+    module.exports.plugins.push(new MiniExtractPlugin({ filename: '[name]/[chunkhash].css' }));
 } else {
 }
