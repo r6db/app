@@ -26,9 +26,10 @@
         opacity: 0;
 
         path {
-            stroke-width: 8px;
+            stroke-width: 2px;
             stroke: darken($foreground, 10%);
             animation: loading-rotate 5s linear infinite;
+            shape-rendering: geometricPrecision;
         }
     }
     &__text {
@@ -44,8 +45,12 @@
 }
 
 @keyframes loading-finish {
-    to {
-        stroke-width: 0;
+    0% {
+        fill: transparent;
+        stroke-opacity: 1;
+    }
+    100% {
         fill: $foreground;
+        stroke-opacity: 0;
     }
 }

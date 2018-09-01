@@ -23,6 +23,6 @@ if (svg) {
     Array.from(svg.querySelectorAll('path')).forEach((path: SVGPathElement) => {
         const l = path.getTotalLength();
         path.style.strokeDashoffset = l + 'px';
-        path.style.strokeDasharray = l / 10 + 'px';
+        path.style.strokeDasharray = l / 15 + 'px';
     });
 }
