@@ -30,15 +30,6 @@ app.on('ready', async () => {
         defaultHeight: 720,
     });
     debug('show loading and run runtime tests');
-    const loadingWindow = new BrowserWindow({
-        resizable: false,
-        movable: false,
-        width: 300,
-        height: 300,
-        frame: false,
-        alwaysOnTop: true,
-        show: false,
-    });
     const mainWindow = new BrowserWindow({
         width: mainWindowState.width,
         height: mainWindowState.height,
@@ -54,6 +45,18 @@ app.on('ready', async () => {
         show: false,
     });
     mainWindowState.manage(mainWindow);
+
+    const loadingWindow = new BrowserWindow({
+        resizable: false,
+        movable: false,
+        width: 300,
+        height: 300,
+        frame: false,
+        alwaysOnTop: true,
+        show: false,
+        x: mainWindowState.x + mainWindowState.width / 2 - 150,
+        y: mainWindowState.y + mainWindowState.height / 2 - 150,
+    });
 
     const domain = new Domain({
         dbPath: DB_PATH,
