@@ -8,6 +8,7 @@ const path = require('path');
 const webpack = require('webpack');
 const nodeExternals = require('webpack-node-externals');
 const { CheckerPlugin } = require('awesome-typescript-loader');
+const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 
 const dist = path.join(__dirname, '../build');
 
@@ -34,6 +35,19 @@ module.exports = {
     node: false,
     stats: 'errors-only',
     devtool: 'inline-source-map',
+    optimization: {
+        minimizer: [
+            new UglifyJsPlugin({
+                uglifyOptions: {
+                    ecma: 7,
+                    keep_classnames: true,
+                    keep_fnames: true,
+                    unsafe: true,
+                    passes: 2,
+                },
+            }),
+        ],
+    },
     module: {
         rules: [
             {

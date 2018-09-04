@@ -14,21 +14,21 @@ export async function createConnection(path) {
     const entities = entityRequire
         .keys()
         .sort()
-        .map(key => {
-            debug('loading entity', key);
-            return key;
-        })
-        .reduce((acc, key) => acc.concat(getExport(entityRequire(key))), []);
+        .reduce((acc, key) => {
+            const e = getExport(entityRequire(key));
+            debug('loading entity', e.name);
+            return acc.concat(e);
+        }, []);
 
     const migrationRequire = (require as any).context('./migrations', false, /.ts$/);
     const migrations = migrationRequire
         .keys()
         .sort()
-        .map(key => {
-            debug('loading migration', key);
-            return key;
-        })
-        .reduce((acc, key) => acc.concat(getExport(migrationRequire(key))), []);
+        .reduce((acc, key) => {
+            const e = getExport(migrationRequire(key));
+            debug('loading migration', e.name);
+            return acc.concat(e);
+        }, []);
 
     const config: ConnectionOptions = {
         type: 'sqlite',
