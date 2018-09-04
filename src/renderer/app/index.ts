@@ -1,17 +1,30 @@
 /// <ref path="../declarations.d.ts" />
+import { ipcRenderer } from 'electron';
+import produce, { applyPatches } from 'immer';
 console.log('app window');
-import { parse } from 'querystring';
 import './app.scss';
 
-const query = parse(window.location.search.substring(1));
-
 const mount = document.querySelector('.mount');
-if (mount) {
-    mount.innerHTML = `
-<pre>
-<code>
-${JSON.stringify(query, null, 4)}
-</code>
-</pre>
-`;
+let appstate = {};
+
+ipcRenderer.addListener('state', (_, state) => {
+    console.log('new state', state);
+    appstate = state;
+    render(appstate);
+});
+ipcRenderer.addListener('patch', (_, patches) => {
+    console.log('new patch', patches);
+    appstate = applyPatches(appstate, patches);
+    render(appstate);
+});
+function render(state) {
+    if (mount) {
+        mount.innerHTML = `
+        <pre>
+            <code>
+${JSON.stringify(state, null, 4)}
+            </code>
+        </pre>
+        `;
+    }
 }
