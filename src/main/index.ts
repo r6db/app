@@ -1,4 +1,4 @@
-import { app, BrowserWindow } from 'electron';
+import { app, BrowserWindow, ipcMain } from 'electron';
 import windowStateKeeper from 'electron-window-state';
 import * as path from 'path';
 import { store } from './store';
@@ -61,6 +61,7 @@ app.on('ready', async () => {
     const domain = new Domain({
         dbPath: DB_PATH,
         appWindow: mainWindow,
+        appEmitter: ipcMain,
         loadingWindow,
         store,
     });

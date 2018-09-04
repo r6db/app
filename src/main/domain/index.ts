@@ -1,35 +1,20 @@
-import { BrowserWindow } from 'electron';
+import { BrowserWindow, IpcMain } from 'electron';
 import { delay } from 'bluebird';
 import produce from 'immer';
+import { IStore, IDomainOptions, IDomainState, ILoginOpts } from 'shared/interfaces';
 import { createConnection } from '../db';
+import * as ubi from '../ubi';
+import * as listeners from './listeners';
 import makeDebug from 'debug';
 const debug = makeDebug('r6db:domain');
 
 const IS_PROD = process.env.NODE_ENV === 'production';
 
-interface IStore {
-    get<T, S>(key: string, defaultValue?: S): T | S;
-    set<T>(key: string, value: T);
-    has(key: string): boolean;
-}
-
-interface IDomainOptions {
-    // path to sqlite db
-    dbPath: string;
-    appWindow: BrowserWindow;
-    loadingWindow: BrowserWindow;
-    store: IStore;
-}
-
-interface IDomainState {
-    firstRun: boolean;
-    now: Date;
-}
-
 export class Domain {
     private conn: any;
     private loadingWindow: BrowserWindow;
     private appWindow: BrowserWindow;
+    private appEmitter: IpcMain;
     private state: IDomainState;
     private store: IStore;
 
@@ -38,9 +23,21 @@ export class Domain {
         this.loadingWindow = opts.loadingWindow;
         this.appWindow = opts.appWindow;
         this.store = opts.store;
+        this.appEmitter = opts.appEmitter;
         this.state = {
             firstRun: false,
             now: new Date(),
+            routing: {
+                page: 'login',
+                params: null,
+            },
+            auth: {
+                loginState: 'pending',
+                email: this.store.get<string, string>('email', ''),
+                password: this.store.get<string, string>('password', ''),
+                rememberMail: this.store.get<boolean, boolean>('rememberMail', false),
+                rememberPass: this.store.get<boolean, boolean>('rememberPass', false),
+            },
         };
 
         this.emit = this.emit.bind(this);
@@ -70,7 +67,7 @@ export class Domain {
         this.appWindow.setTitle('R6DB');
         this.appWindow.webContents.on('did-finish-load', async () => {
             this.emitLoading('loading_status', { message: 'Starting', isFinished: true });
-            this.emit('state', { isFirstRun });
+            this.emit('state', this.state);
             // hardcode this until we sent a trigger from the app
             await delay(2000);
             this.updateState(state => {
@@ -82,6 +79,23 @@ export class Domain {
                 this.appWindow.webContents.openDevTools();
             }
         });
+        // attach emitters
+        Object.keys(listeners).map(key => {
+            debug('attaching event', key);
+            this.appEmitter.on(key, (event, arg) => {
+                debug('received event', { event, arg });
+                listeners[key](this, arg);
+            });
+        });
+    }
+    public login(opts: ILoginOpts) {
+        if (opts.rememberMail) {
+            this.store.set('email', opts.email);
+        }
+        if (opts.rememberPass) {
+            this.store.set('password', opts.password);
+        }
+        ubi.setCredentials(opts.email, opts.password);
     }
 
     private async testDB() {
