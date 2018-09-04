@@ -1,18 +1,24 @@
 import { BrowserWindow } from 'electron';
 import { delay } from 'bluebird';
 import produce from 'immer';
-import { store } from '../store';
 import { createConnection } from '../db';
 import makeDebug from 'debug';
 const debug = makeDebug('r6db:domain');
 
 const IS_PROD = process.env.NODE_ENV === 'production';
 
+interface IStore {
+    get<T, S>(key: string, defaultValue?: S): T | S;
+    set<T>(key: string, value: T);
+    has(key: string): boolean;
+}
+
 interface IDomainOptions {
     // path to sqlite db
     dbPath: string;
     appWindow: BrowserWindow;
     loadingWindow: BrowserWindow;
+    store: IStore;
 }
 
 interface IDomainState {
@@ -25,15 +31,21 @@ export class Domain {
     private loadingWindow: BrowserWindow;
     private appWindow: BrowserWindow;
     private state: IDomainState;
+    private store: IStore;
 
     constructor(opts: IDomainOptions) {
         this.conn = createConnection(opts.dbPath);
         this.loadingWindow = opts.loadingWindow;
         this.appWindow = opts.appWindow;
+        this.store = opts.store;
         this.state = {
             firstRun: false,
             now: new Date(),
         };
+
+        this.emit = this.emit.bind(this);
+        this.emitLoading = this.emitLoading.bind(this);
+        this.updateState = this.updateState.bind(this);
     }
 
     public async init() {
@@ -46,10 +58,10 @@ export class Domain {
         debug('tests ok');
         this.emitLoading('loading_status', { message: 'Loading App', isFinished: false });
 
-        const isFirstRun = store.get('firstRun', true);
+        const isFirstRun = this.store.get('firstRun', true);
         if (isFirstRun) {
             // run initial setup, etc
-            store.set('firstRun', false);
+            this.store.set('firstRun', false);
         }
         debug('creating windows');
 

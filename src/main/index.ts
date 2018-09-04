@@ -1,6 +1,7 @@
 import { app, BrowserWindow } from 'electron';
 import windowStateKeeper from 'electron-window-state';
 import * as path from 'path';
+import { store } from './store';
 import { Domain } from './domain';
 import makeDebug from 'debug';
 
@@ -58,6 +59,7 @@ app.on('ready', async () => {
         dbPath: DB_PATH,
         appWindow: mainWindow,
         loadingWindow,
+        store,
     });
 
     domain.init();
