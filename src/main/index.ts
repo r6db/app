@@ -2,25 +2,22 @@ import { app, BrowserWindow } from 'electron';
 import windowStateKeeper from 'electron-window-state';
 import * as path from 'path';
 import { stringify } from 'querystring';
-import { createConnection } from 'typeorm';
-import * as connectionInfo from '../../ormconfig.js';
+import { createConnection } from './db';
 import { store } from './store';
 import makeDebug from 'debug';
 import { delay } from 'bluebird';
-import { SqliteConnectionOptions } from 'typeorm/driver/sqlite/SqliteConnectionOptions';
 
 const debug = makeDebug('r6db:main');
 
-if (process.env.NODE_ENV === 'production') {
+const IS_PROD = process.env.NODE_ENV === 'production';
+
+if (IS_PROD) {
     // only run server in prod; dev has the webpack-serve
     // tslint:disable-next-line
     require('./server');
 }
 
-const config: SqliteConnectionOptions = {
-    ...connectionInfo,
-    database: path.resolve(app.getPath('documents'), 'r6db/data.sqlite'),
-} as any;
+const DB_PATH = IS_PROD ? path.resolve(app.getPath('documents'), 'r6db/data.sqlite') : 'dev.sqlite';
 
 if (process.env.USER) {
     store.set('user.email', process.env.USER);
@@ -28,8 +25,8 @@ if (process.env.USER) {
 
 async function testDB() {
     try {
-        const connection = await createConnection(config);
-        const res = connection.query('SELECT 1 + 1');
+        const connection = await createConnection(DB_PATH);
+        const res = await connection.query('SELECT 1 + 1');
         debug('testing db', { successful: true, res });
     } catch (err) {
         debug('testing db', { successful: false, err });

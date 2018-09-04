@@ -3,9 +3,11 @@
     "rules": {
         "arrow-parens": false,
         "import-spacing": true,
+        "max-line-length": false,
         "no-console": false,
         "no-implicit-dependencies": [true, ["main", "renderer", "shared"]],
         "no-submodule-imports": false,
+        "no-unused-variable": false,
         "object-literal-sort-keys": false,
         "object-literal-key-quotes": false,
         "ordered-imports": false,

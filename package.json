@@ -5,9 +5,9 @@
     "repository": "https://github.com/r6db/app",
     "license": "MIT",
     "scripts": {
-        "postinstall": "electron-builder install-app-deps",
         "start": "yarn build --mode development && yarn electron",
         "electron": "electron --inspect=5858 build/main/",
+        "migration": "ts-node --project tsconfig.node.json ./node_modules/.bin/typeorm migration:generate -n NewMigration",
         "dev": "npm-run-all -p watch:main watch:renderer",
         "watch:main": "webpack --mode development --config webpack/main.js --watch",
         "watch:renderer": "webpack-dev-server --mode development --config webpack/renderer.js",
@@ -80,6 +80,7 @@
         "svg-sprite-loader": "^3.9.2",
         "svgo": "^1.0.5",
         "svgo-loader": "^2.1.0",
+        "ts-node": "^7.0.1",
         "tslint": "^5.11.0",
         "typescript": "^3.0.1",
         "webpack": "^4.17.1",

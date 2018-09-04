@@ -35,3 +35,4 @@ this is set up as monorepo. please check the readmes of the individual packages 
     -   `yarn build` compiles all files into the `build` directory
     -   `yarn electron` runs the latest build
     -   `yarn start` build and then run
+    -   `yarn migration` generate a new migration containing all pending schema changes (taken from entities dir). Check `src/main/db/README.md` for more info

@@ -28,7 +28,7 @@
             "args": ["electron"],
             "options": {
                 "env": {
-                    "DEBUG": "r6db:*"
+                    "DEBUG": "*"
                 }
             },
             "group": {

@@ -15,7 +15,7 @@
             },
             "args": ["build/main"],
             "env": {
-                "DEBUG": "r6db:*"
+                "DEBUG": "*"
             }
         }
     ]
