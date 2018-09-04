@@ -53,7 +53,7 @@ function recursiveIssuer(m) {
 module.exports = {
     context: path.resolve(__dirname, '../'),
     entry: {
-        app: ['./src/renderer/app/index.ts'],
+        app: ['./src/renderer/app/index.tsx'],
         loading: ['./src/renderer/loading/index.ts'],
     },
     output: {
@@ -115,7 +115,7 @@ module.exports = {
     module: {
         rules: [
             {
-                test: /\.(j|t)sx?$/,
+                test: /\.tsx?$/,
                 exclude: /node_modules/,
                 use: [
                     {
@@ -123,7 +123,8 @@ module.exports = {
                         options: {
                             configFileName: 'tsconfig.webpack.json',
                             useCache: true,
-                            useBabel: false,
+                            useBabel: true,
+                            babelCore: '@babel/core',
                             forceIsolatedModule: true,
                         },
                     },

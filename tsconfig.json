@@ -23,6 +23,7 @@
         "strictNullChecks": true,
         "target": "es2016",
         "baseUrl": ".",
+        "jsx": "preserve",
         "paths": {
             "main/*": ["./src/main/*"],
             "shared/*": ["./src/shared/*"],

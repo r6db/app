@@ -4,6 +4,7 @@
         "lib": ["es2016", "dom"],
         "module": "esnext",
         "target": "es2016",
+        "jsx": "preserve",
         "paths": {
             "shared/*": ["./src/shared/*"],
             "renderer/*": ["./src/renderer/*"]

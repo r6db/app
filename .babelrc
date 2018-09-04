@@ -13,6 +13,8 @@
         "@babel/typescript"
     ],
     "plugins": [
+        "@babel/plugin-syntax-jsx",
+        ["babel-plugin-inferno", { "imports": true }],
         "@babel/syntax-dynamic-import",
         "@babel/plugin-syntax-object-rest-spread",
         "@babel/plugin-syntax-class-properties",
