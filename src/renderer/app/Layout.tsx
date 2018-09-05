@@ -1,25 +1,20 @@
-import { Component } from 'inferno';
-import { IDomainState } from 'shared/interfaces';
-import { LoginPageComponent } from './pages/login';
-
-interface IRouteMap {
-    [route: string]: Component<IDomainState, any>;
+import { ComponentType, VNode, Props } from 'inferno';
+import { logOut } from 'renderer/lib/api';
+interface ILayoutProps {
+    topbar?: any;
+    menu?: boolean;
+    children?: any;
 }
-const routeMap = {
-    login: LoginPageComponent,
-};
-
-export default function Layout(state: IDomainState) {
-    const Page = routeMap[state.routing.page];
-    if (Page) {
-        return (
-            <div className="app">
-                <div className="app__page">
-                    <Page {...state} />
+export default function Layout(props: ILayoutProps) {
+    return (
+        <div className={`app ${props.menu === false ? 'app--nomenu' : null}`}>
+            {props.menu === false ? null : (
+                <div className="app__menu">
+                    <button onClick={logOut}>logout</button>
                 </div>
-            </div>
-        );
-    } else {
-        return <div className="app">not found</div>;
-    }
+            )}
+            {props.topbar ? <div className="app__topbar">{props.topbar}</div> : null}
+            <div className="app__content">{props.children}</div>
+        </div>
+    );
 }

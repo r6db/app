@@ -8,10 +8,12 @@ const onUpdateListeners: Array<() => any> = [];
 // add listeners to update the state
 ipcRenderer.addListener('state', (_, state) => {
     appstate = state;
+    console.trace('state', { state });
     notify();
 });
 ipcRenderer.addListener('patch', (_, patches) => {
     appstate = applyPatches(appstate, patches);
+    console.trace('patch', patches, appstate);
     notify();
 });
 

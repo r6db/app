@@ -19,7 +19,7 @@ export interface IDomainState {
     firstRun: boolean;
     now: Date;
     routing: {
-        page: 'login';
+        page: 'login' | 'home';
         params: any;
     };
     auth: {

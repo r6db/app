@@ -90,12 +90,25 @@ export class Domain {
     }
     public login(opts: ILoginOpts) {
         if (opts.rememberMail) {
+            this.store.set('rememberMail', true);
             this.store.set('email', opts.email);
         }
         if (opts.rememberPass) {
+            this.store.set('rememberPass', true);
             this.store.set('password', opts.password);
         }
         ubi.setCredentials(opts.email, opts.password);
+    }
+
+    /**
+     * update the state (see https://github.com/mweststrate/immer for docu)
+     * and publish the changes to the app
+     */
+    public updateState(updater: (draft: IDomainState) => any) {
+        this.state = produce(this.state, updater, patches => {
+            debug('state updated', patches);
+            this.emit('patch', patches);
+        });
     }
 
     private async testDB() {
@@ -108,16 +121,6 @@ export class Domain {
             debug('testing db', { successful: false, err });
             throw err;
         }
-    }
-
-    /**
-     * update the state (see https://github.com/mweststrate/immer for docu)
-     * and publish the changes to the app
-     */
-    private updateState(updater: (draft: IDomainState) => any) {
-        this.state = produce(this.state, updater, patches => {
-            this.emit('patch', patches);
-        });
     }
 
     /**

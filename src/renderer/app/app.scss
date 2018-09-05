@@ -1,10 +1,35 @@
 @import 'scss/reset';
+@import 'scss/forms';
 @import 'scss/vars';
 
 body {
     background: $background;
     color: $foreground;
-    padding: 2rem;
+}
+
+.app {
+    width: 100vw;
+    height: 100vh;
+
+    display: grid;
+    grid-template-columns: 5rem 1fr;
+    grid-template-rows: 5rem 1fr;
+    grid-template-areas: 'menu topbar' 'menu content';
+
+    &--nomenu {
+        grid-template-areas: 'topbar' 'content';
+        grid-template-columns: 1fr;
+        grid-template-rows: 1fr;
+    }
+    &__menu {
+        grid-area: menu;
+    }
+    &__content {
+        grid-area: content;
+    }
+    &__topbar {
+        grid-area: topbar;
+    }
 }
 
 code {
