@@ -1,11 +1,11 @@
 import { Component } from 'inferno';
-import Layout from '../../Layout';
+import Layout from 'renderer/app/Layout';
 import { Page } from 'renderer/app/routes';
+import { IPageProps } from '../interfaces';
 import JsonOut from './JsonOut';
-import { IDomainState } from 'shared/interfaces';
 
 @Page('home')
-export class HomePageComponent extends Component<IDomainState> {
+export class HomePageComponent extends Component<IPageProps> {
     render() {
         return (
             <Layout>

@@ -1,9 +1,8 @@
 import './login.scss';
 import { Component } from 'inferno';
-import { IDomainState } from 'shared/interfaces';
-import { logIn } from 'renderer/lib/api';
+import Layout from 'renderer/app/Layout';
 import { Page } from 'renderer/app/routes';
-import Layout from '../../Layout';
+import { IPageProps } from '../interfaces';
 
 function FirstRunPopup() {
     return (
@@ -14,10 +13,10 @@ function FirstRunPopup() {
 }
 
 @Page('login')
-export class LoginPageComponent extends Component<IDomainState> {
-    state: IDomainState['auth'];
+export class LoginPageComponent extends Component<IPageProps> {
+    state: IPageProps['auth'];
 
-    constructor(props: IDomainState) {
+    constructor(props: IPageProps) {
         super(props);
         this.state = { ...props.auth };
     }
@@ -80,7 +79,7 @@ export class LoginPageComponent extends Component<IDomainState> {
             </Layout>
         );
     }
-    private update(stateProp: keyof IDomainState['auth'], prop = 'value') {
+    private update(stateProp: keyof IPageProps['auth'], prop = 'value') {
         return e => {
             console.log(e.target[prop]);
             this.setState(state => ({
@@ -92,7 +91,7 @@ export class LoginPageComponent extends Component<IDomainState> {
     private submit() {
         if (this.state) {
             console.log('logging in');
-            logIn(this.state);
+            this.props.api.logIn(this.state);
         } else {
             console.warn("can't login, no state");
         }
