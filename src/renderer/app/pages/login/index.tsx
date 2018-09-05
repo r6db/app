@@ -2,6 +2,7 @@ import './login.scss';
 import { Component } from 'inferno';
 import { IDomainState } from 'shared/interfaces';
 import { logIn } from 'renderer/lib/api';
+import { Page } from 'renderer/app/routes';
 import Layout from '../../Layout';
 
 function FirstRunPopup() {
@@ -11,12 +12,16 @@ function FirstRunPopup() {
         </div>
     );
 }
-export class LoginPageComponent extends Component<IDomainState, IDomainState['auth']> {
+
+@Page('login')
+export class LoginPageComponent extends Component<IDomainState> {
+    state: IDomainState['auth'];
+
     constructor(props: IDomainState) {
         super(props);
         this.state = { ...props.auth };
     }
-    public render() {
+    render() {
         if (!this.state) {
             return (
                 <Layout menu={false}>

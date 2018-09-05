@@ -1,5 +1,5 @@
 /// <ref path="../declarations.d.ts" />
-import RouteSwitch from './RouteSwitch';
+import RouteSwitch from 'renderer/app/RouteSwitch';
 import { render } from 'inferno';
 import { onUpdate, getState } from '../lib/state';
 import './app.scss';

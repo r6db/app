@@ -29,7 +29,6 @@ export class Domain {
             now: new Date(),
             routing: {
                 page: 'login',
-                params: null,
             },
             auth: {
                 loginState: 'pending',

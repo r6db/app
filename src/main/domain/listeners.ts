@@ -10,7 +10,6 @@ export function app_login(domain: Domain, opts: ILoginOpts) {
         domain.updateState(draft => {
             draft.auth.loginState = 'success';
             draft.routing.page = 'home';
-            draft.routing.params = null;
         });
     }
 }
@@ -19,6 +18,5 @@ export function app_logout(domain: Domain) {
     domain.updateState(draft => {
         draft.auth.loginState = 'pending';
         draft.routing.page = 'login';
-        draft.routing.params = null;
     });
 }

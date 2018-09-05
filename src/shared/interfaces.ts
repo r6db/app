@@ -20,7 +20,6 @@ export interface IDomainState {
     now: Date;
     routing: {
         page: 'login' | 'home';
-        params: any;
     };
     auth: {
         email: string;

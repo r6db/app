@@ -4,6 +4,7 @@
         "arrow-parens": false,
         "import-spacing": true,
         "max-line-length": false,
+        "member-access": false,
         "no-console": false,
         "no-implicit-dependencies": [true, ["main", "renderer", "shared"]],
         "no-submodule-imports": false,
