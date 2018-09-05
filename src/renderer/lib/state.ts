@@ -31,3 +31,7 @@ export function offUpdate(listener: () => any) {
 export function getState() {
     return appstate;
 }
+
+if (process.env.NODE_ENV !== 'production') {
+    (window as any).getState = getState;
+}
