@@ -25,8 +25,7 @@ export class Domain {
         this.store = opts.store;
         this.appEmitter = opts.appEmitter;
         this.state = {
-            firstRun: false,
-            now: new Date(),
+            firstRun: this.store.get<boolean, boolean>('firstRun', true),
             routing: {
                 page: 'login',
             },
@@ -38,6 +37,15 @@ export class Domain {
                 rememberPass: this.store.get<boolean, boolean>('rememberPass', false),
             },
         };
+
+        debug('startup state', this.state);
+
+        this.store.set('firstRun', false);
+
+        if (this.state.auth.email && this.state.auth.password) {
+            debug('found stored credentials.. logging in');
+            this.login(this.state.auth);
+        }
 
         this.emit = this.emit.bind(this);
         this.emitLoading = this.emitLoading.bind(this);
@@ -54,11 +62,6 @@ export class Domain {
         debug('tests ok');
         this.emitLoading('loading_status', { message: 'Loading App', isFinished: false });
 
-        const isFirstRun = this.store.get('firstRun', true);
-        if (isFirstRun) {
-            // run initial setup, etc
-            this.store.set('firstRun', false);
-        }
         debug('creating windows');
 
         // build querystring for app mounting
@@ -68,10 +71,6 @@ export class Domain {
             this.emitLoading('loading_status', { message: 'Starting', isFinished: true });
             this.emit('state', this.state);
             // hardcode this until we sent a trigger from the app
-            await delay(2000);
-            this.updateState(state => {
-                state.now = new Date();
-            });
             this.loadingWindow.destroy();
             this.appWindow.show();
             if (!IS_PROD) {
@@ -87,16 +86,44 @@ export class Domain {
             });
         });
     }
-    public login(opts: ILoginOpts) {
+    public async destroy() {
+        if (!this.state.auth.rememberMail && !this.state.auth.rememberPass) {
+            this.store.set('auth.token', '');
+        }
+    }
+
+    public async login(opts: ILoginOpts) {
         if (opts.rememberMail) {
+            debug('remembering email', opts.email);
             this.store.set('rememberMail', true);
             this.store.set('email', opts.email);
         }
         if (opts.rememberPass) {
+            debug('remembering password');
             this.store.set('rememberPass', true);
             this.store.set('password', opts.password);
         }
+        this.updateState(draft => {
+            draft.auth = { ...opts, loginState: 'pending' };
+            draft.user = undefined;
+        });
         ubi.setCredentials(opts.email, opts.password);
+        try {
+            const res = await ubi.login(opts);
+            this.updateState(draft => {
+                draft.user = {
+                    profileId: res.profileId,
+                    name: res.nameOnPlatform,
+                };
+                draft.auth.loginState = 'success';
+            });
+            return res;
+        } catch (e) {
+            this.updateState(draft => {
+                draft.auth.loginState = 'error';
+            });
+            return Promise.reject(e);
+        }
     }
 
     /**
@@ -105,7 +132,6 @@ export class Domain {
      */
     public updateState(updater: (draft: IDomainState) => any) {
         this.state = produce(this.state, updater, patches => {
-            debug('state updated', patches);
             this.emit('patch', patches);
         });
     }
@@ -127,7 +153,7 @@ export class Domain {
      */
     private emit(event, ...data: any[]) {
         if (this.appWindow && !this.appWindow.isDestroyed()) {
-            debug('emit', event, data);
+            debug('emit', event);
             this.appWindow.webContents.send(event, ...data);
         }
     }
@@ -137,7 +163,7 @@ export class Domain {
      */
     private emitLoading(event, ...data: any[]) {
         if (this.loadingWindow && !this.loadingWindow.isDestroyed()) {
-            debug('emit to loading', event, data);
+            debug('emit to loading', event);
             this.loadingWindow.webContents.send(event, ...data);
         }
     }

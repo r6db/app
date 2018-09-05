@@ -45,7 +45,7 @@ export function setCredentials(email: string, password: string) {
     credentials.password = password;
 }
 
-async function login(creds: typeof credentials) {
+export async function login(creds: typeof credentials) {
     // first check if we have a currently valid auth token
     if (currentAuth) {
         debug('has current auth');

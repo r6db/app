@@ -81,7 +81,6 @@ export class LoginPageComponent extends Component<IPageProps> {
     }
     private update(stateProp: keyof IPageProps['auth'], prop = 'value') {
         return e => {
-            console.log(e.target[prop]);
             this.setState(state => ({
                 ...state,
                 [stateProp]: e.target[prop],
@@ -90,7 +89,6 @@ export class LoginPageComponent extends Component<IPageProps> {
     }
     private submit() {
         if (this.state) {
-            console.log('logging in');
             this.props.api.logIn(this.state);
         } else {
             console.warn("can't login, no state");

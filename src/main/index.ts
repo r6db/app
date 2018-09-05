@@ -15,13 +15,13 @@ if (IS_PROD) {
     require('./server');
 }
 const DB_PATH = IS_PROD ? path.resolve(app.getPath('documents'), 'r6db/data.sqlite') : 'dev.sqlite';
+let domain;
 
 app.on('window-all-closed', () => {
     // Respect the OSX convention of having the application in memory even
     // after all windows have been closed
-    if (process.platform !== 'darwin') {
-        app.quit();
-    }
+    domain.destroy();
+    app.quit();
 });
 
 app.on('ready', async () => {
@@ -58,13 +58,12 @@ app.on('ready', async () => {
         y: mainWindowState.y + mainWindowState.height / 2 - 150,
     });
 
-    const domain = new Domain({
+    domain = new Domain({
         dbPath: DB_PATH,
         appWindow: mainWindow,
         appEmitter: ipcMain,
         loadingWindow,
         store,
     });
-
     domain.init();
 });

@@ -17,9 +17,12 @@ export interface IDomainOptions {
 
 export interface IDomainState {
     firstRun: boolean;
-    now: Date;
     routing: {
         page: 'login' | 'home';
+    };
+    user?: {
+        profileId: UUID;
+        name: string;
     };
     auth: {
         email: string;
