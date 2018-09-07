@@ -2,8 +2,7 @@
 
 # R6DB Desktop [![Build Status](https://travis-ci.org/r6db/app.svg?branch=master)](https://travis-ci.org/r6db/app)
 
-a rainbow six stat tracker app.  
-this is set up as monorepo. please check the readmes of the individual packages for more info.
+a rainbow six stat tracker app.
 
 ## feature ideas:
 
