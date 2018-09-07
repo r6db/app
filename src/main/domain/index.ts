@@ -54,6 +54,7 @@ export class Domain {
 
     public async init() {
         debug('init app');
+        // TODO: change port in DEV (for webpack-dev-server)
         this.loadingWindow.loadURL('http://localhost:2442/loading');
         this.loadingWindow.webContents.on('did-finish-load', () => this.loadingWindow.show());
 
@@ -65,6 +66,7 @@ export class Domain {
         debug('creating windows');
 
         // build querystring for app mounting
+        // TODO: change port in DEV (for webpack-dev-server)
         this.appWindow.loadURL(`http://localhost:2442/app`);
         this.appWindow.setTitle('R6DB');
         this.appWindow.webContents.on('did-finish-load', async () => {
@@ -78,6 +80,7 @@ export class Domain {
             }
         });
         // attach emitters
+        // TODO: accept both websocket and IPC
         Object.keys(listeners).map(key => {
             debug('attaching event', key);
             this.appEmitter.on(key, (event, arg) => {

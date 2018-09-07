@@ -82,6 +82,7 @@ module.exports = {
         hot: true,
         noInfo: true,
         lazy: false,
+        // TODO: switch port that we can pass /api to our actual server
         port: 2442,
         stats: 'errors-only',
         watchOptions: {

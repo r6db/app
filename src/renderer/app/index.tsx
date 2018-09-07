@@ -7,6 +7,8 @@ import './app.scss';
 
 const mount = document.querySelector('.mount');
 
+// TODO: use redux & routing instead of homebrew state
+
 // render our app
 function renderApp() {
     if (mount) {

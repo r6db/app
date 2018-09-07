@@ -12,3 +12,6 @@ app.use((serveStatic as any).default(path.resolve(__dirname, '..')));
 app.listen(2442, () => {
     debug('listening on port', 2442);
 });
+
+// TODO: implement rest-y JSON api
+// TODO: write socket listener
