@@ -12,6 +12,6 @@
             "shared/*": ["./src/shared/*"]
         }
     },
-    "files": ["src/main/index.ts", "src/main/repl.ts"],
+    "files": ["src/main/index.ts"],
     "include": ["./src/main/declarations.d.ts"]
 }

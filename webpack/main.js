@@ -9,6 +9,7 @@ const webpack = require('webpack');
 const nodeExternals = require('webpack-node-externals');
 const { CheckerPlugin } = require('awesome-typescript-loader');
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
+const HardSourceWebpackPlugin = require('hard-source-webpack-plugin');
 
 const dist = path.join(__dirname, '../build');
 
@@ -57,9 +58,11 @@ module.exports = {
                     {
                         loader: 'awesome-typescript-loader',
                         options: {
+                            silent: true,
                             configFileName: 'tsconfig.node.json',
                             useCache: true,
                             forceIsolatedModule: true,
+                            reportFiles: ['src/**/*.{ts,tsx}'],
                         },
                     },
                 ],
@@ -74,6 +77,9 @@ module.exports = {
                 NODE_ENV: JSON.stringify(process.env.NODE_ENV || 'development'),
                 VERSION: `"${process.env.VERSION}"`,
             },
+        }),
+        new HardSourceWebpackPlugin({
+            info: { mode: 'none', level: 'warn' },
         }),
         // new CheckerPlugin(),
     ],

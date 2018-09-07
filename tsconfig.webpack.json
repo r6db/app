@@ -10,5 +10,6 @@
             "renderer/*": ["./src/renderer/*"]
         }
     },
+    "files": ["src/renderer/app/index.tsx", "src/renderer/loading/index.ts"],
     "include": ["./src/renderer/declarations.d.ts"]
 }

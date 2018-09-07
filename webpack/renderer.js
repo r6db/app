@@ -30,6 +30,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const HtmlInlinePlugin = require('html-webpack-inline-source-plugin');
 const SpriteLoaderPlugin = require('svg-sprite-loader/plugin');
 const { CheckerPlugin } = require('awesome-typescript-loader');
+const HardSourceWebpackPlugin = require('hard-source-webpack-plugin');
 
 const MiniExtractPlugin = require('mini-css-extract-plugin');
 const autoprefixer = require('autoprefixer');
@@ -121,11 +122,13 @@ module.exports = {
                     {
                         loader: 'awesome-typescript-loader',
                         options: {
+                            silent: true,
                             configFileName: 'tsconfig.webpack.json',
                             useCache: true,
                             useBabel: true,
                             babelCore: '@babel/core',
                             forceIsolatedModule: true,
+                            reportFiles: ['src/**/*.{ts,tsx}'],
                         },
                     },
                 ],
@@ -223,6 +226,9 @@ module.exports = {
         }),
         new HtmlInlinePlugin(),
         new SpriteLoaderPlugin(),
+        new HardSourceWebpackPlugin({
+            info: { mode: 'none', level: 'warn' },
+        }),
         new CheckerPlugin(),
     ],
 };
