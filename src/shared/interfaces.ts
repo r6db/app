@@ -37,16 +37,16 @@ export interface ILoginOpts {
     email: string;
     password: string;
     rememberMail: boolean;
-    1;
     rememberPass: boolean;
 }
 
 // TODO: define message interfaces
 
-interface IBaseMessage {
+export interface IBaseMessage {
     type: string;
 }
 interface IDummyMessage extends IBaseMessage {
+    type: 'dummy';
     payload: any;
 }
 
