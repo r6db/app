@@ -1,3 +1,5 @@
+import * as React from 'react';
+
 export default function JsonOut(state) {
     const toLog = { ...state, auth: 'snip' };
     return (

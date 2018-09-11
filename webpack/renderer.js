@@ -24,7 +24,6 @@
  */
 const webpack = require('webpack');
 const path = require('path');
-const util = require('util');
 
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const HtmlInlinePlugin = require('html-webpack-inline-source-plugin');
@@ -67,14 +66,13 @@ module.exports = {
     resolve: {
         extensions: ['.ts', '.tsx', '.js', '.jsx'],
         alias: {
-            renderer: path.resolve(__dirname, '../src/renderer'),
             shared: path.resolve(__dirname, '../src/shared'),
-            components: path.join(__dirname, '../src/renderer/components'),
+            renderer: path.resolve(__dirname, '../src/renderer'),
             lib: path.join(__dirname, '../src/renderer/lib'),
-            assets: path.join(__dirname, '../src/assets'),
+            components: path.join(__dirname, '../src/renderer/components'),
+            assets: path.join(__dirname, '../src/renderer/assets'),
         },
     },
-    node: false,
     devServer: {
         host: 'localhost',
         compress: true,
@@ -137,13 +135,13 @@ module.exports = {
             {
                 test: /.svg$/,
                 use: [
-                    { loader: 'cache-loader' },
                     {
                         loader: 'svg-sprite-loader',
                         options: {
                             extract: true,
                         },
                     },
+                    'cache-loader',
                     {
                         loader: 'svgo-loader',
                         options: {

@@ -9,6 +9,7 @@
         "no-implicit-dependencies": [true, ["main", "renderer", "shared"]],
         "no-submodule-imports": false,
         "no-unused-variable": false,
+        "no-var-requires": false,
         "object-literal-sort-keys": false,
         "object-literal-key-quotes": false,
         "ordered-imports": false,

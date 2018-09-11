@@ -1,16 +1,9 @@
-import { Component } from 'inferno';
-import Layout from 'renderer/app/Layout';
-import { Page } from 'renderer/app/routes';
+import * as React from 'react';
 import { IPageProps } from '../interfaces';
 import JsonOut from './JsonOut';
 
-@Page('home')
-export class HomePageComponent extends Component<IPageProps> {
+export class HomePageComponent extends React.PureComponent<IPageProps> {
     render() {
-        return (
-            <Layout>
-                <JsonOut {...this.props} />
-            </Layout>
-        );
+        return <JsonOut {...this.props} />;
     }
 }

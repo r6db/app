@@ -1,7 +1,5 @@
 import './login.scss';
-import { Component } from 'inferno';
-import Layout from 'renderer/app/Layout';
-import { Page } from 'renderer/app/routes';
+import * as React from 'react';
 import { IPageProps } from '../interfaces';
 
 function FirstRunPopup() {
@@ -12,8 +10,7 @@ function FirstRunPopup() {
     );
 }
 
-@Page('login')
-export class LoginPageComponent extends Component<IPageProps> {
+export class LoginPageComponent extends React.Component<IPageProps> {
     state: IPageProps['auth'];
 
     constructor(props: IPageProps) {
@@ -22,61 +19,55 @@ export class LoginPageComponent extends Component<IPageProps> {
     }
     render() {
         if (!this.state) {
-            return (
-                <Layout menu={false}>
-                    return <div className="loginpage" />;
-                </Layout>
-            );
+            return <div className="loginpage" />;
         }
         return (
-            <Layout menu={false}>
-                <div className="loginpage">
-                    {this.props.firstRun ? <FirstRunPopup /> : null}
-                    <div className="loginpage__form">
-                        <p className="loginpage__component loginpage__component--mail">
-                            <label htmlFor="email">uplay email</label>
-                            <input
-                                id="email"
-                                value={this.state.email}
-                                type="text"
-                                onInput={this.update('email').bind(this)}
-                            />
-                        </p>
-                        <p className="loginpage__component loginpage__component--password">
-                            <label htmlFor="email">password</label>
-                            <input
-                                id="email"
-                                value={this.state.password}
-                                onInput={this.update('password').bind(this)}
-                                type="password"
-                            />
-                        </p>
-                        <p className="loginpage__component loginpage__component--inline loginpage__component--remembermail">
-                            <label htmlFor="email">remember email</label>
-                            <input
-                                id="email"
-                                checked={this.state.rememberMail}
-                                onChange={this.update('rememberMail', 'checked').bind(this)}
-                                type="checkbox"
-                            />
-                        </p>
-                        <p className="loginpage__component loginpage__component--inline loginpage__component--rememberpass">
-                            <label htmlFor="email">rememberpassword</label>
-                            <input
-                                id="email"
-                                checked={this.state.rememberPass}
-                                onChange={this.update('rememberPass', 'checked').bind(this)}
-                                type="checkbox"
-                            />
-                        </p>
-                        <p className="loginpage__component">
-                            <button className="loginpage__submit" onclick={() => this.submit()}>
-                                Log in
-                            </button>
-                        </p>
-                    </div>
+            <div className="loginpage">
+                {this.props.firstRun ? <FirstRunPopup /> : null}
+                <div className="loginpage__form">
+                    <p className="loginpage__component loginpage__component--mail">
+                        <label htmlFor="email">uplay email</label>
+                        <input
+                            id="email"
+                            value={this.state.email}
+                            type="text"
+                            onInput={this.update('email').bind(this)}
+                        />
+                    </p>
+                    <p className="loginpage__component loginpage__component--password">
+                        <label htmlFor="email">password</label>
+                        <input
+                            id="email"
+                            value={this.state.password}
+                            onInput={this.update('password').bind(this)}
+                            type="password"
+                        />
+                    </p>
+                    <p className="loginpage__component loginpage__component--inline loginpage__component--remembermail">
+                        <label htmlFor="email">remember email</label>
+                        <input
+                            id="email"
+                            checked={this.state.rememberMail}
+                            onChange={this.update('rememberMail', 'checked').bind(this)}
+                            type="checkbox"
+                        />
+                    </p>
+                    <p className="loginpage__component loginpage__component--inline loginpage__component--rememberpass">
+                        <label htmlFor="email">rememberpassword</label>
+                        <input
+                            id="email"
+                            checked={this.state.rememberPass}
+                            onChange={this.update('rememberPass', 'checked').bind(this)}
+                            type="checkbox"
+                        />
+                    </p>
+                    <p className="loginpage__component">
+                        <button className="loginpage__submit" onClick={() => this.submit()}>
+                            Log in
+                        </button>
+                    </p>
                 </div>
-            </Layout>
+            </div>
         );
     }
     private update(stateProp: keyof IPageProps['auth'], prop = 'value') {
