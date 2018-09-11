@@ -24,7 +24,7 @@
 
     &__content {
         flex: 1 1 33%;
-        background: $color-foreground;
+        // background: $color-foreground;
         color: $color-background;
     }
     &__info {
@@ -51,8 +51,7 @@
     &__form {
         width: 300px;
         input {
-            background: $color-foreground;
-            color: $color-background;
+            background: darken($color-foreground, 10%);
         }
         label {
             color: $color-gray;

@@ -2,8 +2,12 @@
 @import 'scss/forms';
 @import 'scss/vars';
 
+html,
 body {
-    background: $color-background;
+    background: rgba(0, 0, 0, 0);
+}
+
+body {
     color: $color-foreground;
 }
 

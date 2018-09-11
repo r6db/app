@@ -1,4 +1,3 @@
-import { BrowserWindow, IpcMain } from 'electron';
 import { delay } from 'bluebird';
 import produce from 'immer';
 import { IStore, IDomainOptions, IDomainState, ILoginOpts } from 'shared/interfaces';
@@ -12,18 +11,12 @@ const IS_PROD = process.env.NODE_ENV === 'production';
 
 export class Domain {
     private conn: any;
-    private loadingWindow: BrowserWindow;
-    private appWindow: BrowserWindow;
-    private appEmitter: IpcMain;
     private state: IDomainState;
     private store: IStore;
 
     constructor(opts: IDomainOptions) {
         this.conn = createConnection(opts.dbPath);
-        this.loadingWindow = opts.loadingWindow;
-        this.appWindow = opts.appWindow;
         this.store = opts.store;
-        this.appEmitter = opts.appEmitter;
         this.state = {
             firstRun: this.store.get<boolean, boolean>('firstRun', true),
             routing: {
@@ -47,48 +40,9 @@ export class Domain {
             this.login(this.state.auth);
         }
 
-        this.emit = this.emit.bind(this);
-        this.emitLoading = this.emitLoading.bind(this);
         this.updateState = this.updateState.bind(this);
     }
 
-    public async init() {
-        debug('init app');
-        // TODO: change port in DEV (for webpack-dev-server)
-        this.loadingWindow.loadURL('http://localhost:2442/loading');
-        this.loadingWindow.webContents.on('did-finish-load', () => this.loadingWindow.show());
-
-        this.emitLoading('loading_status', { message: 'Checking Database', isFinished: false });
-        await this.testDB();
-        debug('tests ok');
-        this.emitLoading('loading_status', { message: 'Loading App', isFinished: false });
-
-        debug('creating windows');
-
-        // build querystring for app mounting
-        // TODO: change port in DEV (for webpack-dev-server)
-        this.appWindow.loadURL(`http://localhost:2442`);
-        this.appWindow.setTitle('R6DB');
-        this.appWindow.webContents.on('did-finish-load', async () => {
-            this.emitLoading('loading_status', { message: 'Starting', isFinished: true });
-            this.emit('state', this.state);
-            // hardcode this until we sent a trigger from the app
-            this.loadingWindow.destroy();
-            this.appWindow.show();
-            if (!IS_PROD) {
-                this.appWindow.webContents.openDevTools();
-            }
-        });
-        // attach emitters
-        // TODO: accept both websocket and IPC
-        Object.keys(listeners).map(key => {
-            debug('attaching event', key);
-            this.appEmitter.on(key, (event, arg) => {
-                debug('received event', { event, arg });
-                listeners[key](this, arg);
-            });
-        });
-    }
     public async destroy() {
         if (!this.state.auth.rememberMail && !this.state.auth.rememberPass) {
             this.store.set('auth.token', '');
@@ -134,9 +88,7 @@ export class Domain {
      * and publish the changes to the app
      */
     public updateState(updater: (draft: IDomainState) => any) {
-        this.state = produce(this.state, updater, patches => {
-            this.emit('patch', patches);
-        });
+        this.state = produce(this.state, updater);
     }
 
     private async testDB() {
@@ -148,26 +100,6 @@ export class Domain {
         } catch (err) {
             debug('testing db', { successful: false, err });
             throw err;
-        }
-    }
-
-    /**
-     * emit an event to the app window
-     */
-    private emit(event, ...data: any[]) {
-        if (this.appWindow && !this.appWindow.isDestroyed()) {
-            debug('emit', event);
-            this.appWindow.webContents.send(event, ...data);
-        }
-    }
-
-    /**
-     * emit an event to the loading window
-     */
-    private emitLoading(event, ...data: any[]) {
-        if (this.loadingWindow && !this.loadingWindow.isDestroyed()) {
-            debug('emit to loading', event);
-            this.loadingWindow.webContents.send(event, ...data);
         }
     }
 }

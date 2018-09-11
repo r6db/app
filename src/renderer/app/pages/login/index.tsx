@@ -13,6 +13,8 @@ function FirstRunPopup() {
     );
 }
 
+console.log(img);
+
 interface ILoginpageState {
     firstRun: boolean;
     email: string;

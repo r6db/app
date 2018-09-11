@@ -28,8 +28,8 @@ const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const HtmlInlinePlugin = require('html-webpack-inline-source-plugin');
 const SpriteLoaderPlugin = require('svg-sprite-loader/plugin');
-const { CheckerPlugin } = require('awesome-typescript-loader');
 const HardSourceWebpackPlugin = require('hard-source-webpack-plugin');
+const { CheckerPlugin } = require('awesome-typescript-loader');
 
 const MiniExtractPlugin = require('mini-css-extract-plugin');
 const autoprefixer = require('autoprefixer');
@@ -82,14 +82,52 @@ module.exports = {
         lazy: false,
         // TODO: switch port that we can pass /api to our actual server
         port: 2442,
-        stats: 'errors-only',
         historyApiFallback: true,
         watchOptions: {
             aggregateTimeout: 100,
             poll: 500,
         },
+        proxy: {
+            '/api': {
+                target: 'http://localhost:2443', // check the ports main/index at createServer
+                secure: false,
+            },
+        },
     },
-    stats: 'errors-only',
+    stats: {
+        assets: true,
+        assetsSort: 'field',
+        builtAt: true,
+        cached: false,
+        cachedAssets: false,
+        children: true,
+        chunks: false,
+        chunkGroups: false,
+        chunkModules: true,
+        chunkOrigins: true,
+        chunksSort: 'field',
+        context: path.resolve(__dirname, '../src/'),
+        colors: true,
+        depth: false,
+        entrypoints: false,
+        env: true,
+        errors: true,
+        errorDetails: true,
+        hash: true,
+        maxModules: 5,
+        modules: true,
+        modulesSort: 'field',
+        moduleTrace: false,
+        performance: true,
+        providedExports: false,
+        publicPath: false,
+        reasons: true,
+        source: false,
+        timings: true,
+        usedExports: true,
+        version: false,
+        warnings: true,
+    },
     devtool: 'source-map',
     optimization: {
         removeEmptyChunks: true,
@@ -154,14 +192,13 @@ module.exports = {
             {
                 test: /\.(png|jpg)$/,
                 use: [
-                    { loader: 'cache-loader' },
                     {
                         loader: 'responsive-loader',
                         options: {
-                            sizes: [320, 640, 1200, 1600, 1920, 2440],
+                            sizes: [640, 1200, 1600, 1920],
                             placeholder: true,
                             placeholderSize: 40,
-                            quality: 85,
+                            quality: 90,
                             // adapter: require('responsive-loader/sharp'),
                         },
                     },

@@ -8,6 +8,7 @@ const path = require('path');
 const webpack = require('webpack');
 const nodeExternals = require('webpack-node-externals');
 const { CheckerPlugin } = require('awesome-typescript-loader');
+const CopyPlugin = require('copy-webpack-plugin');
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 const HardSourceWebpackPlugin = require('hard-source-webpack-plugin');
 
@@ -34,7 +35,40 @@ module.exports = {
         },
     },
     node: false,
-    stats: 'errors-only',
+    stats: {
+        assets: true,
+        assetsSort: 'field',
+        builtAt: true,
+        cached: false,
+        cachedAssets: false,
+        children: true,
+        chunks: false,
+        chunkGroups: false,
+        chunkModules: true,
+        chunkOrigins: true,
+        chunksSort: 'field',
+        context: path.resolve(__dirname, '../src/'),
+        colors: true,
+        depth: false,
+        entrypoints: false,
+        env: true,
+        errors: true,
+        errorDetails: true,
+        hash: false,
+        maxModules: 5,
+        modules: false,
+        modulesSort: 'field',
+        moduleTrace: false,
+        performance: true,
+        providedExports: false,
+        publicPath: false,
+        reasons: true,
+        source: false,
+        timings: true,
+        usedExports: false,
+        version: false,
+        warnings: true,
+    },
     devtool: 'inline-source-map',
     optimization: {
         minimizer: [
@@ -81,6 +115,7 @@ module.exports = {
         new HardSourceWebpackPlugin({
             info: { mode: 'none', level: 'warn' },
         }),
-        // new CheckerPlugin(),
+        new CopyPlugin([{ from: './src/main/logo.png', to: 'main/' }]),
+        new CheckerPlugin(),
     ],
 };

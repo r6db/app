@@ -9,9 +9,6 @@ export interface IStore {
 export interface IDomainOptions {
     // path to sqlite db
     dbPath: string;
-    appWindow: BrowserWindow;
-    appEmitter: IpcMain;
-    loadingWindow: BrowserWindow;
     store: IStore;
 }
 
