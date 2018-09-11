@@ -10,8 +10,8 @@
 .loading {
     width: 100vw;
     height: 100vh;
-    background: $background;
-    color: $foreground;
+    background: $color-background;
+    color: $color-foreground;
     position: relative;
     font-family: sans-serif;
     display: flex;
@@ -27,7 +27,7 @@
 
         path {
             stroke-width: 2px;
-            stroke: darken($foreground, 10%);
+            stroke: darken($color-foreground, 10%);
             animation: loading-rotate 5s linear infinite;
             shape-rendering: geometricPrecision;
         }
@@ -50,7 +50,7 @@
         stroke-opacity: 1;
     }
     100% {
-        fill: $foreground;
+        fill: $color-foreground;
         stroke-opacity: 0;
     }
 }

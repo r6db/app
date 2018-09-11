@@ -62,7 +62,7 @@ module.exports = {
         filename: '[name]/index.js',
         chunkFilename: '[name]/[chunkhash].js',
     },
-    target: 'electron-renderer',
+    target: 'web', // we use web, so that things like OBS can use this as browserSource
     resolve: {
         extensions: ['.ts', '.tsx', '.js', '.jsx'],
         alias: {
@@ -83,6 +83,7 @@ module.exports = {
         // TODO: switch port that we can pass /api to our actual server
         port: 2442,
         stats: 'errors-only',
+        historyApiFallback: true,
         watchOptions: {
             aggregateTimeout: 100,
             poll: 500,
@@ -214,7 +215,7 @@ module.exports = {
         new webpack.optimize.AggressiveMergingPlugin(),
         new HtmlWebpackPlugin({
             template: 'src/renderer/app/index.ejs',
-            filename: 'app/index.html',
+            filename: 'index.html',
             chunks: ['app'],
         }),
         new HtmlWebpackPlugin({

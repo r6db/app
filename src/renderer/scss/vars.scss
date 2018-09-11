@@ -1,8 +1,24 @@
-$primary: #007bff;
-$secondary: #17bebb;
-$accent: #ff6e09;
-$background: #383838;
-$foreground: #fafafa;
+$color-primary: #007bff;
+$color-secondary: #17bebb;
+$color-accent: #ff6e09;
+$color-white: #e4e5e7;
+$color-black: #080808;
+
+$color-gray: #6f7376;
+$color-gray-dark: darken($color-gray, 40%);
+$color-gray-light: lighten($color-gray, 30%);
+
+$color-error: #f71735;
+$color-warning: #f39237;
+$color-success: #2bc016;
+$color-info: #00557f;
+
+$color-pc: $color-accent;
+$color-ps4: #003791;
+$color-xbox: #108710;
+
+$color-background: #383838;
+$color-foreground: #fafafa;
 
 $br: 3px;
 
@@ -11,3 +27,4 @@ $screen-large: 1200px;
 
 @import 'fontscale';
 @import 'breakpoints';
+@import 'mixins';

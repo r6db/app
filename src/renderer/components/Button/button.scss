@@ -1,15 +1,15 @@
-@import 'scss/styles';
+@import 'scss/vars';
 
 .button {
     padding: 0.75em 1.25em;
     width: auto;
     border: 1px solid transparent;
-    border-radius: $borderradius;
+    border-radius: $br;
     @include boxshadow;
     text-align: center;
-    font-size: $font-default;
+    font-size: fz(0);
     font-weight: 600;
-    margin: 0.5em;
+    margin: 0;
     cursor: pointer;
     transition: all 100ms ease-in-out;
     position: relative;
@@ -46,11 +46,11 @@
         display: block;
     }
     &--small {
-        font-size: $font-small;
+        font-size: fz(-1);
         padding: 0.5em 0.75em;
     }
     &--large {
-        font-size: $font-big;
+        font-size: fz(1);
         padding: 1em 2em;
     }
     &--iconed {

@@ -67,7 +67,7 @@ export class Domain {
 
         // build querystring for app mounting
         // TODO: change port in DEV (for webpack-dev-server)
-        this.appWindow.loadURL(`http://localhost:2442/app`);
+        this.appWindow.loadURL(`http://localhost:2442`);
         this.appWindow.setTitle('R6DB');
         this.appWindow.webContents.on('did-finish-load', async () => {
             this.emitLoading('loading_status', { message: 'Starting', isFinished: true });

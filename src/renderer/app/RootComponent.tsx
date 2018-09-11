@@ -22,7 +22,7 @@ function Fragment(props) {
 class RootComponent extends React.PureComponent<any, any> {
     constructor(props) {
         super(props);
-        this.state = { error: null, locale: props.locale, messages: {} };
+        this.state = { error: null, locale: props.locale, messages: null };
     }
     loadLocale(locale: string) {
         console.log('attempting to load locale "%s"', locale);
@@ -66,10 +66,13 @@ class RootComponent extends React.PureComponent<any, any> {
                 </div>
             );
         }
+        if (!this.state.messages) {
+            return <div className="app" />;
+        }
         return (
             <IntlProvider locale={this.props.locale} messages={this.state.messages} textComponent={Fragment}>
                 <div className={'app ' + this.props.location}>
-                    <div className="app__menu" />
+                    <div className="app__menu">menu</div>
                     <div className="app__page">
                         <this.props.Component />
                     </div>
