@@ -9,7 +9,7 @@
         "start": "yarn build --mode development && yarn electron",
         "electron": "electron --inspect=5858 build/main/",
         "migration": "ts-node --project tsconfig.node.json ./node_modules/.bin/typeorm migration:generate -n NewMigration",
-        "dev": "npm-run-all -p watch:main watch:renderer",
+        "dev": "npm-run-all -l -p watch:main watch:renderer",
         "watch:main": "webpack --mode development --config webpack/main.js --watch",
         "watch:renderer": "webpack-dev-server --mode development --config webpack/renderer.js",
         "prebuild": "rimraf build",
