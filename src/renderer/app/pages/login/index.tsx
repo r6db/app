@@ -2,7 +2,8 @@ import './login.scss';
 import * as React from 'react';
 import { FormattedMessage } from 'react-intl';
 import Button from 'renderer/components/Button';
-import img from 'renderer/assets/backgrounds/parabellum1.jpg';
+import { maverick, clash } from './images';
+import { Spring, animated, config } from 'react-spring';
 import { IPageProps } from '../interfaces';
 
 function FirstRunPopup() {
@@ -13,19 +14,23 @@ function FirstRunPopup() {
     );
 }
 
-console.log(img);
-
 interface ILoginpageState {
+    images: any[];
+    currentImage: number;
     firstRun: boolean;
     email: string;
     password: string;
     rememberMail: boolean;
     rememberPass: boolean;
 }
-export class LoginPageComponent extends React.Component<IPageProps, ILoginpageState> {
+export class LoginPageComponent extends React.PureComponent<IPageProps, ILoginpageState> {
+    interval: any;
+
     constructor(props: IPageProps) {
         super(props);
         this.state = {
+            images: [clash, maverick],
+            currentImage: 0,
             firstRun: true,
             email: '',
             password: '',
@@ -37,6 +42,7 @@ export class LoginPageComponent extends React.Component<IPageProps, ILoginpageSt
         if (!this.state) {
             return <div className="loginpage" />;
         }
+        const img = this.state.images[this.state.currentImage];
         return (
             <div className="loginpage">
                 {this.props.firstRun ? <FirstRunPopup /> : null}
@@ -89,9 +95,27 @@ export class LoginPageComponent extends React.Component<IPageProps, ILoginpageSt
                     </div>
                 </div>
                 <div className="loginpage__info">
-                    <img src={img.src} srcSet={img.srcSet} className="loginpage__info__background" />
+                    <svg
+                        className="loginpage__info__background"
+                        viewBox={img.viewBox}
+                        preserveAspectRatio="xMinYMin slice"
+                        style={{ background: img.background }}
+                    >
+                        {img.image.map((path, i) => (
+                            <Spring key={i} native to={path} config={{ tension: 100, friction: 120 }}>
+                                {(styles: any) => (
+                                    <animated.path
+                                        key={i}
+                                        d={styles.d}
+                                        fill={styles.fill}
+                                        fillOpacity={styles.fillOpacity}
+                                    />
+                                )}
+                            </Spring>
+                        ))}
+                    </svg>
                     <div className="loginpage__infocontent">
-                        <em>This is not a stable product!</em>
+                        <em>This is under active development. Things *will* break!</em>
                     </div>
                 </div>
                 {this.state.firstRun ? (
@@ -121,6 +145,19 @@ export class LoginPageComponent extends React.Component<IPageProps, ILoginpageSt
                 )}
             </div>
         );
+    }
+
+    componentWillUnmount() {
+        clearInterval(this.interval);
+    }
+    componentDidMount() {
+        this.interval = setInterval(() => {
+            console.log('changing image');
+            this.setState(state => ({
+                ...state,
+                currentImage: (state.currentImage + 1) % state.images.length,
+            }));
+        }, 7000);
     }
 
     private closePopup() {

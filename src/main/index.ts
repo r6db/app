@@ -38,7 +38,7 @@ app.on('ready', async () => {
         y: mainWindowState.y,
 
         show: false,
-        vibrancy: 'dark',
+        vibrancy: 'appearance-based',
         icon: image,
     });
     mainWindowState.manage(mainWindow);
@@ -84,5 +84,4 @@ app.on('ready', async () => {
         staticFiles: IS_PROD,
         port: IS_PROD ? 2442 : 2443,
     });
-    domain.init();
 });
