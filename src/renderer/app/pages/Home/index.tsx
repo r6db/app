@@ -6,7 +6,7 @@ import JsonOut from './JsonOut';
 export class HomePageComponent extends React.Component {
     render() {
         return (
-            <Page name="homepage" backgroundFilter="blur(20px) contrast(0.5) brightness(0.5)">
+            <Page noAnimate name="homepage" backgroundFilter="blur(20px) contrast(0.5) brightness(0.5)">
                 <p className="loginpage__component">
                     <Link to={{ type: 'LOGIN' }}>Login</Link>
                 </p>

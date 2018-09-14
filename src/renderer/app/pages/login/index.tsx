@@ -9,8 +9,7 @@ import { clash, maverick } from 'renderer/assets/images';
 import { IPageProps } from 'renderer/app/pages/interfaces';
 
 interface ILoginpageState {
-    images: IPolyImage[];
-    currentImage: number;
+    currentImage: IPolyImage;
     firstRun: boolean;
     email: string;
     password: string;
@@ -18,14 +17,11 @@ interface ILoginpageState {
     rememberPass: boolean;
 }
 export class LoginPageComponent extends React.Component<IPageProps, ILoginpageState> {
-    interval: any;
-
     constructor(props) {
         super(props);
         this.state = {
-            images: [clash, maverick],
-            currentImage: 0,
-            firstRun: true,
+            currentImage: clash,
+            firstRun: false,
             email: '',
             password: '',
             rememberMail: false,
@@ -36,9 +32,8 @@ export class LoginPageComponent extends React.Component<IPageProps, ILoginpageSt
         if (!this.state) {
             return <div className="loginpage" />;
         }
-        const img = this.state.images[this.state.currentImage];
         return (
-            <Page name="loginpage" background={img} backgroundFilter="blur(15px)">
+            <Page name="loginpage" background={this.state.currentImage} backgroundFilter="blur(15px)">
                 <div className="loginpage__info">
                     <div className="loginpage__infocontent">
                         <em>This is under active development. Things *will* break!</em>
@@ -124,17 +119,13 @@ export class LoginPageComponent extends React.Component<IPageProps, ILoginpageSt
         );
     }
 
-    componentWillUnmount() {
-        clearInterval(this.interval);
-    }
     componentDidMount() {
-        this.interval = setInterval(() => {
-            console.log('changing image');
+        setTimeout(() => {
             this.setState(state => ({
                 ...state,
-                currentImage: (state.currentImage + 1) % state.images.length,
+                currentImage: maverick,
             }));
-        }, 7000);
+        }, 2000);
     }
 
     private closePopup() {

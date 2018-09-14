@@ -9,6 +9,7 @@ interface IPageComponentProps {
     name: string;
     backgroundFilter?: string;
     background?: IPolyImage;
+    noAnimate?: boolean;
 }
 
 class Page extends React.PureComponent<IPageComponentProps> {
@@ -30,18 +31,23 @@ class Page extends React.PureComponent<IPageComponentProps> {
                                 : Page.defaultFilter,
                     }}
                 >
-                    {bg.polys.map((path, i) => (
-                        <Spring key={i} native to={path} config={{ tension: 100, friction: 120 }}>
-                            {(styles: any) => (
-                                <animated.path
-                                    key={i}
-                                    d={styles.d}
-                                    fill={styles.fill}
-                                    fillOpacity={styles.fillOpacity}
-                                />
-                            )}
-                        </Spring>
-                    ))}
+                    {bg.polys.map(
+                        (path, i) =>
+                            this.props.noAnimate ? (
+                                <path key={i} d={path.d} fill={path.fill} fillOpacity={path.fillOpacity} />
+                            ) : (
+                                <Spring key={i} native to={path} config={{ tension: 100, friction: 120 }}>
+                                    {(styles: any) => (
+                                        <animated.path
+                                            key={i}
+                                            d={styles.d}
+                                            fill={styles.fill}
+                                            fillOpacity={styles.fillOpacity}
+                                        />
+                                    )}
+                                </Spring>
+                            ),
+                    )}
                 </svg>
                 <div className="page__content">{this.props.children}</div>
             </div>
