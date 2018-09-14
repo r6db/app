@@ -11,9 +11,7 @@ body {
     color: $color-foreground;
 }
 
-.app {
-    width: 100vw;
-    height: 100vh;
-    overflow: hidden;
-    position: relative;
+a {
+    color: $color-accent;
+    text-decoration: none;
 }

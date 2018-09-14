@@ -1,23 +1,15 @@
 @import 'scss/vars';
 
-.app.LOGIN {
-    grid-template-columns: 1fr;
-    .app__menu {
-        display: none;
-    }
-    .app__background {
-        opacity: 0;
-    }
-}
-.loginpage {
+.page.LOGIN {
     .page__background {
         left: -17vw;
     }
-    .page__content {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-    }
+}
+.loginpage {
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 
     &__content,
     &__info {

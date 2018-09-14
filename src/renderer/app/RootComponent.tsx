@@ -7,9 +7,10 @@ import { IntlProvider } from 'react-intl';
 import { languages } from 'renderer/lib/constants';
 
 import { HomePageComponent } from './pages/Home';
-import { LoginPageComponent } from './pages/Login';
+import LoginPageComponent from './pages/Login';
+import { Spring, animated } from 'react-spring';
 
-import hereford from 'renderer/assets/primitives/hereford.svg';
+import './page.scss';
 
 const pageMap = {
     HOME: HomePageComponent,
@@ -71,10 +72,40 @@ class RootComponent extends React.PureComponent<any, any> {
         if (!this.state.messages) {
             return <div className="app" />;
         }
+        const bg = this.props.background;
         return (
             <IntlProvider locale={this.props.locale} messages={this.state.messages} textComponent={Fragment}>
-                <div className={'app ' + this.props.location}>
-                    <this.props.Component key={'route'} />
+                <div className={`page ${this.props.location}`}>
+                    <svg
+                        className="page__background"
+                        viewBox={bg.image.viewBox}
+                        preserveAspectRatio="xMinYMin slice"
+                        style={{
+                            background: bg.image.background,
+                            filter: bg.filter,
+                        }}
+                    >
+                        {bg.image.polys.map(
+                            (path, i) =>
+                                bg.animate ? (
+                                    <Spring key={i} native to={path} config={bg.spring}>
+                                        {(styles: any) => (
+                                            <animated.path
+                                                key={i}
+                                                d={styles.d}
+                                                fill={styles.fill}
+                                                fillOpacity={styles.fillOpacity}
+                                            />
+                                        )}
+                                    </Spring>
+                                ) : (
+                                    <path key={i} d={path.d} fill={path.fill} fillOpacity={path.fillOpacity} />
+                                ),
+                        )}
+                    </svg>
+                    <div className="page__content">
+                        <this.props.Component key={'route'} />
+                    </div>
                 </div>
             </IntlProvider>
         );
@@ -82,12 +113,12 @@ class RootComponent extends React.PureComponent<any, any> {
 }
 
 function mapStateToProps(state) {
-    const { locale, location, loading } = state;
+    const { locale, location, background } = state;
     return {
         location: location.type,
         Component: pageMap[location.type],
-        loading,
         locale,
+        background,
     };
 }
 

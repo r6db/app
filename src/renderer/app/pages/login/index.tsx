@@ -2,25 +2,33 @@ import './login.scss';
 import * as React from 'react';
 import { FormattedMessage } from 'react-intl';
 import Link from 'redux-first-router-link';
-import Page from 'renderer/components/Page';
 import Button from 'renderer/components/Button';
 import { IPolyImage } from 'renderer/interfaces';
-import { clash, maverick } from 'renderer/assets/images';
+import { maverick } from 'renderer/assets/images';
+import { connect } from 'react-redux';
 import { IPageProps } from 'renderer/app/pages/interfaces';
+import { setBackground, ISetBackgroundAction } from 'renderer/app/store/actions/background';
+import { login, logout } from 'renderer/app/store/actions/auth';
+import { ILoginOpts } from 'shared/interfaces';
 
+interface ILoginpageProps {
+    setBackground(props: ISetBackgroundAction['payload']): any;
+    logIn(opts: ILoginOpts): any;
+    logOut(): any;
+}
 interface ILoginpageState {
-    currentImage: IPolyImage;
     firstRun: boolean;
     email: string;
     password: string;
     rememberMail: boolean;
     rememberPass: boolean;
 }
-export class LoginPageComponent extends React.Component<IPageProps, ILoginpageState> {
+class LoginPageComponent extends React.Component<ILoginpageProps, ILoginpageState> {
+    timeout: any;
+
     constructor(props) {
         super(props);
         this.state = {
-            currentImage: clash,
             firstRun: false,
             email: '',
             password: '',
@@ -33,7 +41,7 @@ export class LoginPageComponent extends React.Component<IPageProps, ILoginpageSt
             return <div className="loginpage" />;
         }
         return (
-            <Page name="loginpage" background={this.state.currentImage} backgroundFilter="blur(15px)">
+            <div className="loginpage">
                 <div className="loginpage__info">
                     <div className="loginpage__infocontent">
                         <em>This is under active development. Things *will* break!</em>
@@ -115,16 +123,19 @@ export class LoginPageComponent extends React.Component<IPageProps, ILoginpageSt
                 ) : (
                     false
                 )}
-            </Page>
+            </div>
         );
     }
 
+    componentWillUnmount() {
+        clearTimeout(this.timeout);
+    }
+
     componentDidMount() {
-        setTimeout(() => {
-            this.setState(state => ({
-                ...state,
-                currentImage: maverick,
-            }));
+        this.timeout = setTimeout(() => {
+            this.props.setBackground({
+                image: maverick,
+            });
         }, 2000);
     }
 
@@ -141,9 +152,30 @@ export class LoginPageComponent extends React.Component<IPageProps, ILoginpageSt
     }
     private submit() {
         if (this.state) {
-            this.props.api.logIn(this.state);
+            this.props.logIn(this.state);
         } else {
             console.warn("can't login, no state");
         }
     }
 }
+
+function mapStateToProps() {
+    return {};
+}
+function mapDispatchToProps(dispatch, _) {
+    return {
+        setBackground(config) {
+            dispatch(setBackground(config));
+        },
+        logIn(opts: ILoginOpts) {
+            dispatch(login(opts));
+        },
+        logOut() {
+            dispatch(logout());
+        },
+    };
+}
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps,
+)(LoginPageComponent);
