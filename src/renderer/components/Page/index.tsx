@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { hot } from 'react-hot-loader';
 import { IPolyImage } from 'renderer/interfaces';
-import { clash } from 'renderer/assets/images';
+import { hereford } from 'renderer/assets/images';
 import { Spring, animated } from 'react-spring';
 import './page.scss';
 
@@ -13,7 +13,7 @@ interface IPageComponentProps {
 
 class Page extends React.PureComponent<IPageComponentProps> {
     static defaultFilter = 'blur(30px)';
-    static defaultImage = clash;
+    static defaultImage = hereford;
     render() {
         const bg = this.props.background || Page.defaultImage;
         return (
