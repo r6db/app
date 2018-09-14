@@ -14,19 +14,6 @@ body {
 .app {
     width: 100vw;
     height: 100vh;
-
-    display: grid;
-    grid-template-columns: 5rem 1fr;
-
-    &--nomenu {
-        grid-template-columns: 1fr;
-    }
-    &__menu {
-        grid-area: menu;
-        height: 100%;
-    }
-}
-
-code {
-    font-size: fz(1);
+    overflow: hidden;
+    position: relative;
 }

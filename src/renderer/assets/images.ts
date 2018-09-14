@@ -1,8 +1,12 @@
+export const none = {
+    background: 'rgba(0, 0, 0, 0)',
+    viewBox: '0 0 0 0',
+    polys: [],
+};
 export const maverick = {
-    id: 'maverick',
     background: 'rgb(107, 112, 112)',
     viewBox: '0 0 192 256',
-    image: [
+    polys: [
         { d: 'M91,-36L166,195L306,105Z', fill: 'rgb(185, 193, 186)', fillOpacity: 0.91 },
         { d: 'M28,144L126,-10L-67,49Z', fill: 'rgb(166, 178, 192)', fillOpacity: 0.9 },
         { d: 'M60,79L-290,1091L161,96Z', fill: 'rgb(12, 3, 0)', fillOpacity: 0.49 },
@@ -263,10 +267,9 @@ export const maverick = {
 };
 
 export const clash = {
-    id: 'clash',
     background: 'rgb(81, 85, 83)',
     viewBox: '0 0 212 256',
-    image: [
+    polys: [
         { d: 'M232,4L81,-30L187,210Z', fill: 'rgb(162, 159, 149)', fillOpacity: 0.86 },
         { d: 'M162,170L143,219L145,164Z', fill: 'rgb(186, 147, 114)', fillOpacity: 0.86 },
         { d: 'M68,142L73,68L23,105Z', fill: 'rgb(146, 145, 135)', fillOpacity: 0.92 },

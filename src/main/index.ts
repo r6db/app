@@ -38,7 +38,7 @@ app.on('ready', async () => {
         y: mainWindowState.y,
 
         show: false,
-        vibrancy: 'appearance-based',
+        vibrancy: 'dark',
         icon: image,
     });
     mainWindowState.manage(mainWindow);

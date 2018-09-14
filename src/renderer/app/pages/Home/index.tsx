@@ -1,9 +1,18 @@
 import * as React from 'react';
-import { IPageProps } from '../interfaces';
+import Link from 'redux-first-router-link';
+import Page from 'renderer/components/Page';
+import { clash } from 'renderer/assets/images';
 import JsonOut from './JsonOut';
 
-export class HomePageComponent extends React.PureComponent<IPageProps> {
+export class HomePageComponent extends React.Component {
     render() {
-        return <JsonOut {...this.props} />;
+        return (
+            <Page name="homepage" backgroundFilter="blur(30px)" background={clash}>
+                <p className="loginpage__component">
+                    <Link to={{ type: 'LOGIN' }}>Login</Link>
+                </p>
+                <JsonOut {...this.props} />
+            </Page>
+        );
     }
 }

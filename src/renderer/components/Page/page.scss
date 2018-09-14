@@ -1,0 +1,16 @@
+.page {
+    &__content {
+        position: relative;
+        height: 100vh;
+        width: 100vw;
+    }
+    &__background {
+        position: absolute;
+        width: 100vw;
+        height: 100vh;
+        z-index: 0;
+        transform-origin: center center;
+        transform: scale(1.1);
+        transition: opacity 100ms ease-out, transform 100ms ease-out, filter 100ms ease-out;
+    }
+}

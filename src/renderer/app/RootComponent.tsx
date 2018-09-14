@@ -9,6 +9,8 @@ import { languages } from 'renderer/lib/constants';
 import { HomePageComponent } from './pages/Home';
 import { LoginPageComponent } from './pages/Login';
 
+import hereford from 'renderer/assets/primitives/hereford.svg';
+
 const pageMap = {
     HOME: HomePageComponent,
     LOGIN: LoginPageComponent,
@@ -72,10 +74,7 @@ class RootComponent extends React.PureComponent<any, any> {
         return (
             <IntlProvider locale={this.props.locale} messages={this.state.messages} textComponent={Fragment}>
                 <div className={'app ' + this.props.location}>
-                    <div className="app__menu">menu</div>
-                    <div className="app__page">
-                        <this.props.Component />
-                    </div>
+                    <this.props.Component key={'route'} />
                 </div>
             </IntlProvider>
         );

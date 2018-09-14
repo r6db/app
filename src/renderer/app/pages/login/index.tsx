@@ -1,21 +1,15 @@
 import './login.scss';
 import * as React from 'react';
 import { FormattedMessage } from 'react-intl';
+import Link from 'redux-first-router-link';
+import Page from 'renderer/components/Page';
 import Button from 'renderer/components/Button';
-import { maverick, clash } from './images';
-import { Spring, animated, config } from 'react-spring';
-import { IPageProps } from '../interfaces';
-
-function FirstRunPopup() {
-    return (
-        <div className="dialog">
-            <p>Welcome :)</p>
-        </div>
-    );
-}
+import { IPolyImage } from 'renderer/interfaces';
+import { clash, maverick } from 'renderer/assets/images';
+import { IPageProps } from 'renderer/app/pages/interfaces';
 
 interface ILoginpageState {
-    images: any[];
+    images: IPolyImage[];
     currentImage: number;
     firstRun: boolean;
     email: string;
@@ -23,10 +17,10 @@ interface ILoginpageState {
     rememberMail: boolean;
     rememberPass: boolean;
 }
-export class LoginPageComponent extends React.PureComponent<IPageProps, ILoginpageState> {
+export class LoginPageComponent extends React.Component<IPageProps, ILoginpageState> {
     interval: any;
 
-    constructor(props: IPageProps) {
+    constructor(props) {
         super(props);
         this.state = {
             images: [clash, maverick],
@@ -44,8 +38,12 @@ export class LoginPageComponent extends React.PureComponent<IPageProps, ILoginpa
         }
         const img = this.state.images[this.state.currentImage];
         return (
-            <div className="loginpage">
-                {this.props.firstRun ? <FirstRunPopup /> : null}
+            <Page name="loginpage" background={img} backgroundFilter="blur(15px)">
+                <div className="loginpage__info">
+                    <div className="loginpage__infocontent">
+                        <em>This is under active development. Things *will* break!</em>
+                    </div>
+                </div>
                 <div className="loginpage__content">
                     <div className="loginpage__form">
                         <p className="loginpage__component loginpage__component--mail">
@@ -76,7 +74,7 @@ export class LoginPageComponent extends React.PureComponent<IPageProps, ILoginpa
                             />
                         </p>
                         <p className="loginpage__component loginpage__component--inline loginpage__component--rememberpass">
-                            <label htmlFor="email">rememberpassword</label>
+                            <label htmlFor="email">remember password</label>
                             <input
                                 id="email"
                                 checked={this.state.rememberPass}
@@ -92,30 +90,9 @@ export class LoginPageComponent extends React.PureComponent<IPageProps, ILoginpa
                                 label={<FormattedMessage id="login" />}
                             />
                         </p>
-                    </div>
-                </div>
-                <div className="loginpage__info">
-                    <svg
-                        className="loginpage__info__background"
-                        viewBox={img.viewBox}
-                        preserveAspectRatio="xMinYMin slice"
-                        style={{ background: img.background }}
-                    >
-                        {img.image.map((path, i) => (
-                            <Spring key={i} native to={path} config={{ tension: 100, friction: 120 }}>
-                                {(styles: any) => (
-                                    <animated.path
-                                        key={i}
-                                        d={styles.d}
-                                        fill={styles.fill}
-                                        fillOpacity={styles.fillOpacity}
-                                    />
-                                )}
-                            </Spring>
-                        ))}
-                    </svg>
-                    <div className="loginpage__infocontent">
-                        <em>This is under active development. Things *will* break!</em>
+                        <p className="loginpage__component">
+                            <Link to={{ type: 'HOME' }}>Home</Link>
+                        </p>
                     </div>
                 </div>
                 {this.state.firstRun ? (
@@ -143,7 +120,7 @@ export class LoginPageComponent extends React.PureComponent<IPageProps, ILoginpa
                 ) : (
                     false
                 )}
-            </div>
+            </Page>
         );
     }
 
