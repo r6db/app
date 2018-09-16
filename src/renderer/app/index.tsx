@@ -8,9 +8,6 @@ import RootComponent from './RootComponent';
 import configureStore from './store';
 import './app.scss';
 
-// import fonts
-import 'renderer/assets/fonts/OpenSans.scss';
-
 // TODO: use redux & routing instead of homebrew state
 
 const history = createHistory();

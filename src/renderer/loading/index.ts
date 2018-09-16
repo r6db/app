@@ -3,7 +3,6 @@
  * maybe a floating loading page? dunno. this is just for testing seperate 'windows' right now
  */
 import './loading.scss';
-import 'renderer/assets/fonts/OpenSans.scss';
 
 const el = document.querySelector('.loading__text');
 const svg = document.querySelector('.loading__logo');

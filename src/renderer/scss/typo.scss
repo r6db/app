@@ -3,7 +3,7 @@
     font-weight: 300;
     font-style: normal;
     font-stretch: normal;
-    src: url('./OpenSans/OpenSans-Light.woff2') format('woff2');
+    src: url('../assets/fonts/OpenSans/OpenSans-Light.woff2') format('woff2');
 }
 
 @font-face {
@@ -11,14 +11,14 @@
     font-weight: 300;
     font-style: italic;
     font-stretch: normal;
-    src: url('./OpenSans/OpenSans-LightItalic.woff2') format('woff2');
+    src: url('../assets/fonts/OpenSans/OpenSans-LightItalic.woff2') format('woff2');
 }
 @font-face {
     font-family: 'Open Sans';
     font-weight: 400;
     font-style: normal;
     font-stretch: normal;
-    src: url('./OpenSans/OpenSans-Regular.woff2') format('woff2');
+    src: url('../assets/fonts/OpenSans/OpenSans-Regular.woff2') format('woff2');
 }
 
 @font-face {
@@ -26,7 +26,7 @@
     font-weight: 600;
     font-style: normal;
     font-stretch: normal;
-    src: url('./OpenSans/OpenSans-SemiBold.woff2') format('woff2');
+    src: url('../assets/fonts/OpenSans/OpenSans-SemiBold.woff2') format('woff2');
 }
 
 @font-face {
@@ -34,7 +34,7 @@
     font-weight: 600;
     font-style: italic;
     font-stretch: normal;
-    src: url('./OpenSans/OpenSans-SemiBoldItalic.woff2') format('woff2');
+    src: url('../assets/fonts/OpenSans/OpenSans-SemiBoldItalic.woff2') format('woff2');
 }
 
 @font-face {
@@ -42,7 +42,7 @@
     font-weight: 700;
     font-style: normal;
     font-stretch: normal;
-    src: url('./OpenSans/OpenSans-Bold.woff2') format('woff2');
+    src: url('../assets/fonts/OpenSans/OpenSans-Bold.woff2') format('woff2');
 }
 
 @font-face {
@@ -50,7 +50,7 @@
     font-weight: 700;
     font-style: italic;
     font-stretch: normal;
-    src: url('./OpenSans/OpenSans-BoldItalic.woff2') format('woff2');
+    src: url('../assets/fonts/OpenSans/OpenSans-BoldItalic.woff2') format('woff2');
 }
 
 @font-face {
@@ -58,7 +58,7 @@
     font-weight: 800;
     font-style: normal;
     font-stretch: normal;
-    src: url('./OpenSans/OpenSans-ExtraBold.woff2') format('woff2');
+    src: url('../assets/fonts/OpenSans/OpenSans-ExtraBold.woff2') format('woff2');
 }
 
 @font-face {
@@ -66,5 +66,5 @@
     font-weight: 800;
     font-style: italic;
     font-stretch: normal;
-    src: url('./OpenSans/OpenSans-ExtraBoldItalic.woff2') format('woff2');
+    src: url('../assets/fonts/OpenSans/OpenSans-ExtraBoldItalic.woff2') format('woff2');
 }
