@@ -53,8 +53,8 @@ app.on('ready', async () => {
         frame: false,
         alwaysOnTop: true,
         show: false,
-        x: mainWindowState.x + mainWindowState.width / 2 - 150,
-        y: mainWindowState.y + mainWindowState.height / 2 - 150,
+        x: 150 + mainWindowState.x + mainWindowState.width / 2,
+        y: 150 + mainWindowState.y + mainWindowState.height / 2,
     });
 
     domain = new Domain({

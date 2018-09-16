@@ -59,7 +59,6 @@ class RootComponent extends React.PureComponent<any, any> {
     }
     render() {
         if (this.state.error) {
-            // You can render any custom fallback UI
             return (
                 <div className="app">
                     <h1>An error occurred.</h1>
@@ -79,7 +78,7 @@ class RootComponent extends React.PureComponent<any, any> {
                     <svg
                         className="page__background"
                         viewBox={bg.image.viewBox}
-                        preserveAspectRatio="xMinYMin slice"
+                        preserveAspectRatio="xMidYMin slice"
                         style={{
                             background: bg.image.background,
                             filter: bg.filter,
