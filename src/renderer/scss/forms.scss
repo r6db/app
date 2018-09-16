@@ -13,7 +13,6 @@ input {
     box-shadow: none;
     font-size: fz(0);
     font-weight: 600;
-    font-family: 'Open Sans', sans-serif;
     letter-spacing: 0.025em;
 
     @include hover-focus-active {
