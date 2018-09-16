@@ -1,6 +1,10 @@
 @import 'scss/vars';
 
 .page.LOGIN {
+    .page__navigation {
+        display: none;
+        visibility: hidden;
+    }
     .page__background {
         left: 0;
         transform: scale(1.3);

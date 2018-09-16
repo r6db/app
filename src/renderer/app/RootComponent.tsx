@@ -10,6 +10,8 @@ import { HomePageComponent } from './pages/Home';
 import LoginPageComponent from './pages/Login';
 import { Spring, animated } from 'react-spring';
 
+import Sidebar from 'renderer/components/Sidebar';
+
 import './page.scss';
 
 const pageMap = {
@@ -102,6 +104,9 @@ class RootComponent extends React.PureComponent<any, any> {
                                 ),
                         )}
                     </svg>
+                    <div className="page__navigation">
+                        <Sidebar key={'route'} />
+                    </div>
                     <div className="page__content">
                         <this.props.Component key={'route'} />
                     </div>

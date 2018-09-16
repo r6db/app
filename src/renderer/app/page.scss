@@ -1,14 +1,21 @@
 .page {
+    display: flex;
     width: 100vw;
     height: 100vh;
     overflow: hidden;
     position: relative;
 
+    &__navigation {
+        position: relative;
+        z-index: 5;
+    }
+
     &__content {
         position: relative;
-        height: 100vh;
-        width: 100vw;
+        flex: 1;
+        z-index: 1;
     }
+
     &__background {
         position: absolute;
         width: 100vw;

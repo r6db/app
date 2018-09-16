@@ -20,6 +20,9 @@ $color-xbox: #108710;
 $color-background: #181b1f;
 $color-foreground: #fafafa;
 
+$color-divider-light: rgba($color-foreground, 0.1);
+$color-divider-dark: rgba($color-background, 0.1);
+
 $br: 3px;
 
 $screen-medium: 800px;
