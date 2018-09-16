@@ -33,6 +33,7 @@
         "electron-store": "^2.0.0",
         "electron-window-state": "^4.1.1",
         "express": "^4.16.3",
+        "feather-icons": "^4.7.3",
         "history": "^4.7.2",
         "immer": "^1.6.0",
         "lodash": "^4.17.10",

@@ -12,6 +12,12 @@ input {
     border: none;
     box-shadow: none;
     font-size: fz(0);
+    font-weight: 500;
+    letter-spacing: 0.025em;
+
+    @include hover-focus-active {
+        outline: none;
+    }
 }
 
 input[type='checkbox'] {

@@ -1,0 +1,6 @@
+@mixin ease-in-out($property, $duration) {
+    transition-property: $property;
+    transition-duration: $duration;
+    transition-timing-function: ease-in-out;
+    transform-style: preserve-3d;
+}

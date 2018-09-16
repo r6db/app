@@ -55,6 +55,14 @@
     }
 }
 
+@mixin hover-focus-active {
+    &:hover,
+    &:focus,
+    &:active {
+        @content;
+    }
+}
+
 @mixin milky($amnt: 10px) {
     position: relative;
     overflow: hidden;

@@ -22,7 +22,21 @@
 
     &__content {
         flex: 1 1 33%;
-        background: $color-background;
+        background: rgba($color-background, 0.9);
+    }
+    &__welcome {
+        display: flex;
+        flex-direction: column;
+        color: rgba($color-white, 0.75);
+        font-size: fz(-1);
+        line-height: 1.5;
+        margin: 1.5em 0;
+
+        &--header {
+            font-size: fz(2);
+            margin-bottom: 0.5em;
+            color: $color-white;
+        }
     }
     &__info {
         flex: 1 1 66%;
@@ -49,30 +63,80 @@
 
     &__form {
         width: 300px;
-        input {
-            background: darken($color-foreground, 10%);
-        }
+
         label {
-            color: $color-gray;
+            display: inline-block;
+            flex: 1 1 auto;
+            font-size: fz(0);
+            @include ease-in-out(color, 200ms);
+
+            @include hover-focus-active {
+                color: $color-white;
+            }
         }
 
         .button {
-            float: right;
-            margin: 1em 0;
+            flex: 1;
+        }
+    }
+    &__textbox {
+        display: flex;
+        position: relative;
+        align-items: center;
+
+        input {
+            padding-left: 3.5em;
+            margin: 0;
+            background: rgba($color-white, 0.1);
+            color: $color-white;
+            @include boxshadow;
+            @include ease-in-out(all, 200ms);
+
+            &::placeholder {
+                @include ease-in-out(color, 200ms);
+            }
+
+            &:valid {
+                border-color: $color-white;
+                & + .icon {
+                    color: $color-white;
+                }
+            }
+            @include hover-focus-active {
+                color: $color-white;
+                border-color: $color-white;
+
+                & + .icon {
+                    color: $color-white;
+                }
+
+                &::placeholder {
+                    color: darken($color-white, 2%);
+                }
+            }
+        }
+
+        &--icon {
+            position: absolute;
+            left: 1em;
+            width: 1.2em;
+            color: rgba($color-white, 0.5);
+
+            @include ease-in-out(color, 200ms);
         }
     }
     &__component {
+        display: flex;
+        padding: 0.5em 0;
         &--inline {
-            display: flex;
-
-            label {
-                display: inline-block;
-                flex: 1 1 auto;
-            }
             input {
                 flex: 0 0 auto;
             }
         }
+    }
+
+    &__logo {
+        width: 125px;
     }
 
     &__popup {

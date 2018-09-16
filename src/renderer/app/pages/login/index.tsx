@@ -2,6 +2,7 @@ import './login.scss';
 import * as React from 'react';
 import { FormattedMessage } from 'react-intl';
 import Link from 'redux-first-router-link';
+import Icon from 'renderer/components/Icon';
 import Button from 'renderer/components/Button';
 import { IPolyImage } from 'renderer/interfaces';
 import { maverick } from 'renderer/assets/images';
@@ -10,6 +11,10 @@ import { IPageProps } from 'renderer/app/pages/interfaces';
 import { setBackground, ISetBackgroundAction } from 'renderer/app/store/actions/background';
 import { login, logout } from 'renderer/app/store/actions/auth';
 import { ILoginOpts } from 'shared/interfaces';
+
+import LOGO from 'renderer/assets/logo.svg';
+import MAIL from 'feather-icons/dist/icons/mail.svg';
+import LOCK from 'feather-icons/dist/icons/lock.svg';
 
 interface ILoginpageProps {
     setBackground(props: ISetBackgroundAction['payload']): any;
@@ -40,44 +45,44 @@ class LoginPageComponent extends React.Component<ILoginpageProps, ILoginpageStat
         }
         return (
             <div className="loginpage">
-                <div className="loginpage__info">
-                    <div className="loginpage__infocontent">
-                        <em>This is under active development. Things *will* break!</em>
-                    </div>
-                </div>
                 <div className="loginpage__content">
                     <div className="loginpage__form">
-                        <p className="loginpage__component loginpage__component--mail">
-                            <label htmlFor="email">uplay email</label>
+                        <Icon className="loginpage__logo" glyph={LOGO} />
+                        <div className="loginpage__welcome">
+                            <div className="loginpage__welcome--header">Let's get started!</div>
+                            <span>
+                                Please enter your Ubisoft credientials down below.{' '}
+                                <a href="#" onClick={() => this.openPopup()}>
+                                    Why do you need my login data?
+                                </a>
+                            </span>
+                        </div>
+                        <p className="loginpage__component loginpage__textbox loginpage__component--mail">
                             <input
                                 id="email"
                                 value={this.state.email}
                                 type="text"
                                 onChange={e => this.update('email', e.target.value)}
+                                placeholder="Email"
+                                required
                             />
+                            <Icon className="loginpage__textbox--icon" glyph={MAIL} />
                         </p>
-                        <p className="loginpage__component loginpage__component--password">
-                            <label htmlFor="email">password</label>
+                        <p className="loginpage__component loginpage__textbox loginpage__component--password">
                             <input
                                 id="email"
                                 value={this.state.password}
                                 onChange={e => this.update('password', e.target.value)}
                                 type="password"
+                                placeholder="Password"
+                                required
                             />
-                        </p>
-                        <p className="loginpage__component loginpage__component--inline loginpage__component--remembermail">
-                            <label htmlFor="email">remember email</label>
-                            <input
-                                id="email"
-                                checked={this.state.rememberMail}
-                                onChange={e => this.update('rememberMail', (e.target as any).checked)}
-                                type="checkbox"
-                            />
+                            <Icon className="loginpage__textbox--icon" glyph={LOCK} />
                         </p>
                         <p className="loginpage__component loginpage__component--inline loginpage__component--rememberpass">
-                            <label htmlFor="email">remember password</label>
+                            <label htmlFor="rememberPass">Remember Me</label>
                             <input
-                                id="email"
+                                id="rememberPass"
                                 checked={this.state.rememberPass}
                                 onChange={e => this.update('rememberPass', (e.target as any).checked)}
                                 type="checkbox"
@@ -91,9 +96,12 @@ class LoginPageComponent extends React.Component<ILoginpageProps, ILoginpageStat
                                 label={<FormattedMessage id="login" />}
                             />
                         </p>
-                        <p className="loginpage__component">
-                            <Link to={{ type: 'HOME' }}>Home</Link>
-                        </p>
+                    </div>
+                </div>
+                <div className="loginpage__info">
+                    <div className="loginpage__infocontent">
+                        <em>This is under active development. Things *will* break!</em>
+                        <Link to={{ type: 'HOME' }}>Home</Link>
                     </div>
                 </div>
                 {this.state.firstRun ? (
@@ -123,6 +131,12 @@ class LoginPageComponent extends React.Component<ILoginpageProps, ILoginpageStat
                 )}
             </div>
         );
+    }
+
+    private openPopup() {
+        this.setState({
+            firstRun: true,
+        });
     }
 
     private closePopup() {
