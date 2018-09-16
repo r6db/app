@@ -1,6 +1,6 @@
 **this project is in it's initial phases, so please keep any cool ideas or formatting fixes for yourself until we hit a stable version**
 
-# R6DB Desktop [![Build Status](https://travis-ci.org/r6db/app.svg?branch=master)](https://travis-ci.org/r6db/app)
+# R6DB Desktop [![Build Status](https://dev.azure.com/R6DB/app/_apis/build/status/r6db.app)](https://dev.azure.com/R6DB/app/_build/latest?definitionId=2)
 
 a rainbow six stat tracker app.
 
