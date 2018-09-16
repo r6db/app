@@ -24,8 +24,6 @@ interface ILoginpageState {
     rememberPass: boolean;
 }
 class LoginPageComponent extends React.Component<ILoginpageProps, ILoginpageState> {
-    timeout: any;
-
     constructor(props) {
         super(props);
         this.state = {
@@ -125,18 +123,6 @@ class LoginPageComponent extends React.Component<ILoginpageProps, ILoginpageStat
                 )}
             </div>
         );
-    }
-
-    componentWillUnmount() {
-        clearTimeout(this.timeout);
-    }
-
-    componentDidMount() {
-        this.timeout = setTimeout(() => {
-            this.props.setBackground({
-                image: maverick,
-            });
-        }, 2000);
     }
 
     private closePopup() {

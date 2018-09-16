@@ -12,7 +12,7 @@ export default {
                 setBackground({
                     animate: true,
                     image: hereford,
-                    filter: 'blur(30px) contrast(0.5) brightness(0.5)',
+                    filter: 'blur(2vw) contrast(0.5) brightness(0.5)',
                     spring: defaultSpring,
                 }),
             );
@@ -25,7 +25,7 @@ export default {
                 setBackground({
                     animate: true,
                     image: clash,
-                    filter: 'blur(20px)',
+                    filter: 'blur(1vw)',
                     spring: { tension: 1, friction: 10 },
                 }),
             );
