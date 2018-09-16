@@ -8,6 +8,6 @@ steps:
   displayName: 'Install Node.js'
 
 - script: |
-    yarn
-    yarn run build
-  displayName: 'yarn install and build'
+    npm install
+    npm run build
+  displayName: 'npm install and build'
