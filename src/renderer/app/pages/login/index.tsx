@@ -50,12 +50,7 @@ class LoginPageComponent extends React.Component<ILoginpageProps, ILoginpageStat
                         <Icon className="loginpage__logo" glyph={LOGO} />
                         <div className="loginpage__welcome">
                             <div className="loginpage__welcome--header">Let's get started!</div>
-                            <span>
-                                Please enter your Ubisoft credientials down below.{' '}
-                                <a href="#" onClick={() => this.openPopup()}>
-                                    Why do you need my login data?
-                                </a>
-                            </span>
+                            <span>Please enter your Ubisoft credientials down below.</span>
                         </div>
                         <p className="loginpage__component loginpage__textbox loginpage__component--mail">
                             <input
@@ -95,6 +90,11 @@ class LoginPageComponent extends React.Component<ILoginpageProps, ILoginpageStat
                                 role="primary"
                                 label={<FormattedMessage id="login" />}
                             />
+                        </p>
+                        <p className="loginpage__component loginpage__component--links">
+                            <a href="#" onClick={() => this.openPopup()}>
+                                Why do you need my login data?
+                            </a>
                         </p>
                     </div>
                 </div>
