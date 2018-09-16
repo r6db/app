@@ -100,7 +100,7 @@ class LoginPageComponent extends React.Component<ILoginpageProps, ILoginpageStat
                 </div>
                 <div className="loginpage__info">
                     <div className="loginpage__infocontent">
-                        <em>This is under active development. Things *will* break!</em>
+                        <em>This is under active development. Things *will* break!</em>{' '}
                         <Link to={{ type: 'HOME' }}>Home</Link>
                     </div>
                 </div>
