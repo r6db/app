@@ -1,6 +1,6 @@
 import './login.scss';
 import * as React from 'react';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage, FormattedHTMLMessage } from 'react-intl';
 import Link from 'redux-first-router-link';
 import Icon from 'renderer/components/Icon';
 import Button from 'renderer/components/Button';
@@ -13,6 +13,7 @@ import { login, logout } from 'renderer/app/store/actions/auth';
 import { ILoginOpts } from 'shared/interfaces';
 
 import LOGO from 'renderer/assets/logo.svg';
+import ALERT from 'renderer/assets/icons/alert.svg';
 import MAIL from 'feather-icons/dist/icons/mail.svg';
 import LOCK from 'feather-icons/dist/icons/lock.svg';
 import { hot } from 'react-hot-loader';
@@ -50,33 +51,47 @@ class LoginPage extends React.Component<ILoginpageProps, ILoginpageState> {
                     <div className="loginpage__form">
                         <Icon className="loginpage__logo" glyph={LOGO} />
                         <div className="loginpage__welcome">
-                            <div className="loginpage__welcome--header">Let's get started!</div>
-                            <span>Please enter your Ubisoft credientials down below.</span>
+                            <div className="loginpage__welcome--header">
+                                <FormattedMessage id="login/letsgetstarted" />
+                            </div>
+                            <span>
+                                <FormattedMessage id="login/entercredentials" />
+                            </span>
                         </div>
                         <p className="loginpage__component loginpage__textbox loginpage__component--mail">
-                            <input
-                                id="email"
-                                value={this.state.email}
-                                type="text"
-                                onChange={e => this.update('email', e.target.value)}
-                                placeholder="Email"
-                                required
-                            />
+                            <FormattedMessage id="email">
+                                {x => (
+                                    <input
+                                        id="email"
+                                        value={this.state.email}
+                                        type="text"
+                                        onChange={e => this.update('email', e.target.value)}
+                                        placeholder={x}
+                                        required
+                                    />
+                                )}
+                            </FormattedMessage>
                             <Icon className="loginpage__textbox--icon" glyph={MAIL} />
                         </p>
                         <p className="loginpage__component loginpage__textbox loginpage__component--password">
-                            <input
-                                id="email"
-                                value={this.state.password}
-                                onChange={e => this.update('password', e.target.value)}
-                                type="password"
-                                placeholder="Password"
-                                required
-                            />
+                            <FormattedMessage id="password">
+                                {x => (
+                                    <input
+                                        id="email"
+                                        value={this.state.password}
+                                        onChange={e => this.update('password', e.target.value)}
+                                        type="password"
+                                        placeholder={x}
+                                        required
+                                    />
+                                )}
+                            </FormattedMessage>
                             <Icon className="loginpage__textbox--icon" glyph={LOCK} />
                         </p>
                         <p className="loginpage__component loginpage__component--inline loginpage__component--rememberpass">
-                            <label htmlFor="rememberPass">Remember Me</label>
+                            <label htmlFor="rememberPass">
+                                <FormattedMessage id="rememberMe" />
+                            </label>
                             <input
                                 id="rememberPass"
                                 checked={this.state.rememberPass}
@@ -94,7 +109,7 @@ class LoginPage extends React.Component<ILoginpageProps, ILoginpageState> {
                         </p>
                         <p className="loginpage__component loginpage__component--links">
                             <a href="#" onClick={() => this.openPopup()}>
-                                Why do you need my login data?
+                                <FormattedMessage id="login/whydoyouneed" />
                             </a>
                         </p>
                     </div>
@@ -107,23 +122,32 @@ class LoginPage extends React.Component<ILoginpageProps, ILoginpageState> {
                 </div>
                 {this.state.firstRun ? (
                     <div className="loginpage__popup">
-                        <header>This is important:</header> <br />
+                        <header>
+                            <Icon glyph={ALERT} />
+                            <FormattedMessage id="thisisimportant" />
+                        </header>
                         <p>
-                            To use this app, we require you to enter your Uplay/Ubisoft credentials. The reason for this
-                            is that we can not get any data without authenticating against Ubisofts API. We use the
-                            credentials <em>exclusively</em> for this reason.
-                            <br />
-                            You can inspect what we do with this data in our{' '}
-                            <a href="https://github.com/r6db/app" target="_BLANK">
-                                Codebase
-                            </a>
-                            , as we're open-source.
+                            <FormattedHTMLMessage id="login/popup/paragraph1" />
                         </p>
                         <p>
-                            If you don't feel comfortable with this, you can create a fresh uplay account and enter
-                            those credentials instead. <br />
-                            Either way, we <em>strongly</em> suggest that you enable 2-factor-authentication for all of
-                            your accounts.
+                            <FormattedHTMLMessage id="login/popup/paragraph2" />
+                            <FormattedMessage
+                                id="login/popup/paragraph2link"
+                                values={{
+                                    codeBase: <a href="https://github.com/r6db/app">Codebase</a>,
+                                }}
+                            />
+                        </p>
+                        <p>
+                            <FormattedMessage
+                                id="login/popup/paragraph3"
+                                values={{
+                                    ubiAccount: <a href="https://account.ubisoft.com">create a new Ubisoft account</a>,
+                                }}
+                            />
+                        </p>
+                        <p>
+                            <FormattedHTMLMessage id="login/popup/paragraph4" />
                         </p>
                         <Button role="info" label="OK" onClick={() => this.closePopup()} />
                     </div>

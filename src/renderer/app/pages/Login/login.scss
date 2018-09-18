@@ -168,14 +168,32 @@
         overflow: auto;
 
         header {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
             font-size: fz(1);
+            font-weight: 600;
+            color: $color-accent;
         }
         p {
+            color: rgba($color-white, 0.7);
             margin: 1em 0;
+            line-height: 1.65;
+        }
+        b,
+        em {
+            font-weight: 600;
+            color: $color-white;
         }
         a {
+            font-weight: 600;
             color: $color-accent;
             text-decoration: none;
+        }
+
+        .icon {
+            width: 2.5em;
+            margin-bottom: 0.5em;
         }
     }
 }
