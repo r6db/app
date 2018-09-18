@@ -44,7 +44,6 @@ class RootComponent extends React.PureComponent<any, any> {
         this.state = { error: null, locale: props.locale, messages: null };
     }
     loadLocale(locale: string) {
-        console.log('attempting to load locale "%s"', locale);
         if (locale in languages) {
             languages[locale]
                 .messageFn()
@@ -87,7 +86,6 @@ class RootComponent extends React.PureComponent<any, any> {
         if (!this.state.messages) {
             return <div className="app" />;
         }
-        console.log(this.props);
         const bg = this.props.background;
         return (
             <IntlProvider locale={this.props.locale} messages={this.state.messages} textComponent={Fragment}>
@@ -142,7 +140,6 @@ class RootComponent extends React.PureComponent<any, any> {
 
 function mapStateToProps(state) {
     const { locale, location, background } = state;
-    console.log(location);
     return {
         location: location.type,
         locale,
