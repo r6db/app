@@ -2,8 +2,10 @@
 
 .page.LOGIN {
     .page__navigation {
-        display: none;
-        visibility: hidden;
+        .sidebar > * {
+            display: none;
+            visibility: hidden;
+        }
     }
     .page__background {
         left: 0;
@@ -28,6 +30,8 @@
     &__content {
         flex: 1 1 33%;
         background: rgba($color-background, 0.9);
+        // offsets the sidebar width
+        padding-right: 80px;
     }
     &__welcome {
         display: flex;

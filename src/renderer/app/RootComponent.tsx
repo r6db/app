@@ -3,7 +3,7 @@ import * as React from 'react';
 import { hot } from 'react-hot-loader';
 import { connect } from 'react-redux';
 import { NOT_FOUND } from 'redux-first-router';
-import { Spring, animated } from 'react-spring';
+import { Spring, animated, Transition, config } from 'react-spring';
 import { IntlProvider } from 'react-intl';
 import { languages } from 'renderer/lib/constants';
 
@@ -18,14 +18,20 @@ import Sidebar from 'renderer/components/Sidebar';
 
 import './page.scss';
 
+const wrap = Component => style => (
+    <animated.div key={1} className="page__contentwrap" style={style}>
+        <Component />
+    </animated.div>
+);
+
 const pageMap = {
-    HOME: HomePage,
-    LOGIN: LoginPage,
-    MATCHES: MatchesPage,
-    FAVORITES: FavoritesPage,
-    RECENT: RecentPage,
-    SETTINGS: SettingsPage,
-    [NOT_FOUND]: HomePage,
+    HOME: wrap(HomePage),
+    LOGIN: wrap(LoginPage),
+    MATCHES: wrap(MatchesPage),
+    FAVORITES: wrap(FavoritesPage),
+    RECENT: wrap(RecentPage),
+    SETTINGS: wrap(SettingsPage),
+    [NOT_FOUND]: wrap(HomePage),
 };
 
 function Fragment(props) {
@@ -117,7 +123,16 @@ class RootComponent extends React.PureComponent<any, any> {
                         <Sidebar key={'route'} />
                     </div>
                     <div className="page__content">
-                        <this.props.Component key={'route'} />
+                        <Transition
+                            native
+                            keys={this.props.location}
+                            from={{ opacity: 0 }}
+                            enter={{ opacity: 1 }}
+                            leave={{ opacity: 0 }}
+                            config={config.stiff}
+                        >
+                            {pageMap[this.props.location]}
+                        </Transition>
                     </div>
                 </div>
             </IntlProvider>
@@ -130,7 +145,6 @@ function mapStateToProps(state) {
     console.log(location);
     return {
         location: location.type,
-        Component: pageMap[location.type],
         locale,
         background,
     };

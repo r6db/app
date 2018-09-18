@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { hot } from 'react-hot-loader';
+import Link from 'redux-first-router-link';
 import './sidebar.scss';
 
 import EXAMPLE from 'renderer/assets/avatar.png';
@@ -15,11 +16,13 @@ class Sidebar extends React.PureComponent<any, any> {
     render() {
         return (
             <div className="sidebar">
-                <div className="sidebar__avatar">
-                    <img className="sidebar__avatar--image" src={EXAMPLE} />
-                    <div className="sidebar__avatar--dot" />
-                    <div className="sidebar__avatar--tooltip">marcopixel</div>
-                </div>
+                <Link to="/">
+                    <div className="sidebar__avatar">
+                        <img className="sidebar__avatar--image" src={EXAMPLE} />
+                        <div className="sidebar__avatar--dot" />
+                        <div className="sidebar__avatar--tooltip">marcopixel</div>
+                    </div>
+                </Link>
                 <div className="sidebar__divider" />
                 <div className="sidebar__items">
                     <SidebarItem to="/matches" glyph={MATCHES} tooltip="Matches" />
