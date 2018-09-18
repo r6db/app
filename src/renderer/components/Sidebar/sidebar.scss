@@ -87,6 +87,11 @@
         &--icon {
             width: 22px;
             color: $color-foreground;
+            transition: color 100ms ease-out;
+
+            .active & {
+                color: $color-accent;
+            }
         }
         &--tooltip {
             display: flex;
