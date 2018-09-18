@@ -77,6 +77,12 @@
             padding-bottom: 0.5em;
         }
 
+        &.active {
+            svg {
+                fill: $color-accent;
+            }
+        }
+
         &--icon {
             width: 22px;
             color: $color-foreground;

@@ -15,6 +15,7 @@ import { ILoginOpts } from 'shared/interfaces';
 import LOGO from 'renderer/assets/logo.svg';
 import MAIL from 'feather-icons/dist/icons/mail.svg';
 import LOCK from 'feather-icons/dist/icons/lock.svg';
+import { hot } from 'react-hot-loader';
 
 interface ILoginpageProps {
     setBackground(props: ISetBackgroundAction['payload']): any;
@@ -28,7 +29,7 @@ interface ILoginpageState {
     rememberMail: boolean;
     rememberPass: boolean;
 }
-class LoginPageComponent extends React.Component<ILoginpageProps, ILoginpageState> {
+class LoginPage extends React.Component<ILoginpageProps, ILoginpageState> {
     constructor(props) {
         super(props);
         this.state = {
@@ -175,7 +176,9 @@ function mapDispatchToProps(dispatch, _) {
         },
     };
 }
-export default connect(
-    mapStateToProps,
-    mapDispatchToProps,
-)(LoginPageComponent);
+export default hot(module)(
+    connect(
+        mapStateToProps,
+        mapDispatchToProps,
+    )(LoginPage),
+);

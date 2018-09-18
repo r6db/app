@@ -3,21 +3,29 @@ import * as React from 'react';
 import { hot } from 'react-hot-loader';
 import { connect } from 'react-redux';
 import { NOT_FOUND } from 'redux-first-router';
+import { Spring, animated } from 'react-spring';
 import { IntlProvider } from 'react-intl';
 import { languages } from 'renderer/lib/constants';
 
-import { HomePageComponent } from './pages/Home';
-import LoginPageComponent from './pages/Login';
-import { Spring, animated } from 'react-spring';
+import HomePage from './pages/Home';
+import LoginPage from './pages/Login';
+import MatchesPage from './pages/Matches';
+import FavoritesPage from './pages/Favorites';
+import SettingsPage from './pages/Settings';
+import RecentPage from './pages/Recent';
 
 import Sidebar from 'renderer/components/Sidebar';
 
 import './page.scss';
 
 const pageMap = {
-    HOME: HomePageComponent,
-    LOGIN: LoginPageComponent,
-    [NOT_FOUND]: HomePageComponent,
+    HOME: HomePage,
+    LOGIN: LoginPage,
+    MATCHES: MatchesPage,
+    FAVORITES: FavoritesPage,
+    RECENT: RecentPage,
+    SETTINGS: SettingsPage,
+    [NOT_FOUND]: HomePage,
 };
 
 function Fragment(props) {
@@ -66,13 +74,14 @@ class RootComponent extends React.PureComponent<any, any> {
                     <h1>An error occurred.</h1>
                     {this.state.error && this.state.error.toString()}
                     <br />
-                    {this.state.info.componentStack}
+                    {this.state.info}
                 </div>
             );
         }
         if (!this.state.messages) {
             return <div className="app" />;
         }
+        console.log(this.props);
         const bg = this.props.background;
         return (
             <IntlProvider locale={this.props.locale} messages={this.state.messages} textComponent={Fragment}>
@@ -118,6 +127,7 @@ class RootComponent extends React.PureComponent<any, any> {
 
 function mapStateToProps(state) {
     const { locale, location, background } = state;
+    console.log(location);
     return {
         location: location.type,
         Component: pageMap[location.type],

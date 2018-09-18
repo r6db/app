@@ -22,11 +22,11 @@ class Sidebar extends React.PureComponent<any, any> {
                 </div>
                 <div className="sidebar__divider" />
                 <div className="sidebar__items">
-                    <SidebarItem glyph={MATCHES} tooltip="Matches" />
-                    <SidebarItem glyph={FAVORITES} tooltip="Favorites" />
-                    <SidebarItem glyph={RECENTPLAYERS} tooltip="Recent Players" />
+                    <SidebarItem to="/matches" glyph={MATCHES} tooltip="Matches" />
+                    <SidebarItem to="/favorites" glyph={FAVORITES} tooltip="Favorites" />
+                    <SidebarItem to="/recent" glyph={RECENTPLAYERS} tooltip="Recent Players" />
                     <div className="sidebar__items--bottom">
-                        <SidebarItem glyph={SETTINGS} tooltip="Settings" />
+                        <SidebarItem to="/settings" glyph={SETTINGS} tooltip="Settings" />
                     </div>
                 </div>
             </div>

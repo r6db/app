@@ -31,4 +31,8 @@ export default {
             );
         },
     },
+    MATCHES: '/matches',
+    FAVORITES: '/favorites',
+    RECENT: '/recent',
+    SETTINGS: '/settings',
 };
