@@ -9,9 +9,8 @@ import { maverick } from 'renderer/assets/images';
 import { connect } from 'react-redux';
 import { hot } from 'react-hot-loader';
 import { IPageProps } from 'renderer/app/pages/interfaces';
-import { IAuthReducerState } from 'renderer/app/store/reducers/authReducer';
 import { login } from 'renderer/app/store/actions/auth';
-import { ILoginOpts } from 'shared/interfaces';
+import { ILoginOpts, IAuthReducerState } from 'shared/interfaces';
 
 import LOGO from 'renderer/assets/logo.svg';
 import ALERT from 'renderer/assets/icons/alert.svg';
@@ -29,13 +28,13 @@ interface ILoginpageState {
     remember: boolean;
 }
 class LoginPage extends React.Component<ILoginpageProps, ILoginpageState> {
-    constructor(props) {
+    constructor(props: ILoginpageProps) {
         super(props);
         this.state = {
             firstRun: false,
-            email: '',
-            password: '',
-            remember: false,
+            email: props.auth.email || '',
+            password: props.auth.password || '',
+            remember: props.auth.remember || false,
         };
     }
     render() {
@@ -96,7 +95,7 @@ class LoginPage extends React.Component<ILoginpageProps, ILoginpageState> {
                                 type="checkbox"
                             />
                         </p>
-                        {this.props.auth.authState === 'error' ? (
+                        {this.props.auth.loginState === 'error' ? (
                             <p className="loginpage__error">{this.props.auth.error}</p>
                         ) : null}
                         <p className="loginpage__component">

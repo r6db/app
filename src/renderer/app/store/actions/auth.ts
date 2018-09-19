@@ -11,6 +11,7 @@ export type AuthActions =
 
 interface ILoginPendingAction extends Action {
     type: 'LOGIN_PENDING';
+    payload: ILoginOpts;
 }
 interface ILoginSuccessAction extends Action {
     type: 'LOGIN_SUCCESS';
@@ -21,7 +22,7 @@ interface ILoginErrorAction extends Action {
     payload: string;
 }
 export const login = (payload: ILoginOpts) => async dispatch => {
-    dispatch({ type: 'LOGIN_PENDING' });
+    dispatch({ type: 'LOGIN_PENDING', payload });
     logIn(payload)
         .then(() => {
             dispatch({ type: 'LOGIN_SUCCESS' });

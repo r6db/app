@@ -1,25 +1,38 @@
 import produce from 'immer';
 import { Action } from 'redux';
 import { AuthActions } from '../actions/auth';
+import { IAuthReducerState } from 'shared/interfaces';
 
-export interface IAuthReducerState {
-    authState: 'initial' | 'pending' | 'authed' | 'error';
-    error: string | null;
-}
-
-const defaultState = {
-    authState: 'initial',
+const defaultState: IAuthReducerState = {
+    email: '',
+    password: '',
+    remember: false,
+    loginState: 'initial',
     error: null,
 };
 
-export default function backgroundReducer(state = defaultState, action: AuthActions) {
+export default function backgroundReducer(
+    state: IAuthReducerState = defaultState,
+    action: AuthActions,
+): IAuthReducerState {
     switch (action.type) {
         case 'LOGIN_PENDING':
-            return produce(state, draft => ({ ...draft, authState: 'pending' }));
+            return produce(state, draft => {
+                draft.loginState = 'pending';
+                draft.email = action.payload.email;
+                draft.password = action.payload.password;
+                draft.remember = action.payload.remember;
+            });
         case 'LOGIN_SUCCESS':
-            return { authState: 'authed', error: null };
+            return produce(state, draft => {
+                draft.loginState = 'authed';
+                draft.error = null;
+            });
         case 'LOGIN_ERROR':
-            return { authState: 'error', error: action.payload };
+            return produce(state, draft => {
+                draft.loginState = 'error';
+                draft.error = action.payload;
+            });
         default:
             return state;
     }

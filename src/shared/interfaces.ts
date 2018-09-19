@@ -18,12 +18,7 @@ export interface IDomainState {
         profileId: UUID;
         name: string;
     };
-    auth: {
-        email: string;
-        password: string;
-        remember: boolean;
-        loginState: 'initial' | 'pending' | 'authed' | 'error';
-    };
+    auth: IAuthReducerState;
 }
 
 export interface ILoginOpts {
@@ -32,14 +27,10 @@ export interface ILoginOpts {
     remember: boolean;
 }
 
-// TODO: define message interfaces
-
-export interface IBaseMessage {
-    type: string;
+export interface IAuthReducerState {
+    email: string;
+    password: string;
+    remember: boolean;
+    loginState: 'initial' | 'pending' | 'authed' | 'error';
+    error: string | null;
 }
-interface IDummyMessage extends IBaseMessage {
-    type: 'dummy';
-    payload: any;
-}
-
-export type MessageType = IBaseMessage | IDummyMessage;
