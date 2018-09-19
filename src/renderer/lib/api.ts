@@ -1,4 +1,6 @@
-export function logIn(creds: any) {
+import { ILoginOpts } from 'shared/interfaces';
+
+export function logIn(creds: ILoginOpts) {
     return fetch('/api/auth/login', {
         method: 'POST',
         body: JSON.stringify(creds),

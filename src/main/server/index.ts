@@ -23,6 +23,10 @@ export function makeServer(domain: Domain, opts: IServerOptions) {
         app.use(bodyParser.urlencoded({ extended: false }));
         app.use(bodyParser.json());
 
+        // fugly, but works
+        app.get('/api/state', (_, res) => {
+            res.json(domain.getState());
+        });
         // mount controller
         app.use('/api/auth', makeAuthController(domain));
 

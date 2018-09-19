@@ -3,7 +3,6 @@ import produce from 'immer';
 import { IStore, IDomainOptions, IDomainState, ILoginOpts } from 'shared/interfaces';
 import { createConnection } from '../db';
 import * as ubi from '../ubi';
-import * as listeners from './listeners';
 import makeDebug from 'debug';
 const debug = makeDebug('r6db:domain');
 
@@ -19,15 +18,11 @@ export class Domain {
         this.store = opts.store;
         this.state = {
             firstRun: this.store.get<boolean, boolean>('firstRun', true),
-            routing: {
-                page: 'login',
-            },
             auth: {
-                loginState: 'pending',
+                loginState: 'initial',
                 email: this.store.get<string, string>('email', ''),
                 password: this.store.get<string, string>('password', ''),
-                rememberMail: this.store.get<boolean, boolean>('rememberMail', false),
-                rememberPass: this.store.get<boolean, boolean>('rememberPass', false),
+                remember: this.store.get<boolean, boolean>('remember', false),
             },
         };
 
@@ -35,29 +30,31 @@ export class Domain {
 
         this.store.set('firstRun', false);
 
-        if (this.state.auth.email && this.state.auth.password) {
-            debug('found stored credentials.. logging in');
-            this.login(this.state.auth);
-        }
-
         this.updateState = this.updateState.bind(this);
     }
 
+    public async init() {
+        if (this.state.auth.email && this.state.auth.password) {
+            debug('found stored credentials.. logging in');
+            await this.login(this.state.auth);
+        }
+    }
     public async destroy() {
-        if (!this.state.auth.rememberMail && !this.state.auth.rememberPass) {
+        if (!this.state.auth.remember) {
             this.store.set('auth.token', '');
         }
     }
 
+    public getState() {
+        return this.state;
+    }
+
     public async login(opts: ILoginOpts) {
-        if (opts.rememberMail) {
-            debug('remembering email', opts.email);
-            this.store.set('rememberMail', true);
+        this.store.set('email', opts.email);
+        if (opts.remember) {
+            debug('remembering', opts.email);
+            this.store.set('remember', true);
             this.store.set('email', opts.email);
-        }
-        if (opts.rememberPass) {
-            debug('remembering password');
-            this.store.set('rememberPass', true);
             this.store.set('password', opts.password);
         }
         this.updateState(draft => {
@@ -72,7 +69,7 @@ export class Domain {
                     profileId: res.profileId,
                     name: res.nameOnPlatform,
                 };
-                draft.auth.loginState = 'success';
+                draft.auth.loginState = 'authed';
             });
             return res;
         } catch (e) {

@@ -67,6 +67,8 @@ app.on('ready', async () => {
     loadingWindow.loadURL('http://localhost:2442/loading');
     loadingWindow.webContents.on('did-finish-load', () => loadingWindow.show());
 
+    await domain.init();
+
     // build querystring for app mounting
     // TODO: change port in DEV (for webpack-dev-server)
     mainWindow.loadURL(`http://localhost:2442`);

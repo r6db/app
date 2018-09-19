@@ -1,13 +1,34 @@
 import { Action } from 'redux';
+import { logIn } from 'renderer/lib/api';
 import { ILoginOpts } from 'shared/interfaces';
 
-export type AuthActions = ILoginAction | ILogoutAction;
+export type AuthActions =
+    | ILoginPendingAction
+    | ILogoutAction
+    | ILoginPendingAction
+    | ILoginSuccessAction
+    | ILoginErrorAction;
 
-interface ILoginAction extends Action {
-    type: 'LOGIN';
-    payload: ILoginOpts;
+interface ILoginPendingAction extends Action {
+    type: 'LOGIN_PENDING';
 }
-export const login = (payload: ILoginOpts): ILoginAction => ({ type: 'LOGIN', payload });
+interface ILoginSuccessAction extends Action {
+    type: 'LOGIN_SUCCESS';
+}
+
+interface ILoginErrorAction extends Action {
+    type: 'LOGIN_ERROR';
+    payload: string;
+}
+export const login = (payload: ILoginOpts) => async dispatch => {
+    dispatch({ type: 'LOGIN_PENDING' });
+    logIn(payload)
+        .then(() => {
+            dispatch({ type: 'LOGIN_SUCCESS' });
+            dispatch({ type: 'HOME' });
+        })
+        .catch(err => dispatch({ type: 'LOGIN_ERROR', payload: err }));
+};
 
 interface ILogoutAction extends Action {
     type: 'LOGOUT';

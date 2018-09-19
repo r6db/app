@@ -10,7 +10,6 @@ export function makeAuthController(domain: Domain) {
         });
     });
     r.post('/login', async (req, res) => {
-        console.log('body', req.body);
         try {
             const auth = await domain.login(req.body);
 
@@ -32,7 +31,6 @@ export function makeAuthController(domain: Domain) {
     r.post('/logout', async (_, res) => {
         domain.updateState(draft => {
             draft.auth.loginState = 'pending';
-            draft.routing.page = 'login';
         });
         return res.status(200).json({
             error: null,

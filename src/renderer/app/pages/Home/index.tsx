@@ -1,7 +1,8 @@
 import * as React from 'react';
+import { connect } from 'react-redux';
 import Link from 'redux-first-router-link';
-import JsonOut from './JsonOut';
 import { hot } from 'react-hot-loader';
+import JsonOut from './JsonOut';
 
 export class HomePage extends React.Component {
     render() {
@@ -14,4 +15,6 @@ export class HomePage extends React.Component {
     }
 }
 
-export default hot(module)(HomePage);
+const mapState = state => state;
+
+export default hot(module)(connect(mapState)(HomePage));

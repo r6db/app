@@ -7,28 +7,26 @@ import Button from 'renderer/components/Button';
 import { IPolyImage } from 'renderer/interfaces';
 import { maverick } from 'renderer/assets/images';
 import { connect } from 'react-redux';
+import { hot } from 'react-hot-loader';
 import { IPageProps } from 'renderer/app/pages/interfaces';
-import { setBackground, ISetBackgroundAction } from 'renderer/app/store/actions/background';
-import { login, logout } from 'renderer/app/store/actions/auth';
+import { IAuthReducerState } from 'renderer/app/store/reducers/authReducer';
+import { login } from 'renderer/app/store/actions/auth';
 import { ILoginOpts } from 'shared/interfaces';
 
 import LOGO from 'renderer/assets/logo.svg';
 import ALERT from 'renderer/assets/icons/alert.svg';
 import MAIL from 'feather-icons/dist/icons/mail.svg';
 import LOCK from 'feather-icons/dist/icons/lock.svg';
-import { hot } from 'react-hot-loader';
 
 interface ILoginpageProps {
-    setBackground(props: ISetBackgroundAction['payload']): any;
+    auth: IAuthReducerState;
     logIn(opts: ILoginOpts): any;
-    logOut(): any;
 }
 interface ILoginpageState {
     firstRun: boolean;
     email: string;
     password: string;
-    rememberMail: boolean;
-    rememberPass: boolean;
+    remember: boolean;
 }
 class LoginPage extends React.Component<ILoginpageProps, ILoginpageState> {
     constructor(props) {
@@ -37,8 +35,7 @@ class LoginPage extends React.Component<ILoginpageProps, ILoginpageState> {
             firstRun: false,
             email: '',
             password: '',
-            rememberMail: false,
-            rememberPass: false,
+            remember: false,
         };
     }
     render() {
@@ -94,11 +91,14 @@ class LoginPage extends React.Component<ILoginpageProps, ILoginpageState> {
                             </label>
                             <input
                                 id="rememberPass"
-                                checked={this.state.rememberPass}
-                                onChange={e => this.update('rememberPass', (e.target as any).checked)}
+                                checked={this.state.remember}
+                                onChange={e => this.update('remember', (e.target as any).checked)}
                                 type="checkbox"
                             />
                         </p>
+                        {this.props.auth.authState === 'error' ? (
+                            <p className="loginpage__error">{this.props.auth.error}</p>
+                        ) : null}
                         <p className="loginpage__component">
                             <Button
                                 className="loginpage__submit"
@@ -184,19 +184,13 @@ class LoginPage extends React.Component<ILoginpageProps, ILoginpageState> {
     }
 }
 
-function mapStateToProps() {
-    return {};
+function mapStateToProps(state) {
+    return { auth: state.auth };
 }
 function mapDispatchToProps(dispatch, _) {
     return {
-        setBackground(config) {
-            dispatch(setBackground(config));
-        },
         logIn(opts: ILoginOpts) {
             dispatch(login(opts));
-        },
-        logOut() {
-            dispatch(logout());
         },
     };
 }

@@ -14,9 +14,6 @@ export interface IDomainOptions {
 
 export interface IDomainState {
     firstRun: boolean;
-    routing: {
-        page: 'login' | 'home';
-    };
     user?: {
         profileId: UUID;
         name: string;
@@ -24,17 +21,15 @@ export interface IDomainState {
     auth: {
         email: string;
         password: string;
-        rememberMail: boolean;
-        rememberPass: boolean;
-        loginState: 'pending' | 'success' | 'error';
+        remember: boolean;
+        loginState: 'initial' | 'pending' | 'authed' | 'error';
     };
 }
 
 export interface ILoginOpts {
     email: string;
     password: string;
-    rememberMail: boolean;
-    rememberPass: boolean;
+    remember: boolean;
 }
 
 // TODO: define message interfaces
