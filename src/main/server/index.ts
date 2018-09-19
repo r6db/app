@@ -1,6 +1,7 @@
 import * as express from 'express';
 import * as bodyParser from 'body-parser';
 import * as path from 'path';
+import produce from 'immer';
 import * as serveStatic from 'serve-static';
 import makeDebug from 'debug';
 import { Domain } from 'main/domain';
@@ -25,7 +26,12 @@ export function makeServer(domain: Domain, opts: IServerOptions) {
 
         // fugly, but works
         app.get('/api/state', (_, res) => {
-            res.json(domain.getState());
+            res.json(
+                produce(domain.getState(), draft => {
+                    // sanitize output
+                    draft.auth.password = '';
+                }),
+            );
         });
         // mount controller
         app.use('/api/auth', makeAuthController(domain));

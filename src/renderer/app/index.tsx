@@ -7,12 +7,16 @@ import RootComponent from './RootComponent';
 import configureStore from './store';
 import './app.scss';
 import { IDomainState } from 'shared/interfaces';
+import { IAuthReducerState } from 'renderer/app/store/reducers/authReducer';
 
 async function setup() {
     const serverState: IDomainState = await fetch('/api/state').then(res => res.json());
     // build state to match the redux store
     const initialState = {
-        auth: serverState.auth,
+        auth: {
+            authState: serverState.auth.loginState,
+            error: null,
+        },
     };
 
     const history = createHistory();
