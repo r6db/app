@@ -8,19 +8,19 @@ const defaultSpring = { tension: 30, friction: 10 };
 export default {
     HOME: {
         path: '/',
-        thunk: async (dispatch, getState) => {
-            const auth: IAuthReducerState = getState().auth;
-            if (auth.loginState !== 'authed') {
-                console.log('not authed.. checking server');
-                const serverState: IDomainState = await fetch('/api/state').then(res => res.json());
-                if (serverState.auth.loginState === 'authed') {
-                    console.log('got server auth');
-                    dispatch({ type: 'LOGIN_SUCCESS' });
-                } else {
-                    console.log('not server auth');
-                    dispatch(redirect({ type: 'LOGIN' }));
-                }
-            }
+        thunk: async (dispatch, _) => {
+            // const auth: IAuthReducerState = getState().auth;
+            // if (auth.loginState !== 'authed') {
+            //     console.log('not authed.. checking server');
+            //     const serverState: IDomainState = await fetch('/api/state').then(res => res.json());
+            //     if (serverState.auth.loginState === 'authed') {
+            //         console.log('got server auth');
+            //         dispatch({ type: 'LOGIN_SUCCESS' });
+            //     } else {
+            //         console.log('not server auth');
+            //         dispatch(redirect({ type: 'LOGIN' }));
+            //     }
+            // }
             dispatch(
                 setBackground({
                     animate: true,

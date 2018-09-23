@@ -1,15 +1,7 @@
 import produce from 'immer';
-import { IPolyImage } from 'renderer/interfaces';
+import { IBackgroundReducerState } from 'shared/interfaces';
 import { hereford } from 'renderer/assets/images';
-import { Action } from 'redux';
 import { BackgroundActions } from '../actions/background';
-
-export interface IBackgroundReducerState {
-    animate: boolean;
-    image: IPolyImage;
-    filter: string;
-    spring: { tension: number; friction: number };
-}
 
 const defaultState = {
     animate: true,

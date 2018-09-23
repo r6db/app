@@ -1,4 +1,4 @@
-import { IDomainState } from 'shared/interfaces';
+import { IDomainState, IStore } from 'shared/interfaces';
 import * as React from 'react';
 import { hot } from 'react-hot-loader';
 import { connect } from 'react-redux';
@@ -88,7 +88,11 @@ class RootComponent extends React.PureComponent<any, any> {
         }
         const bg = this.props.background;
         return (
-            <IntlProvider locale={this.props.locale} messages={this.state.messages} textComponent={Fragment}>
+            <IntlProvider
+                locale={this.props.locale.selectedLocale}
+                messages={this.state.messages}
+                textComponent={Fragment}
+            >
                 <div className={`page ${this.props.location}`}>
                     <svg
                         className="page__background"
@@ -138,7 +142,7 @@ class RootComponent extends React.PureComponent<any, any> {
     }
 }
 
-function mapStateToProps(state) {
+function mapStateToProps(state: IStore) {
     const { locale, location, background } = state;
     return {
         location: location.type,

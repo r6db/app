@@ -10,7 +10,7 @@ import { connect } from 'react-redux';
 import { hot } from 'react-hot-loader';
 import { IPageProps } from 'renderer/app/pages/interfaces';
 import { login } from 'renderer/app/store/actions/auth';
-import { ILoginOpts, IAuthReducerState } from 'shared/interfaces';
+import { ILoginOpts, IAuthReducerState, IStore } from 'shared/interfaces';
 
 import LOGO from 'renderer/assets/logo.svg';
 import ALERT from 'renderer/assets/icons/alert.svg';
@@ -183,7 +183,7 @@ class LoginPage extends React.Component<ILoginpageProps, ILoginpageState> {
     }
 }
 
-function mapStateToProps(state) {
+function mapStateToProps(state: IStore) {
     return { auth: state.auth };
 }
 function mapDispatchToProps(dispatch, _) {
