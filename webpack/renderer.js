@@ -100,6 +100,7 @@ module.exports = {
     resolve: {
         extensions: ['.ts', '.tsx', '.js', '.jsx'],
         alias: {
+            main: path.resolve(__dirname, '../src/main'),
             shared: path.resolve(__dirname, '../src/shared'),
             renderer: path.resolve(__dirname, '../src/renderer'),
             lib: path.join(__dirname, '../src/renderer/lib'),

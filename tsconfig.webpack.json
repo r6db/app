@@ -6,6 +6,7 @@
         "target": "es2016",
         "jsx": "preserve",
         "paths": {
+            "main/*": ["./src/main/*"],
             "shared/*": ["./src/shared/*"],
             "renderer/*": ["./src/renderer/*"],
             "lib/*": ["./src/renderer/lib/*"],

@@ -9,7 +9,8 @@
         "outDir": "./build/main/",
         "paths": {
             "main/*": ["./src/main/*"],
-            "shared/*": ["./src/shared/*"]
+            "shared/*": ["./src/shared/*"],
+            "renderer/*": ["./src/renderer/*"]
         }
     },
     "files": ["src/main/index.ts"],
