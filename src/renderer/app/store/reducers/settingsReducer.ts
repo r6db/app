@@ -5,6 +5,7 @@ import { ISettingsReducerState } from 'shared/interfaces';
 
 const defaultState: ISettingsReducerState = {
     animations: true,
+    locale: 'en',
 };
 
 export default function settingsReducer(

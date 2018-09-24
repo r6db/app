@@ -1,10 +1,4 @@
-import {
-    IDomainState,
-    IStore,
-    ISettingsReducerState,
-    IBackgroundReducerState,
-    ILocaleReducerState,
-} from 'shared/interfaces';
+import { IDomainState, IStore, ISettingsReducerState, IBackgroundReducerState } from 'shared/interfaces';
 import * as React from 'react';
 import { hot } from 'react-hot-loader';
 import { connect } from 'react-redux';
@@ -45,7 +39,6 @@ function Fragment(props) {
 }
 interface IRootComponentProps {
     location: string;
-    locale: ILocaleReducerState;
     background: IBackgroundReducerState;
     settings: ISettingsReducerState;
 }
@@ -53,7 +46,7 @@ interface IRootComponentProps {
 class RootComponent extends React.PureComponent<IRootComponentProps, any> {
     constructor(props) {
         super(props);
-        this.state = { error: null, locale: props.locale, messages: null };
+        this.state = { error: null, settings: props.settings, messages: null };
     }
     loadLocale(locale: string) {
         if (locale in languages) {
@@ -77,11 +70,11 @@ class RootComponent extends React.PureComponent<IRootComponentProps, any> {
     }
 
     componentWillMount() {
-        this.loadLocale(this.state.locale.selectedLocale);
+        this.loadLocale(this.state.settings.locale);
     }
     componentWillReceiveProps() {
-        if (this.props.locale.selectedLocale !== this.state.locale.selectedLocale) {
-            this.loadLocale(this.props.locale.selectedLocale);
+        if (this.props.settings.locale !== this.state.settings.locale) {
+            this.loadLocale(this.props.settings.locale);
         }
     }
     render() {
@@ -101,11 +94,7 @@ class RootComponent extends React.PureComponent<IRootComponentProps, any> {
         const bg = this.props.background;
         const Component = pageMap[this.props.location];
         return (
-            <IntlProvider
-                locale={this.props.locale.selectedLocale}
-                messages={this.state.messages}
-                textComponent={Fragment}
-            >
+            <IntlProvider locale={this.props.settings.locale} messages={this.state.messages} textComponent={Fragment}>
                 <div className={`page ${this.props.location}`}>
                     <svg
                         className="page__background"
@@ -160,10 +149,9 @@ class RootComponent extends React.PureComponent<IRootComponentProps, any> {
 }
 
 function mapStateToProps(state: IStore) {
-    const { locale, location, background, settings } = state;
+    const { location, background, settings } = state;
     return {
         location: location.type,
-        locale,
         background,
         settings,
     };

@@ -42,9 +42,6 @@ export interface IBackgroundReducerState {
     filter: string;
     spring: { tension: number; friction: number };
 }
-export interface ILocaleReducerState {
-    selectedLocale: string;
-}
 // incomplete copy of redux-first-router types
 // there's more in the state, but we don't need it
 export interface ILocationReducerState {
@@ -60,13 +57,13 @@ export interface ILocationReducerState {
 
 export interface ISettingsReducerState {
     animations: boolean;
+    locale: string;
 }
 
 export interface IStore {
     auth: IAuthReducerState;
     background: IBackgroundReducerState;
     loading: boolean;
-    locale: ILocaleReducerState;
     location: ILocationReducerState;
     settings: ISettingsReducerState;
 }
