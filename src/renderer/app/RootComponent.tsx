@@ -1,4 +1,10 @@
-import { IDomainState, IStore } from 'shared/interfaces';
+import {
+    IDomainState,
+    IStore,
+    ISettingsReducerState,
+    IBackgroundReducerState,
+    ILocaleReducerState,
+} from 'shared/interfaces';
 import * as React from 'react';
 import { hot } from 'react-hot-loader';
 import { connect } from 'react-redux';
@@ -25,20 +31,26 @@ const wrap = Component => style => (
 );
 
 const pageMap = {
-    HOME: wrap(HomePage),
-    LOGIN: wrap(LoginPage),
-    MATCHES: wrap(MatchesPage),
-    FAVORITES: wrap(FavoritesPage),
-    RECENT: wrap(RecentPage),
-    SETTINGS: wrap(SettingsPage),
-    [NOT_FOUND]: wrap(HomePage),
+    HOME: HomePage,
+    LOGIN: LoginPage,
+    MATCHES: MatchesPage,
+    FAVORITES: FavoritesPage,
+    RECENT: RecentPage,
+    SETTINGS: SettingsPage,
+    [NOT_FOUND]: HomePage,
 };
 
 function Fragment(props) {
     return props.children || <span {...props} /> || null;
 }
+interface IRootComponentProps {
+    location: string;
+    locale: ILocaleReducerState;
+    background: IBackgroundReducerState;
+    settings: ISettingsReducerState;
+}
 
-class RootComponent extends React.PureComponent<any, any> {
+class RootComponent extends React.PureComponent<IRootComponentProps, any> {
     constructor(props) {
         super(props);
         this.state = { error: null, locale: props.locale, messages: null };
@@ -65,11 +77,11 @@ class RootComponent extends React.PureComponent<any, any> {
     }
 
     componentWillMount() {
-        this.loadLocale(this.state.locale);
+        this.loadLocale(this.state.locale.selectedLocale);
     }
     componentWillReceiveProps() {
-        if (this.props.locale !== this.state.locale) {
-            this.loadLocale(this.props.locale);
+        if (this.props.locale.selectedLocale !== this.state.locale.selectedLocale) {
+            this.loadLocale(this.props.locale.selectedLocale);
         }
     }
     render() {
@@ -87,6 +99,7 @@ class RootComponent extends React.PureComponent<any, any> {
             return <div className="app" />;
         }
         const bg = this.props.background;
+        const Component = pageMap[this.props.location];
         return (
             <IntlProvider
                 locale={this.props.locale.selectedLocale}
@@ -105,7 +118,7 @@ class RootComponent extends React.PureComponent<any, any> {
                     >
                         {bg.image.polys.map(
                             (path, i) =>
-                                bg.animate ? (
+                                this.props.settings.animations ? (
                                     <Spring key={i} native to={path} config={bg.spring}>
                                         {(styles: any) => (
                                             <animated.path
@@ -125,16 +138,20 @@ class RootComponent extends React.PureComponent<any, any> {
                         <Sidebar key={'route'} />
                     </div>
                     <div className="page__content">
-                        <Transition
-                            native
-                            keys={this.props.location}
-                            from={{ opacity: 0 }}
-                            enter={{ opacity: 1 }}
-                            leave={{ opacity: 0 }}
-                            config={config.stiff}
-                        >
-                            {pageMap[this.props.location]}
-                        </Transition>
+                        {this.props.settings.animations ? (
+                            <Transition
+                                native
+                                keys={this.props.location}
+                                from={{ opacity: 0 }}
+                                enter={{ opacity: 1 }}
+                                leave={{ opacity: 0 }}
+                                config={config.stiff}
+                            >
+                                {wrap(Component)}
+                            </Transition>
+                        ) : (
+                            <Component />
+                        )}
                     </div>
                 </div>
             </IntlProvider>
@@ -143,11 +160,12 @@ class RootComponent extends React.PureComponent<any, any> {
 }
 
 function mapStateToProps(state: IStore) {
-    const { locale, location, background } = state;
+    const { locale, location, background, settings } = state;
     return {
         location: location.type,
         locale,
         background,
+        settings,
     };
 }
 

@@ -3,7 +3,7 @@ import { resetBackground, setBackground } from './actions/background';
 import { clash, hereford } from 'renderer/assets/images';
 import { IDomainState, IAuthReducerState } from 'shared/interfaces';
 
-const defaultSpring = { tension: 30, friction: 10 };
+const defaultSpring = { tension: 10, friction: 10 };
 
 export default {
     HOME: {
@@ -23,7 +23,6 @@ export default {
             // }
             dispatch(
                 setBackground({
-                    animate: true,
                     image: hereford,
                     filter: 'blur(2vw) contrast(0.5) brightness(0.5)',
                     spring: defaultSpring,
@@ -36,10 +35,8 @@ export default {
         thunk: dispatch => {
             dispatch(
                 setBackground({
-                    animate: true,
                     image: clash,
                     filter: 'blur(1vw)',
-                    spring: { tension: 1, friction: 10 },
                 }),
             );
         },

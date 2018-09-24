@@ -57,10 +57,16 @@ export interface ILocationReducerState {
         payload: any;
     };
 }
+
+export interface ISettingsReducerState {
+    animations: boolean;
+}
+
 export interface IStore {
     auth: IAuthReducerState;
     background: IBackgroundReducerState;
     loading: boolean;
     locale: ILocaleReducerState;
     location: ILocationReducerState;
+    settings: ISettingsReducerState;
 }
