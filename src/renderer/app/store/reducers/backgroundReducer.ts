@@ -7,7 +7,7 @@ const defaultState = {
     animate: true,
     image: hereford,
     filter: 'blur(30px)',
-    spring: { tension: 20, friction: 10 },
+    spring: { tension: 4, friction: 10 },
 };
 
 export default function backgroundReducer(state = defaultState, action: BackgroundActions) {
@@ -15,7 +15,7 @@ export default function backgroundReducer(state = defaultState, action: Backgrou
         case 'RESET_BACKGROUND':
             return defaultState;
         case 'SET_BACKGROUND':
-            return produce(state, draft => ({ ...draft, ...action.payload }));
+            return { ...defaultState, ...action.payload };
         default:
             return state;
     }

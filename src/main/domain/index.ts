@@ -23,6 +23,7 @@ export class Domain {
                 email: this.store.get<string, string>('email', ''),
                 password: this.store.get<string, string>('password', ''),
                 remember: this.store.get<boolean, boolean>('remember', false),
+                error: null,
             },
         };
 
@@ -58,7 +59,7 @@ export class Domain {
             this.store.set('password', opts.password);
         }
         this.updateState(draft => {
-            draft.auth = { ...opts, loginState: 'pending' };
+            draft.auth = { ...opts, loginState: 'pending', error: null };
             draft.user = undefined;
         });
         ubi.setCredentials(opts.email, opts.password);

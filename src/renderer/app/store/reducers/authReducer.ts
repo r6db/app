@@ -11,10 +11,7 @@ const defaultState: IAuthReducerState = {
     error: null,
 };
 
-export default function backgroundReducer(
-    state: IAuthReducerState = defaultState,
-    action: AuthActions,
-): IAuthReducerState {
+export default function authReducer(state: IAuthReducerState = defaultState, action: AuthActions): IAuthReducerState {
     switch (action.type) {
         case 'LOGIN_PENDING':
             return produce(state, draft => {
