@@ -7,10 +7,10 @@
     "thisisimportant": "Das ist wichtig!",
     "login/letsgetstarted": "Alles bereit! - Lass uns anfangen!",
     "login/entercredentials": "Bitte fülle die Felder mit deinen Ubisoft-Logindaten aus.",
-    "login/whydoyouneed": "Warum benötigen wir die Logindaten?",
+    "login/whydoyouneed": "Warum benötigen wir deine Logindaten?",
     "login/popup/paragraph1": "Um diese App zu nutzen brauchen wir deine <b> Ubisoft-Logindaten</b>.",
     "login/popup/paragraph2": "Ohne Anmeldung können wir keine Daten von der Ubisoft-API bekommen. Wir werden diese Daten <em>allein</em> für diesen Zweck nutzen.<br />",
-    "login/popup/paragraph2link": "Sie können selbst sehen, was wir mit den Daten machen {codeBase}, dies ist ein Open-Source Projekt.",
-    "login/popup/paragraph3": "Wenn sie nicht ihre Accoutdaten eintragen wollen, können sie auch einen neuen {ubiAccount} erstellen und diese Daten hier eintragen.",
-    "login/popup/paragraph4": "Egal, welchen Weg sie wählen wir empfehlen <em>stark</em>, dass sie <b>2-Faktor-Authentifizierung</b> für alle ihre Accounts verwenden und ein <em>starkese/em <b>Passwort</b> wählen."
+    "login/popup/paragraph2link": "Du kannst selbst sehen, was wir mit deinen Daten machen {codeBase}, dies ist ein Open-Source Projekt.",
+    "login/popup/paragraph3": "Wenn du nicht deine Accoutdaten eintragen willst, kannst du auch einen neuen {ubiAccount} erstellen und diese Daten hier eintragen.",
+    "login/popup/paragraph4": "Egal, welchen Weg sie wählen wir empfehlen <em>stark</em>, dass sie <b>2-Faktor-Authentifizierung</b> für alle ihre Accounts verwenden und ein <em>starkes</em> <b>Passwort</b> wählen."
 }
