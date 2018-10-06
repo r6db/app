@@ -1,0 +1,14 @@
+{
+    "name": "@r6db/constants",
+    "version": "1.0.0",
+    "main": "build/index.js",
+    "typings": "build/index.d.ts",
+    "license": "MIT",
+    "scripts": {
+        "build": "tsc -p ."
+    },
+    "devDependencies": {
+        "@types/node": "^10.11.4",
+        "typescript": "^3.1.1"
+    }
+}

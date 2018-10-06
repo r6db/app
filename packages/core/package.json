@@ -1,0 +1,23 @@
+{
+    "name": "@r6db/core",
+    "version": "1.0.0",
+    "main": "build/index.js",
+    "typings": "build/index.d.ts",
+    "license": "MIT",
+    "scripts": {
+        "build": "tsc -p ."
+    },
+    "dependencies": {
+        "@r6db/constants": "^1.0.0",
+        "@r6db/interfaces": "^1.0.0",
+        "@r6db/r6api": "^1.0.0",
+        "@r6db/utils": "^1.0.0",
+        "immer": "^1.7.2",
+        "sqlite3": "^4.0.2",
+        "typeorm": "^0.2.7"
+    },
+    "devDependencies": {
+        "@types/node": "^10.11.4",
+        "typescript": "^3.1.1"
+    }
+}

@@ -10,7 +10,6 @@ a rainbow six stat tracker app.
 -   [ ] searching for other players and seeing total stats
 -   [ ] 'following' people to update those profiles regularly
 -   [ ] 'recently played with' list
--   [ ] api to allow integration with other tools
 
 ### goals:
 

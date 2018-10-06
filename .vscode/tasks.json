@@ -24,8 +24,8 @@
             "label": "run",
             "identifier": "run",
             "type": "shell",
-            "command": "yarn",
-            "args": ["electron"],
+            "command": "lerna",
+            "args": ["run", "electron"],
             "options": {
                 "env": {
                     "DEBUG": "r6db:*"
