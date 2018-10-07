@@ -6,10 +6,9 @@ a rainbow six stat tracker app.
 
 ## feature ideas:
 
+-   [ ] per-match tracking (as far as possible)
 -   [ ] timeline view of own profile
--   [ ] searching for other players and seeing total stats
--   [ ] 'following' people to update those profiles regularly
--   [ ] 'recently played with' list
+-   [ ] personal stats (all-time and/or timeframe)
 
 ### goals:
 
@@ -27,10 +26,20 @@ a rainbow six stat tracker app.
 
 -   install node & yarn
 -   install all build tools needed for node-gyp (windows users can use [this](https://www.npmjs.com/package/windows-build-tools))
--   run `yarn` in the project directory to install all dependencies
--   run any of the other scripts
+-   run `yarn global add lerna` to install the [lerna monorepo tool](https://lernajs.io/)
+-   run `lerna bootstrap` to install all dependencies and crosslink packages
+-   run `lerna run build` to build all packages. You might want to ignore the desktop app for that though: `lerna run build --ignore @r6db/desktop`
 
-    -   `yarn build` compiles all files into the `build` directory
-    -   `yarn electron` runs the latest build
-    -   `yarn start` build and then run
-    -   `yarn migration` generate a new migration containing all pending schema changes (taken from entities dir). Check `src/main/db/README.md` for more info
+### in packages/desktop:
+
+-   `yarn build` compiles all files into the `build` directory
+-   `yarn electron` runs the latest build
+-   `yarn start` build and then run
+
+### in packages/core:
+
+-   TODO
+
+### in packages/r6api:
+
+-   TODO
