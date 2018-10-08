@@ -30,6 +30,11 @@ a rainbow six stat tracker app.
 -   run `lerna bootstrap` to install all dependencies and crosslink packages
 -   run `lerna run build` to build all packages. You might want to ignore the desktop app for that though: `lerna run build --ignore @r6db/desktop`
 
+### in root directory:
+
+-   `yarn dev` build and watch packages `desktop` and `core`. this uses typescript references to re-build the other packages as needed
+-   `yarn run-app` starts the app
+
 ### in packages/desktop:
 
 -   `yarn build` compiles all files into the `build` directory
@@ -38,8 +43,5 @@ a rainbow six stat tracker app.
 
 ### in packages/core:
 
--   TODO
-
-### in packages/r6api:
-
--   TODO
+-   `yarn build` build the project
+-   `yarn dev` build and watch (with references)

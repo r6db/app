@@ -11,7 +11,6 @@
             "args": ["dev"],
             "isBackground": true,
             // "problemMatcher": "$tsc-watch",
-            "problemMatcher": "$tsc-watch",
             "presentation": {
                 "echo": false,
                 "reveal": "silent",
@@ -24,8 +23,8 @@
             "label": "run",
             "identifier": "run",
             "type": "shell",
-            "command": "lerna",
-            "args": ["run", "electron"],
+            "command": "yarn",
+            "args": ["run-app"],
             "options": {
                 "env": {
                     "DEBUG": "r6db:*"

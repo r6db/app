@@ -2,7 +2,9 @@
     "extends": "../tsconfig.json",
     "compilerOptions": {
         "outDir": "build",
-        "sourceRoot": "src",
+        "rootDir": "src",
+        "composite": true,
         "baseUrl": "."
-    }
+    },
+    "references": [{ "path": "../constants" }, { "path": "../interfaces" }, { "path": "../utils" }]
 }

@@ -29,7 +29,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const HtmlInlinePlugin = require('html-webpack-inline-source-plugin');
 const SpriteLoaderPlugin = require('svg-sprite-loader/plugin');
 const HardSourceWebpackPlugin = require('hard-source-webpack-plugin');
-const { CheckerPlugin } = require('awesome-typescript-loader');
+const TsChecker = require('fork-ts-checker-webpack-plugin');
 
 const MiniExtractPlugin = require('mini-css-extract-plugin');
 const autoprefixer = require('autoprefixer');
@@ -159,14 +159,17 @@ module.exports = {
                 exclude: /node_modules/,
                 use: [
                     {
-                        loader: 'awesome-typescript-loader',
+                        loader: 'babel-loader',
                         options: {
-                            configFileName: './tsconfig.webpack.json',
-                            useCache: true,
-                            useBabel: true,
-                            babelCore: '@babel/core',
-                            forceIsolatedModule: true,
-                            reportFiles: ['src/**/*.{ts,tsx}'],
+                            cacheDirectory: '.cache/babel-loader',
+                        },
+                    },
+                    {
+                        loader: 'ts-loader',
+                        options: {
+                            silent: true,
+                            transpileOnly: true,
+                            configFile: 'tsconfig.webpack.json',
                         },
                     },
                 ],
@@ -180,7 +183,12 @@ module.exports = {
                             extract: true,
                         },
                     },
-                    'cache-loader',
+                    {
+                        loader: 'cache-loader',
+                        options: {
+                            cacheDirectory: '.cache/cache-loader',
+                        },
+                    },
                     {
                         loader: 'svgo-loader',
                         options: {
@@ -212,6 +220,12 @@ module.exports = {
                 test: /\.scss$/,
                 use: [
                     IS_PROD ? MiniExtractPlugin.loader : { loader: 'style-loader' },
+                    {
+                        loader: 'cache-loader',
+                        options: {
+                            cacheDirectory: '.cache/cache-loader',
+                        },
+                    },
                     {
                         loader: 'css-loader',
                         options: {
@@ -277,8 +291,11 @@ module.exports = {
         new SpriteLoaderPlugin(),
         new HardSourceWebpackPlugin({
             info: { mode: 'none', level: 'warn' },
+            cacheDirectory: '.cache/hard-source/[confighash]',
         }),
-        new CheckerPlugin(),
+        new TsChecker({
+            tsconfig: 'tsconfig.webpack.json',
+        }),
     ],
 };
 

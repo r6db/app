@@ -5,7 +5,7 @@
     "typings": "build/index.d.ts",
     "license": "MIT",
     "scripts": {
-        "build": "tsc -p ."
+        "build": "tsc -b ."
     },
     "dependencies": {
         "@r6db/constants": "^1.0.0",

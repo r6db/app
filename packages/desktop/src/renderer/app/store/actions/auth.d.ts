@@ -17,7 +17,7 @@ interface ILoginErrorAction extends Action {
     type: 'LOGIN_ERROR';
     payload: string;
 }
-export declare const login: (payload: ILoginOpts) => (dispatch: any) => Promise<void>;
+export declare const login: (payload: any) => (dispatch: any) => Promise<void>;
 interface ILogoutAction extends Action {
     type: 'LOGOUT';
 }

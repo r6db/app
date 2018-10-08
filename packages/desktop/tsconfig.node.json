@@ -1,20 +1,24 @@
 {
     "extends": "../tsconfig.json",
     "compilerOptions": {
-        "allowJs": true,
         "lib": ["es2017"],
         "module": "commonjs",
         "sourceMap": true,
         "target": "es2017",
         "baseUrl": ".",
-        "declaration": false,
         "outDir": "./build/main/",
+        "composite": true,
         "paths": {
             "main/*": ["./src/main/*"],
             "shared/*": ["./src/shared/*"],
             "renderer/*": ["./src/renderer/*"]
         }
     },
-    "files": ["src/main/index.ts"],
-    "include": ["./src/main/declarations.d.ts"]
+    "references": [
+        { "path": "../core" },
+        { "path": "../utils" },
+        { "path": "../constants" },
+        { "path": "../interfaces" }
+    ],
+    "include": ["src/main/**/*.ts", "./src/main/declarations.d.ts"]
 }

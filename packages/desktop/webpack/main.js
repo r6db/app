@@ -7,7 +7,7 @@
 const path = require('path');
 const webpack = require('webpack');
 const nodeExternals = require('webpack-node-externals');
-const { CheckerPlugin } = require('awesome-typescript-loader');
+const TsChecker = require('fork-ts-checker-webpack-plugin');
 const CopyPlugin = require('copy-webpack-plugin');
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 const HardSourceWebpackPlugin = require('hard-source-webpack-plugin');
@@ -91,13 +91,17 @@ module.exports = {
                 exclude: /node_modules/,
                 use: [
                     {
-                        loader: 'awesome-typescript-loader',
+                        loader: 'babel-loader',
+                        options: {
+                            cacheDirectory: '.cache/babel-loader',
+                        },
+                    },
+                    {
+                        loader: 'ts-loader',
                         options: {
                             silent: true,
-                            configFileName: 'tsconfig.node.json',
-                            useCache: true,
-                            forceIsolatedModule: true,
-                            reportFiles: ['src/**/*.{ts,tsx}'],
+                            transpileOnly: true,
+                            configFile: 'tsconfig.node.json',
                         },
                     },
                 ],
@@ -115,8 +119,11 @@ module.exports = {
         }),
         new HardSourceWebpackPlugin({
             info: { mode: 'none', level: 'warn' },
+            cacheDirectory: '.cache/hard-source/[confighash]',
         }),
         new CopyPlugin([{ from: './src/main/logo.png', to: 'main/' }]),
-        new CheckerPlugin(),
+        new TsChecker({
+            tsconfig: 'tsconfig.node.json',
+        }),
     ],
 };

@@ -22,18 +22,15 @@ export default function backgroundReducer(
     action: BackgroundActions,
 ): {
     animate: boolean;
-    image: {
-        background: string;
-        viewBox: string;
-        polys: {
-            fill: string;
-            fillOpacity: number;
-            d: string;
-        }[];
-    };
+    image: any;
     filter: string;
-    spring: {
-        tension: number;
-        friction: number;
-    };
+    spring:
+        | {
+              tension: number;
+              friction: number;
+          }
+        | {
+              tension: number;
+              friction: number;
+          };
 };

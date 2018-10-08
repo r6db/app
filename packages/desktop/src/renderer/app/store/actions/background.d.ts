@@ -20,7 +20,7 @@ export interface ISetBackgroundAction extends Action {
 export declare const setBackground: (
     props: {
         animate?: boolean | undefined;
-        image?: IPolyImage | undefined;
+        image?: any;
         filter?: string | undefined;
         spring?:
             | {
@@ -33,7 +33,7 @@ export declare const setBackground: (
     type: string;
     payload: {
         animate?: boolean | undefined;
-        image?: IPolyImage | undefined;
+        image?: any;
         filter?: string | undefined;
         spring?:
             | {

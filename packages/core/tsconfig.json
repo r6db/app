@@ -2,7 +2,14 @@
     "extends": "../tsconfig.json",
     "compilerOptions": {
         "outDir": "build",
-        "sourceRoot": "src",
-        "baseUrl": "."
-    }
+        "rootDir": "src",
+        "baseUrl": ".",
+        "composite": true
+    },
+    "references": [
+        { "path": "../r6api" },
+        { "path": "../constants" },
+        { "path": "../interfaces" },
+        { "path": "../utils" }
+    ]
 }

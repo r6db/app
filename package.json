@@ -2,8 +2,14 @@
     "name": "@r6db/r6db",
     "private": true,
     "repository": "https://github.com/r6db/app",
+    "scripts": {
+        "dev": "lerna run dev --stream --parallel",
+        "run-app": "lerna run electron"
+    },
     "devDependencies": {
+        "babel-loader": "^8.0.4",
         "lerna": "^3.4.1",
+        "ts-loader": "^5.2.1",
         "typescript": "^3.1.1"
     }
 }
