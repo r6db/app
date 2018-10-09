@@ -9,10 +9,6 @@ before_install:
 cache:
   yarn: true
 
-env:
-  - NODE_ENV=development
-  - NODE_ENV=production
-
 install:
   - yarn global add lerna
   - lerna bootstrap
@@ -20,7 +16,7 @@ install:
 
 script:
   - lerna run build --scope @r6db/core
-  - lerna run build --scope @r6db/desktop
+  - NODE_ENV=production lerna run build --scope @r6db/desktop
 
 before_deploy:
   - cd packages/desktop
