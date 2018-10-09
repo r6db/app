@@ -1,35 +1,35 @@
 language: node_js
 node_js:
-    - 10
+  - 10
 
 before_install:
-    - curl -o- -L https://yarnpkg.com/install.sh | bash -s
-    - export PATH="$HOME/.yarn/bin:$PATH"
+  - curl -o- -L https://yarnpkg.com/install.sh | bash -s
+  - export PATH="$HOME/.yarn/bin:$PATH"
 
 cache:
   yarn: true
 
 env:
-    - NODE_ENV=development
-    - NODE_ENV=production
+  - NODE_ENV=development
+  - NODE_ENV=production
 
 install:
-    - yarn global add lerna
-    - lerna bootstrap
-    - cd packages/desktop && ./node_modules/.bin/electron-builder install-app-deps
+  - yarn global add lerna
+  - lerna bootstrap
+  - cd packages/desktop && ./node_modules/.bin/electron-builder install-app-deps
 
 script:
-    - lerna run build --scope @r6db/desktop
+  - lerna run build --scope @r6db/desktop
 
 before_deploy:
-    - cd packages/desktop
-    - tac -czf build
+  - cd packages/desktop
+  - tar -czf build.tar.gz build
 
 deploy:
   provider: releases
   api_key:
     secure: fEz9dSvXVl02SMGWiCwH/GcIsEqZSRflLYtufJg4DcpqxPDeRk2NGTDfWVF0YOAodiNi2yiaGhMUIj1XBX48kG26FQEFO+MLZJftwYa202L6eEXarKyQYXRfv5KOPzNuvarsvfXoN8O60q1JboB0iVXO4qeU8ELXtwSbQKlMrowvA/fCZNlSOVTsE1rZ1f7yCCJHXyUou9BN6deLsQRUFpBBXv7HhoYWSOCDGfxyjV+CPsvY3zFTFf4HppLr4ipNTlOeiDFZUfKmVWktk0NZrUEMHArXz9tILatZDi0BG5+VuQtPc/Euye/ljALDCfGj+H7P/YwFDX5R0Nd75M87wGr0G++HNX6/PootayUBLds39fIeQTbcUwH6ThNAzSiLVzT6D4yt+3LzhVP6mq/jHXbYkdrffMNHUYJPFwFnc+bYUYKIM6sJaCmy1m6YgILRnCw9Kp/Q/bN61nnKrsqgSqIYYj0M4IkgFCpVloMRF2IZj84RTUWBSlKm3SriEEIzLipSocZ5Z1H83lS7sZc0dc3KxmWei76kDuUpXbAGeXQ5SLgGjD5s8WBYdhaQVn9zN9YU2EHgbckd3xAlET9Wv1GZ2RJHzfu5hjQbZjVtQhoaUW/cw8ShWCkuXuLvC70aE61N/XzSaJVNFKme2eaew2daicYzjhY1vqTW63FhWpA=
-  file: packages/desktop/build/
+  file: packages/desktop/build.tar.gz
   skip_cleanup: true
   on:
-	tags: true
+	  tags: true
