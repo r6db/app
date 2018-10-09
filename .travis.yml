@@ -32,4 +32,4 @@ deploy:
   file: packages/desktop/build.tar.gz
   skip_cleanup: true
   on:
-	  tags: true
+    tags: true
