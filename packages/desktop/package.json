@@ -13,7 +13,7 @@
         "prewatch:main": "tsc -b tsconfig.node.json",
         "watch:main": "webpack --mode development --config webpack/main.js --watch",
         "watch:renderer": "webpack-dev-server --mode development --config webpack/renderer.js",
-        "prebuild": "rimraf build",
+        "prebuild": "rimraf build && tsc -b tsconfig.node.json",
         "build": "cross-env NODE_ENV=production webpack --mode production --config webpack/all.js",
         "lint": "pretty-quick --staged",
         "test": "echo 'no tests yet' && exit 0"
