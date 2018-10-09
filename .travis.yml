@@ -12,7 +12,7 @@ env:
 install:
   - yarn global add lerna
   - lerna bootstrap
-  - lerna run build-deps --scope @r6db/desktop
+  - lerna run build-deps --stream
 script:
   - lerna run build --scope @r6db/desktop
 before_deploy:
