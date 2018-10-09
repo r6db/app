@@ -22,8 +22,8 @@ script:
     - lerna run build --scope @r6db/desktop
 
 before_deploy:
-	- cd packages/desktop
-	- tac -czf build
+    - cd packages/desktop
+    - tac -czf build
 
 deploy:
   provider: releases
