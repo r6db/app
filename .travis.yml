@@ -1,22 +1,27 @@
 language: node_js
 node_js:
-    - 10
-
+  - 10
 before_install:
-    - curl -o- -L https://yarnpkg.com/install.sh | bash -s
-    - export PATH="$HOME/.yarn/bin:$PATH"
-
+  - curl -o- -L https://yarnpkg.com/install.sh | bash -s
+  - export PATH="$HOME/.yarn/bin:$PATH"
 cache:
-    yarn: true
-
+  yarn: true
 env:
-    - NODE_ENV=development
-    - NODE_ENV=production
-
+  - NODE_ENV=development
+  - NODE_ENV=production
 install:
-    - yarn global add lerna
-    - lerna bootstrap
-    - lerna run build-deps --scope @r6db/desktop
-
+  - yarn global add lerna
+  - lerna bootstrap
+  - lerna run build-deps --scope @r6db/desktop
 script:
-    - lerna run build --scope @r6db/desktop
+  - lerna run build --scope @r6db/desktop
+before_deploy:
+  - cd packages/desktop
+  - tar -czf build.tar.gz build
+deploy:
+  provider: releases
+  api_key:
+    secure: e1RjQD0iOCKUBfqTXNx+xzeqFgrFn0IRBHZ9rHIPPi/RFn3GmMTgpAK1hXOdREePoDfbBudCrKZXu2AU04uwyZhscBqnFPWyyBkq5CG5m56obDhlXxSHPzThZI9G/DdAIvxPvA13Ag/a3omYkKGHk8eIS1wDi2tgsGVObGvvunlwlGeUT7qX9t/n1T7RhXCdS/lQE3sN6frq25ISZHxC78Ma84J9sL/s1724giHLu0eeh1rGJVkhJOmTONcm2OZXA34hVJvZEKY9743cUFGG+inkuGhbJETTKWGKJCkmJiNJ/t+ID8kV8uXkdaMiIo67eKXarUOTEpETyZ6fFXiFvIY91UoHqvG2+svcE/VrQk9HXFNcxuYah+6SzAQK+gzNwjlfvY0aimaN11rDtML3n0Raq/GzH1f72XZ6Xd9jmNMnZw//ScXfMU1haRIfqKkGHgF9lJrfWa4gqzJF2EbN0XitPX7bO3HAlju8iT7YH5Nn2+qoIicQFjGPgwHMqIa5J9iXO18HsyakcXD+nIwri48bIZ9mlmB/hfqVkDwDrtiVmLofLnGbrKfs/jhcjzJdlJs7vAzsq1qbJRsFs35lznDDqdT77y08pEzzsvbvMVhoaJDNVbFZYpG7IHw1eAnMB/+ulwaI2VO2HiCargjCpMEHju0Eg+ym5RRYIklT2Ns=
+  file: packages/desktop/build.tar.gz
+  on:
+    repo: r6db/app
