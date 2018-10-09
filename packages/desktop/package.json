@@ -4,10 +4,11 @@
     "main": "index.js",
     "license": "MIT",
     "scripts": {
-        "rebuild": "electron-builder install-app-deps",
+        "build-deps": "electron-builder install-app-deps",
         "start": "cross-env NODE_ENV=development yarn build --mode development && yarn electron",
-        "electron": "cross-env NODE_ENV=development electron --inspect=5858 build/main/",
+        "electron": "cross-env DEBUG='r6db:*' NODE_ENV=development electron --inspect=5858 build/main/",
         "migration": "ts-node --project tsconfig.node.json ./node_modules/.bin/typeorm migration:generate -n NewMigration",
+        "predev": "tsc -b tsconfig.node.json",
         "dev": "npm-run-all -l -p watch:main watch:renderer",
         "prewatch:main": "tsc -b tsconfig.node.json",
         "watch:main": "webpack --mode development --config webpack/main.js --watch",

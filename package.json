@@ -4,7 +4,7 @@
     "repository": "https://github.com/r6db/app",
     "scripts": {
         "dev": "lerna run dev --stream --parallel",
-        "run-app": "lerna run electron"
+        "run-app": "lerna run electron --stream"
     },
     "devDependencies": {
         "babel-loader": "^8.0.4",

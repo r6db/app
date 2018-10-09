@@ -119,7 +119,7 @@ module.exports = {
         }),
         new HardSourceWebpackPlugin({
             info: { mode: 'none', level: 'warn' },
-            cacheDirectory: '.cache/hard-source/[confighash]',
+            cacheDirectory: '.cache/hard-source/main/[confighash]',
         }),
         new CopyPlugin([{ from: './src/main/logo.png', to: 'main/' }]),
         new TsChecker({

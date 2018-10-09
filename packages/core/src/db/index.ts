@@ -1,6 +1,9 @@
 import { createConnection as connect, ConnectionOptions } from 'typeorm';
+import { resolve } from 'path';
 import makeDebug from 'debug';
-const debug = makeDebug('r6db:main:db');
+import { requireAll } from '../requireAll';
+
+const debug = makeDebug('r6db:core:db');
 
 function getExport(module) {
     return Object.keys(module)
@@ -10,22 +13,20 @@ function getExport(module) {
 
 export async function createConnection(path) {
     debug('create connection to', path);
-    const entityRequire = (require as any).context('./entities', false, /.ts$/);
-    const entities = entityRequire
-        .keys()
+    const entityRequire = requireAll(resolve(__dirname, './entities'));
+    const entities = Object.keys(entityRequire)
         .sort()
         .reduce((acc, key) => {
-            const e = getExport(entityRequire(key));
+            const e = getExport(entityRequire[key]);
             debug('loading entity', e.name);
             return acc.concat(e);
         }, []);
 
-    const migrationRequire = (require as any).context('./migrations', false, /.ts$/);
-    const migrations = migrationRequire
-        .keys()
+    const migrationRequire = requireAll(resolve(__dirname, './migrations'));
+    const migrations = Object.keys(migrationRequire)
         .sort()
         .reduce((acc, key) => {
-            const e = getExport(migrationRequire(key));
+            const e = getExport(migrationRequire[key]);
             debug('loading migration', e.name);
             return acc.concat(e);
         }, []);

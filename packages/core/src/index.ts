@@ -3,7 +3,7 @@ import { IStore, IDomainOptions, IDomainState, ILoginOpts } from '@r6db/interfac
 import { createConnection } from './db';
 import makeDebug from 'debug';
 import R6Api from '@r6db/r6api';
-const debug = makeDebug('r6db:domain');
+const debug = makeDebug('r6db:core');
 
 const IS_PROD = process.env.NODE_ENV === 'production';
 
@@ -28,7 +28,10 @@ export class Domain {
             },
         };
 
-        debug('startup state', this.state);
+        const logsafeState = produce(this.state, draft => {
+            draft.auth.password = '<snip>';
+        });
+        debug('startup state', logsafeState);
 
         this.store.set('firstRun', false);
 

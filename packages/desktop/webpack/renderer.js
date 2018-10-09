@@ -37,7 +37,7 @@ const mqpacker = require('css-mqpacker');
 const nano = require('cssnano');
 const cssdedupe = require('postcss-discard-duplicates');
 
-const DIST = path.join(__dirname, '../build');
+const DIST = path.join(__dirname, '../build/static');
 const IS_PROD = process.env.NODE_ENV === 'production';
 
 const stats = {
@@ -184,12 +184,6 @@ module.exports = {
                         },
                     },
                     {
-                        loader: 'cache-loader',
-                        options: {
-                            cacheDirectory: '.cache/cache-loader',
-                        },
-                    },
-                    {
                         loader: 'svgo-loader',
                         options: {
                             plugins: [{ convertShapeToPath: false }],
@@ -291,7 +285,7 @@ module.exports = {
         new SpriteLoaderPlugin(),
         new HardSourceWebpackPlugin({
             info: { mode: 'none', level: 'warn' },
-            cacheDirectory: '.cache/hard-source/[confighash]',
+            cacheDirectory: '.cache/hard-source/renderer/[confighash]',
         }),
         new TsChecker({
             tsconfig: 'tsconfig.webpack.json',

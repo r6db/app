@@ -18,7 +18,7 @@ export function makeServer(domain: Domain, opts: IServerOptions) {
 
         if (opts.staticFiles) {
             // the path is just `../`, because after building the entire script is held in main/index.js
-            app.use((serveStatic as any).default(path.resolve(__dirname, '../')));
+            app.use((serveStatic as any).default(path.resolve(__dirname, '../static')));
         }
         // add body parser
         app.use(bodyParser.urlencoded({ extended: false }));
