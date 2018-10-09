@@ -8,6 +8,7 @@
         "baseUrl": ".",
         "outDir": "./build/main/",
         "composite": true,
+        "jsx": "preserve",
         "paths": {
             "main/*": ["./src/main/*"],
             "shared/*": ["./src/shared/*"],

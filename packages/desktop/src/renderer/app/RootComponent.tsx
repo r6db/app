@@ -1,11 +1,12 @@
 import { IStore, ISettingsReducerState, IBackgroundReducerState } from '@r6db/interfaces';
 import * as React from 'react';
 import { hot } from 'react-hot-loader';
+import { render } from 'react-dom';
 import { connect } from 'react-redux';
 import { NOT_FOUND } from 'redux-first-router';
 import { Spring, animated, Transition, config } from 'react-spring';
-import { IntlProvider } from 'react-intl';
-import { languages } from 'renderer/lib/constants';
+import { languages } from '../lib/constants';
+import * as i18n from '../i18n';
 
 import HomePage from './pages/Home';
 import LoginPage from './pages/Login';
@@ -14,9 +15,12 @@ import FavoritesPage from './pages/Favorites';
 import SettingsPage from './pages/Settings';
 import RecentPage from './pages/Recent';
 
-import Sidebar from 'renderer/components/Sidebar';
+import Sidebar from '../components/Sidebar';
 
 import './page.scss';
+
+(window as any).i18n = i18n;
+Object.keys(languages).forEach(ln => i18n.registerLocale(ln, languages[ln].messageFn));
 
 const wrap = Component => style => (
     <animated.div key={1} className="page__contentwrap" style={style}>
@@ -46,21 +50,14 @@ interface IRootComponentProps {
 class RootComponent extends React.PureComponent<IRootComponentProps, any> {
     constructor(props) {
         super(props);
-        this.state = { error: null, settings: props.settings, messages: null };
+        this.state = { error: null, settings: props.settings, messagesLoaded: false };
     }
     loadLocale(locale: string) {
-        if (locale in languages) {
-            languages[locale]
-                .messageFn()
-                .then(mod => {
-                    this.setState({ messages: mod.default, locale });
-                })
-                .catch(err => {
-                    console.warn('error getting locale', err);
-                });
-        } else {
-            console.warn('locale not known: %s', locale);
-        }
+        i18n.setCurrentLocale(locale)
+            .then(() => this.setState({ messagesLoaded: true })) // just to trigger a redraw
+            .catch(err => {
+                console.warn('error getting locale', err);
+            });
     }
 
     componentDidCatch(error, info) {
@@ -88,62 +85,60 @@ class RootComponent extends React.PureComponent<IRootComponentProps, any> {
                 </div>
             );
         }
-        if (!this.state.messages) {
+        if (!this.state.messagesLoaded) {
             return <div className="app" />;
         }
         const bg = this.props.background;
         const Component = pageMap[this.props.location];
         return (
-            <IntlProvider locale={this.props.settings.locale} messages={this.state.messages} textComponent={Fragment}>
-                <div className={`page ${this.props.location}`}>
-                    <svg
-                        className="page__background"
-                        viewBox={bg.image.viewBox}
-                        preserveAspectRatio="xMidYMin slice"
-                        style={{
-                            background: bg.image.background,
-                            filter: bg.filter,
-                        }}
-                    >
-                        {bg.image.polys.map(
-                            (path, i) =>
-                                this.props.settings.animations ? (
-                                    <Spring key={i} native to={path} config={bg.spring}>
-                                        {(styles: any) => (
-                                            <animated.path
-                                                key={i}
-                                                d={styles.d}
-                                                fill={styles.fill}
-                                                fillOpacity={styles.fillOpacity}
-                                            />
-                                        )}
-                                    </Spring>
-                                ) : (
-                                    <path key={i} d={path.d} fill={path.fill} fillOpacity={path.fillOpacity} />
-                                ),
-                        )}
-                    </svg>
-                    <div className="page__navigation">
-                        <Sidebar key={'route'} />
-                    </div>
-                    <div className="page__content">
-                        {this.props.settings.animations ? (
-                            <Transition
-                                native
-                                keys={this.props.location}
-                                from={{ opacity: 0 }}
-                                enter={{ opacity: 1 }}
-                                leave={{ opacity: 0 }}
-                                config={config.stiff}
-                            >
-                                {wrap(Component)}
-                            </Transition>
-                        ) : (
-                            <Component />
-                        )}
-                    </div>
+            <div className={`page ${this.props.location}`}>
+                <svg
+                    className="page__background"
+                    viewBox={bg.image.viewBox}
+                    preserveAspectRatio="xMidYMin slice"
+                    style={{
+                        background: bg.image.background,
+                        filter: bg.filter,
+                    }}
+                >
+                    {bg.image.polys.map(
+                        (path, i) =>
+                            this.props.settings.animations ? (
+                                <Spring key={i} native to={path} config={bg.spring}>
+                                    {(styles: any) => (
+                                        <animated.path
+                                            key={i}
+                                            d={styles.d}
+                                            fill={styles.fill}
+                                            fillOpacity={styles.fillOpacity}
+                                        />
+                                    )}
+                                </Spring>
+                            ) : (
+                                <path key={i} d={path.d} fill={path.fill} fillOpacity={path.fillOpacity} />
+                            ),
+                    )}
+                </svg>
+                <div className="page__navigation">
+                    <Sidebar key={'route'} />
                 </div>
-            </IntlProvider>
+                <div className="page__content">
+                    {this.props.settings.animations ? (
+                        <Transition
+                            native
+                            keys={this.props.location}
+                            from={{ opacity: 0 }}
+                            enter={{ opacity: 1 }}
+                            leave={{ opacity: 0 }}
+                            config={config.stiff}
+                        >
+                            {wrap(Component)}
+                        </Transition>
+                    ) : (
+                        <Component />
+                    )}
+                </div>
+            </div>
         );
     }
 }

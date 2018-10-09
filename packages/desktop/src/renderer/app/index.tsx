@@ -8,6 +8,12 @@ import configureStore from './store';
 import './app.scss';
 import { IDomainState } from '@r6db/interfaces';
 
+if (process.env.NODE_ENV !== 'production') {
+    const w = window as any;
+    w.render = render;
+    w.React = React;
+}
+
 async function setup() {
     const serverState: IDomainState = await fetch('/api/state').then(res => res.json());
     // build state to match the redux store

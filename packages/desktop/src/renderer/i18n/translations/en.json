@@ -1,0 +1,15 @@
+{
+    "app_name": "R6DB",
+    "login": "Login",
+    "email": "Email",
+    "password": "Password",
+    "rememberMe": "Remember Me",
+    "thisisimportant": "This is important!",
+    "login/letsgetstarted": "Let's get started!",
+    "login/entercredentials": "Please enter your Ubisoft credentials down below.",
+    "login/whydoyouneed": "Why do you need my login data?",
+    "login/popup/paragraph1": "To use this app, we require you to enter your <0> Ubisoft credentials</0>.",
+    "login/popup/paragraph2": "The reason for this is that we can not get any data without authenticating against Ubisofts API and we will use the credentials <0>exclusively</0> for this reason alone. You can inspect what we do with this data in our <1>code base </1>, as we're open-source.",
+    "login/popup/paragraph3": "If you don't feel comfortable with this, you can <0>create a new account</0> and enter those credentials instead.",
+    "login/popup/paragraph4": "Either way, we <0>strongly</0> suggest that you enable <1>2-Factor-Authentication</1> for all of your accounts and to use strong and unique passwords."
+}

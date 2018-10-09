@@ -21,7 +21,8 @@ import s10Cover from 'renderer/assets/backgrounds/parabellum2.jpg';
 import s10Logo from 'renderer/assets/seasonlogos/R6-OPParaBellum-Horizontal.svg';
 
 export const languages = {
-    en: { label: 'english', messageFn: () => import('renderer/i18n/en.json') },
+    en: { label: 'english', messageFn: () => import('renderer/i18n/translations/en.json') },
+    de: { label: 'deutsch', messageFn: () => import('renderer/i18n/translations/de.json') },
 };
 
 /**

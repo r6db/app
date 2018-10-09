@@ -1,13 +1,13 @@
 import './login.scss';
 import * as React from 'react';
-import { FormattedMessage, FormattedHTMLMessage } from 'react-intl';
-import Link from 'redux-first-router-link';
-import Icon from 'renderer/components/Icon';
-import Button from 'renderer/components/Button';
 import { connect } from 'react-redux';
 import { hot } from 'react-hot-loader';
-import { IPageProps } from 'renderer/app/pages/interfaces';
-import { login } from 'renderer/app/store/actions/auth';
+import Link from 'redux-first-router-link';
+import { Format, t } from '../../../i18n';
+import Icon from '../../../components/Icon';
+import Button from '../../../components/Button';
+import { IPageProps } from '../../../app/pages/interfaces';
+import { login } from '../../../app/store/actions/auth';
 import { ILoginOpts, IAuthReducerState, IStore } from '@r6db/interfaces';
 
 import LOGO from 'renderer/assets/logo.svg';
@@ -46,45 +46,37 @@ class LoginPage extends React.Component<ILoginpageProps, ILoginpageState> {
                         <Icon className="loginpage__logo" glyph={LOGO} />
                         <div className="loginpage__welcome">
                             <div className="loginpage__welcome--header">
-                                <FormattedMessage id="login/letsgetstarted" />
+                                <Format id="login/letsgetstarted" />
                             </div>
                             <span>
-                                <FormattedMessage id="login/entercredentials" />
+                                <Format id="login/entercredentials" />
                             </span>
                         </div>
                         <p className="loginpage__component loginpage__textbox loginpage__component--mail">
-                            <FormattedMessage id="email">
-                                {x => (
-                                    <input
-                                        id="email"
-                                        value={this.state.email}
-                                        type="text"
-                                        onChange={e => this.update('email', e.target.value)}
-                                        placeholder={x}
-                                        required
-                                    />
-                                )}
-                            </FormattedMessage>
+                            <input
+                                id="email"
+                                value={this.state.email}
+                                type="text"
+                                onChange={e => this.update('email', e.target.value)}
+                                placeholder={t('email') || undefined}
+                                required
+                            />
                             <Icon className="loginpage__textbox--icon" glyph={MAIL} />
                         </p>
                         <p className="loginpage__component loginpage__textbox loginpage__component--password">
-                            <FormattedMessage id="password">
-                                {x => (
-                                    <input
-                                        id="email"
-                                        value={this.state.password}
-                                        onChange={e => this.update('password', e.target.value)}
-                                        type="password"
-                                        placeholder={x}
-                                        required
-                                    />
-                                )}
-                            </FormattedMessage>
+                            <input
+                                id="email"
+                                value={this.state.password}
+                                onChange={e => this.update('password', e.target.value)}
+                                type="password"
+                                placeholder={t('password') || undefined}
+                                required
+                            />
                             <Icon className="loginpage__textbox--icon" glyph={LOCK} />
                         </p>
                         <p className="loginpage__component loginpage__component--inline loginpage__component--rememberpass">
                             <label htmlFor="rememberPass">
-                                <FormattedMessage id="rememberMe" />
+                                <Format id="rememberMe" />
                             </label>
                             <input
                                 id="rememberPass"
@@ -101,12 +93,12 @@ class LoginPage extends React.Component<ILoginpageProps, ILoginpageState> {
                                 className="loginpage__submit"
                                 onClick={() => this.submit()}
                                 role="primary"
-                                label={<FormattedMessage id="login" />}
+                                label={<Format id="login" />}
                             />
                         </p>
                         <p className="loginpage__component loginpage__component--links">
                             <a href="#" onClick={() => this.openPopup()}>
-                                <FormattedMessage id="login/whydoyouneed" />
+                                <Format id="login/whydoyouneed" />
                             </a>
                         </p>
                     </div>
@@ -121,30 +113,29 @@ class LoginPage extends React.Component<ILoginpageProps, ILoginpageState> {
                     <div className="loginpage__popup">
                         <header>
                             <Icon glyph={ALERT} />
-                            <FormattedMessage id="thisisimportant" />
+                            <Format id="thisisimportant" />
                         </header>
                         <p>
-                            <FormattedHTMLMessage id="login/popup/paragraph1" />
+                            <Format id="login/popup/paragraph1">
+                                <em />
+                            </Format>
                         </p>
                         <p>
-                            <FormattedHTMLMessage id="login/popup/paragraph2" />
-                            <FormattedMessage
-                                id="login/popup/paragraph2link"
-                                values={{
-                                    codeBase: <a href="https://github.com/r6db/app">Codebase</a>,
-                                }}
-                            />
+                            <Format id="login/popup/paragraph2">
+                                <em />
+                                <a href="https://github.com/r6db/app" />
+                            </Format>
                         </p>
                         <p>
-                            <FormattedMessage
-                                id="login/popup/paragraph3"
-                                values={{
-                                    ubiAccount: <a href="https://account.ubisoft.com">create a new Ubisoft account</a>,
-                                }}
-                            />
+                            <Format id="login/popup/paragraph3">
+                                <a href="https://account.ubisoft.com" />
+                            </Format>
                         </p>
                         <p>
-                            <FormattedHTMLMessage id="login/popup/paragraph4" />
+                            <Format id="login/popup/paragraph4">
+                                <em />
+                                <b />
+                            </Format>
                         </p>
                         <Button role="info" label="OK" onClick={() => this.closePopup()} />
                     </div>

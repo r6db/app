@@ -21,6 +21,7 @@
         "noUnusedParameters": true,
         "skipLibCheck": true,
         "strictNullChecks": true,
+        "jsx": "preserve",
         "target": "es2016"
     }
 }
