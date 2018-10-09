@@ -29,6 +29,7 @@
         "@r6db/core": "^1.0.0",
         "@r6db/interfaces": "^1.0.0",
         "@r6db/utils": "^1.0.0",
+        "@types/node": "^10.11.5",
         "body-parser": "^1.18.3",
         "debug": "^4.0.1",
         "electron": "^2.0.8",

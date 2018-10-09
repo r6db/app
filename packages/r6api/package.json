@@ -11,6 +11,7 @@
         "@r6db/constants": "^1.0.0",
         "@r6db/interfaces": "^1.0.0",
         "@r6db/utils": "^1.0.0",
+        "@types/node": "^10.11.5",
         "debug": "^4.0.1",
         "lodash": "^4.17.10",
         "node-fetch": "^2.2.0"

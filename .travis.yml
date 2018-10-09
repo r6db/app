@@ -19,6 +19,7 @@ install:
   - cd packages/desktop && ./node_modules/.bin/electron-builder install-app-deps
 
 script:
+  - lerna run build --scope @r6db/core
   - lerna run build --scope @r6db/desktop
 
 before_deploy:
