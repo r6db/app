@@ -1,0 +1,16 @@
+{
+    "app_name": "R6DB",
+    "login": "Ienākt",
+    "email": "E-pasts",
+    "password": "Parole",
+    "rememberMe": "Iegaumēt mani",
+    "thisisimportant": "Šis ir svarīgi!",
+    "login/letsgetstarted": "Sāksim!",
+    "login/entercredentials": "Ievadiet savu Ubisoft profila e-pastu un paroli.",
+    "login/whydoyouneed": "Kāpēc mums šie dati ir vajadzīgi?",
+    "login/popup/paragraph1": "Lai varētu lietot šo programmu, mums ir nepieciešami jūsu <b>Ubisoft profila piekļuves dati</b>.",
+    "login/popup/paragraph2": "Iemesls tam ir, ka mēs nevaram iegūt jebkādus datus bez autentifikācijas. Mēs izmantosim jūsu profila datus <em>lokāli</em> un <em>tikai</em> autorizēšanās mērķiem. <br />",
+    "login/popup/paragraph2link": "Jūs varat apskatīt ko mēs darām ar jūsu datiem mūsu {codeBase}, jo šī programma ir ar atvērtu pirmkodu.",
+    "login/popup/paragraph3": "Ja jūs nejūtaties droši, tad {ubiAccount} un ievadiet šos datus.",
+    "login/popup/paragraph4": "Šā vai tā, mēs <em>stingri iesakām</em>, lai jūs ieslēdzat <b>divu faktoru autentifikāciju (2FA)</b> visiem saviem profiliem un izmantojiet stingras un unikālas paroles."
+}
