@@ -35,6 +35,7 @@ module.exports = {
             renderer: path.resolve(__dirname, '../src/renderer'),
         },
     },
+    mode: process.env.NODE_ENV === 'production' ? 'production' : 'development',
     node: false,
     stats: {
         assets: true,
