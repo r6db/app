@@ -1,4 +1,5 @@
-**this project is in it's initial phases, so please keep any cool ideas or formatting fixes for yourself until we hit a stable version**
+**this is a hobby project we hack on every now and then when we have the time and motivation to do so.
+do not expect any timeframe or release date**
 
 # R6DB Desktop [![Build Status](https://travis-ci.org/r6db/app.svg?branch=master)](https://travis-ci.org/r6db/app)
 
