@@ -29,6 +29,7 @@ a rainbow six stat tracker app.
 -   install all build tools needed for node-gyp (windows users can use [this](https://www.npmjs.com/package/windows-build-tools))
 -   run `yarn global add lerna` to install the [lerna monorepo tool](https://lernajs.io/)
 -   run `lerna bootstrap` to install all dependencies and crosslink packages
+-   run `lerna run build-deps` to rebuild native deps for electron (needed for sqlite)
 -   run `lerna run build` to build all packages. You might want to ignore the desktop app for that though: `lerna run build --ignore @r6db/desktop`
 
 ### in root directory:
