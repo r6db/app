@@ -217,12 +217,6 @@ module.exports = {
                 use: [
                     IS_PROD ? MiniExtractPlugin.loader : { loader: 'style-loader' },
                     {
-                        loader: 'cache-loader',
-                        options: {
-                            cacheDirectory: '.cache/cache-loader',
-                        },
-                    },
-                    {
                         loader: 'css-loader',
                         options: {
                             minimize: true,

@@ -8,10 +8,7 @@
         "build": "tsc -p ."
     },
     "devDependencies": {
-        "@types/node": "^10.11.4",
-        "typescript": "^3.1.1"
+        "@types/node": "^10.11.4"
     },
-    "dependencies": {
-        "@types/node": "^10.11.5"
-    }
+    "dependencies": {}
 }

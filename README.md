@@ -32,18 +32,13 @@ a rainbow six stat tracker app.
 -   run `lerna run build-deps` to rebuild native deps for electron (needed for sqlite)
 -   run `lerna run build` to build all packages. You might want to ignore the desktop app for that though: `lerna run build --ignore @r6db/desktop`
 
+alternatively (for dev mostly), you can start it in watch mode:
+
 ### in root directory:
 
 -   `yarn dev` build and watch packages `desktop` and `core`. this uses typescript references to re-build the other packages as needed
 -   `yarn run-app` starts the app
 
-### in packages/desktop:
+### other
 
--   `yarn build` compiles all files into the `build` directory
--   `yarn electron` runs the latest build
--   `yarn start` build and then run
-
-### in packages/core:
-
--   `yarn build` build the project
--   `yarn dev` build and watch (with references)
+Don't forget that you can still use any of the npm scripts in the package folders. Only managing dependencies needs lerna
