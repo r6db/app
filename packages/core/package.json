@@ -6,7 +6,8 @@
     "license": "MIT",
     "scripts": {
         "build": "tsc -b .",
-        "dev": "tsc -b . --watch"
+        "dev": "tsc -b . --watch",
+        "migration": "ts-node --project tsconfig.json ./node_modules/.bin/typeorm migration:generate -n NewMigration"
     },
     "dependencies": {
         "@r6db/constants": "^1.0.0",
@@ -16,5 +17,8 @@
         "immer": "^1.7.2",
         "sqlite3": "^4.0.2",
         "typeorm": "^0.2.7"
+    },
+    "devDependencies": {
+        "ts-node": "^7.0.1"
     }
 }
