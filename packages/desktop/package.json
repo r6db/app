@@ -7,7 +7,6 @@
         "build-deps": "electron-builder install-app-deps",
         "start": "yarn build && yarn electron",
         "electron": "cross-env DEBUG='r6db:*' NODE_ENV=development electron --inspect=5858 build/main/",
-        "migration": "ts-node --project tsconfig.node.json ./node_modules/.bin/typeorm migration:generate -n NewMigration",
         "predev": "tsc -b tsconfig.node.json",
         "dev": "npm-run-all -l -p watch:main watch:renderer",
         "prewatch:main": "tsc -b tsconfig.node.json",
